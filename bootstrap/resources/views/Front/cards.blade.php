@@ -111,10 +111,10 @@
           			<form  name="post_sizes_form" method="post" action="{{ url('post_sizes') }}">
           				@csrf
           				<input type="hidden" name="card_id" value="{{ $card->id }}" >
-	          			<input type="hidden" name="card_qty" value="{{ $card->qty }}">
+	          			
 	          			@foreach ($card_sizes as $c_size)
 	          				<div class="card_size_name">
-	          					
+	          					<input type="hidden" name="card_qty" value="{{ $c_size->card_size_qty }}">
 	          					<input type="radio" name="c_size" value="{{ $c_size->card_type }}" required="">&nbsp;{{ $c_size->card_type }}
 	          					<div class="card_name_size">{{ $c_size->card_size }}</div>
 	          					
