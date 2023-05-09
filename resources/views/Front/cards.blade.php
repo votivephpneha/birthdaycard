@@ -1,0 +1,144 @@
+@extends('Front.layout.layout')
+@section('title', 'Birthdaycards')
+
+@section('current_page_css')
+@endsection
+
+@section('current_page_js')
+@endsection
+
+@section('content')
+<div class="container card_page">
+	<div class="card_header">
+		<h2>All Birthday Cards</h2>
+	</div>
+	<div class="row">
+		<?php
+			
+			$user = Auth::user();
+			
+		?>
+		@if ($message = Session::get('success'))
+        <div class="alert alert-success">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          {{ $message }}
+        </div>
+         @endif
+         @if ($message = Session::get('error'))
+        <div class="alert alert-danger">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          {{ $message }}
+        </div>
+         @endif
+         
+		@foreach ($cards_data as $card)
+		<div class="col-md-3">
+
+			<div class="card_image" data-toggle="modal" data-target="#myModal-{{ $card->id }}">
+				<img src="{{ url('/public/upload/cards') }}/{{ $card->card_image }}">
+				@if($user)
+				<?php
+				    $user_id = Auth::user()->id;
+					$favourites_data = DB::table('favourite_cards')->where(['user_id' => $user_id])->where(['card_id' => $card->id])->first();
+
+				?>
+				@if($favourites_data)
+					<form method="post" action="{{ url('/birthday-favourites') }}">
+						@csrf
+						<input type="hidden" name="favorite_id" value="1">
+						<input type="hidden" name="user_id" value="{{ $user->id }}">
+						<input type="hidden" name="card_id" value="{{ $card->id }}">
+						<button type="submit">
+							<span class="fav-{{ $card->id }}" onclick="addFav('{{ $user->id }}','{{ $card->id }}')"><i class="fa fa-heart"></i></span>
+						</button>
+					</form>
+				@else
+					<form method="post" action="{{ url('/birthday-favourites') }}">
+						@csrf
+						<input type="hidden" name="favorite_id" value="0">
+						<input type="hidden" name="user_id" value="{{ $user->id }}">
+						<input type="hidden" name="card_id" value="{{ $card->id }}">
+						<button type="submit">
+							<span class="fav-{{ $card->id }}" onclick="addFav('{{ $user->id }}','{{ $card->id }}')"><i class="fa fa-heart-o"></i></span>
+						</button>
+					</form>	
+				@endif
+				@else
+					<form method="post" action="{{ url('/birthday-favourites') }}">
+						@csrf
+						<input type="hidden" name="favorite_id" value="0">
+						
+						<button type="submit">
+							<span class="fav"><i class="fa fa-heart-o"></i></span>
+						</button>
+					</form>	
+				@endif
+			</div>
+		</div>
+		<!-- Modal -->
+  <div class="modal fade" id="myModal-{{ $card->id }}" role="dialog" style="opacity: 1;background:transparent;">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          
+        </div>
+        <div class="modal-body">
+          <div class="row">
+          	<div class="col-md-6">
+          		<?php 
+          			$gall_images_data = DB::table('card_gallery_images')->get()->where('card_id',$card->id);
+          			$card_sizes = DB::table('card_sizes')->get();
+					
+          		?>
+          		<div class="thumb-image">
+          			<!-- Set up your HTML -->
+					<div class="card_carousel owl-carousel">
+				      @foreach ($gall_images_data as $gallary)		
+					  <div class="card-thumb-images">
+					  	
+					  	<img src="{{ url('/public/upload/gallery_images') }}/{{ $gallary->gall_images }}">
+					  	
+					  </div>
+					  @endforeach
+					</div>
+          		</div>
+          	</div>
+          	<div class="col-md-6">
+          		<div class="card-sizes">
+          			<form method="post" action="{{ url('/post_sizes') }}">
+          				@csrf
+	          			@foreach ($card_sizes as $c_size)
+	          				<div class="card_size_name">
+	          					<input type="hidden" name="card_id" value="{{ $card->id }}">
+	          					<input type="hidden" name="card_qty" value="{{ $card->qty }}">
+	          					<input type="radio" name="c_size" value="{{ $c_size->card_type }}">&nbsp;{{ $c_size->card_type }}
+	          					<div class="card_name_size">{{ $c_size->card_size }}</div>
+	          					
+	          				</div>
+	          				
+	          			@endforeach
+	          			<div class="qty_box">
+      						<label for="quantity">Quantity</label>
+      						<input type="number" name="qty_box">
+      					</div>
+	          			<input type="submit" name="btn" value="Submit">
+          			</form>
+          		</div>
+          	</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+		@endforeach
+	</div>
+</div>	
+
+@endsection
