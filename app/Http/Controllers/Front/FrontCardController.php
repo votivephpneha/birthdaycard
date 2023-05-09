@@ -48,29 +48,74 @@ class FrontCardController extends Controller{
 		$card_id = $request->card_id;
 		$c_size = $request->c_size;
 		$qty_box = $request->qty_box;
-		$card_qty = $request->card_qty;
+		
 
-		$db_card_id = DB::table('cart_table')->where('card_id',$card_id)->get()->first();
+		$db_card_size = DB::table('card_sizes')->where('card_type',$c_size)->get()->first();
+        $card_size_qty = $db_card_size->card_size_qty;
+		$db_card_id = DB::table('cart_table')->where('card_id',$card_id)->where('sizes',$c_size)->get()->first();
 		if(empty($db_card_id)){
 			 $db_qty = 0;
 		}else{
 			 $db_qty = $db_card_id->qty;
 		}
-       
-		//echo $remaining_qty = $card_qty - $db_qty;
-        if($card_qty > $db_qty){
-
+		
+        $total_qty = $qty_box + $db_qty;
+        
+		
+        if($card_size_qty >= $total_qty){
+            
         	if(!empty($db_card_id)){
         		$new_card_qty = $db_qty+$qty_box;
 				$favourite_cards = DB::table('cart_table')->where('card_id',$card_id)->update(['qty'=>$new_card_qty,'created_at'=>date('Y-m-d H:i:s')]);
+				return redirect('video_upload_page/'.$card_id);
 			}else{
 
-				$favourite_cards = DB::table('cart_table')->insert(['card_id'=>$card_id,'sizes'=>$c_size,'qty'=>$qty_box,'created_at'=>date('Y-m-d H:i:s')]);
+				$favourite_cards = DB::table('cart_table')->insert(['card_id'=>$card_id,'sizes'=>$c_size,'qty'=>$qty_box,'status'=>'0','created_at'=>date('Y-m-d H:i:s')]);
+				return redirect('video_upload_page/'.$card_id);
 			}
         }else{
-        	echo 'Card quantity is not available';
+        	
+        	session::flash('error', 'Card quantity is not available');
+        	return redirect()->route('birthday-cards');
+
         }
 		
 		//return redirect()->route('birthday-cards');
+	}
+
+	public function video_upload_page(Request $request){
+		$card_id = $request->card_id;
+		$data['db_card_data'] = DB::table('cards')->where('id',$card_id)->get()->first();
+
+		return view('Front/video_page')->with($data);
+	}
+
+	public function post_video(Request $request){
+		$card_id = $request->card_id;
+		$file = $request->file('add_video_file');
+		if($file){
+	        $destinationPath = base_path() .'/public/upload/videos';
+	        $file->move($destinationPath,$file->getClientOriginalName());
+
+	        $favourite_cards = DB::table('cart_table')->where('card_id',$card_id)->update(['video'=>$file->getClientOriginalName(), 'created_at'=>date('Y-m-d H:i:s')]);
+	        return redirect('show_video/'.$card_id);
+    	}else{
+    		session::flash('error', 'Please upload the video');
+    		return redirect('video_upload_page/'.$card_id);
+    	}
+	}
+
+	public function show_video(Request $request){
+		$card_id = $request->card_id;
+		$data['db_card_data'] = DB::table('cart_table')->where('card_id',$card_id)->get()->first();
+		return view('Front/show_video')->with($data);
+	}
+
+	public function delete_video(Request $request){
+		$card_id = $request->card_id;
+
+		$favourite_cards = DB::table('cart_table')->where('card_id',$card_id)->update(['video'=>"", 'created_at'=>date('Y-m-d H:i:s')]);
+
+		return redirect('video_upload_page/'.$card_id);
 	}
 }
