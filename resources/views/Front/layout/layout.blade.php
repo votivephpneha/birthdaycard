@@ -39,7 +39,8 @@
       margin-top: 200px;
     }
     .card_page{
-      margin-top: 145px;
+      margin-top: 160px;
+	  margin-bottom: 50px;
     }
     .card_image img{
       width:100%;
@@ -256,10 +257,13 @@ $(".close").click(function(){
  $(document).ready(function(){
   $(".card_carousel").owlCarousel({
     items:1,
-    loop:true,
-    nav:true
+    
+    nav:true,
+    dots:true
   });
+
 });
+
 </script>
   @yield('current_page_js')
 </body>

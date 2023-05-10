@@ -80,9 +80,11 @@
                       <thead>
                         <tr>
                           <th>Id#</th>
-                          <th>Sno#</th>
+                          <th>S.no#</th>
                           <th>Card Type</th>
                           <th>Card Size</th>
+                          <th>Card Title</th>
+                          <th>Card Quantity</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -150,6 +152,18 @@
                 searchable: false,
                 "orderable": false
               },
+              {
+                "data": "card_title",
+                name: 'card_title',
+                searchable: false,
+                "orderable": false
+              },
+              {
+                "data": "card_quantity",
+                name: 'card_quantity',
+                searchable: false,
+                "orderable": false
+              },
               
               {
                 "data": "action",
@@ -165,7 +179,7 @@
      //  delete category
      function delete_card_size(id){
       
-      if(confirm('Are you sure delete this card size')){
+      if(confirm('Are you sure delete this card size ?')){
          var catid = $('.delete-card-size'+ id).data('id');
 
             $.ajax({

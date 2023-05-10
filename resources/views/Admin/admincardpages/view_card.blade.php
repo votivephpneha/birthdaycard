@@ -1,6 +1,6 @@
 @extends('Admin.layout.layout')
 
-@section('title', 'Admin|Dashboard')
+@section('title', 'View Card')
 
 
 @section('current_page_css')
@@ -27,10 +27,11 @@
           <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
               <div class="x_title">
-                <ul class="nav navbar-right panel_toolbox">
-                  <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                  </li>                 
-                </ul>
+              <ul class="nav navbar-right panel_toolbox">
+                      <a href="javascript:history.back()" class="btn btn-default" style="background: #2A3F54;color:#FFFFFF">Go Back</a>
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
                 <div class="clearfix"></div>
               </div>
               <div class="x_content">

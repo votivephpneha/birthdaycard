@@ -74,6 +74,36 @@
                 @endif
                 </div>
               </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Card Quantity<span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="number" id="card_quantity" name="card_quantity"  class="form-control col-md-7 col-xs-12">
+                  @if($errors->has('card_quantity'))
+
+                <span class="text-danger">{{ $errors->first('card_quantity')}}</span>
+
+                @endif
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Select Card</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select name="card" id="card" class="form-control">
+                            <option value="">No card</option>
+                            @foreach($carddata as $data)
+                            <option value="{{$data->id}}">{{$data->card_title}}</option>
+
+                            @endforeach
+
+                        </select>
+                    @if($errors->has('card'))
+
+                    <span class="text-danger">{{ $errors->first('card')}}</span>
+
+                    @endif
+                </div>
+              </div>
               
               
 
@@ -96,6 +126,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                   
                   <button type="submit" class="btn btn-dark">Submit</button>
+                  <input type="button"   class="btn btn-dark" value="Go Back" onClick="history.go(-1);"  />
                 </div>
               </div>
 

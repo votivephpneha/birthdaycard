@@ -11,41 +11,16 @@
 
   <title>Text Size List | BirthdayCards</title>
 
-  @include('Admin.template.datatable_css')
+  @include('Admin.layout.datatable_css')
 </head>
 
 <body class="nav-md">
   <div class="container body">
     <div class="main_container">
-      @include('Admin.template.header')
-
-
-      <!-- top navigation -->
-      <div class="top_nav">
-        <div class="nav_menu">
-          <nav>
-            <div class="nav toggle">
-              <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-            </div>
-
-            <ul class="nav navbar-nav navbar-right">
-              <li class="">
-                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  <img src="{{asset('public/images/img.jpg')}}" alt="">{{ Session::get('name')}}
-                  <span class=" fa fa-angle-down"></span>
-                </a>
-                <ul class="dropdown-menu dropdown-usermenu pull-right">
-                  <li><a href="{{ route('chagepassword') }}">Manage Account</a></li>
-                  <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out pull-right"></i>Log out</a></li>
-                </ul>
-              </li>
-
-
-            </ul>
-          </nav>
-        </div>
-      </div>
-      <!-- /top navigation -->
+      <!-- Sidebar -->
+      @include('Admin.layout.sidebar')
+      <!-- Navbar Header -->
+      @include('Admin.layout.header')
 
       <!-- page content -->
       <div class="right_col" role="main">
@@ -105,7 +80,7 @@
                     <thead>
                       <tr>
                         <th>Id#</th>
-                        <th>Sno#</th>
+                        <th>S.no#</th>
                         <th>Text Size</th>
                         <th>Action</th>
                       </tr>
@@ -125,12 +100,12 @@
     <!-- /page content -->
 
     <!-- footer content -->
-    @include('Admin.template.footer')
+    @include('Admin.layout.footer')
     <!-- /footer content -->
   </div>
   </div>
 
-  @include('Admin.template.datatable_script')
+  @include('Admin.layout.datatable_script')
 
   <script>
     $(document).ready(function() {

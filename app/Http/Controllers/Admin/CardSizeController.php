@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CardSize;
+use App\Models\Card;
 use Illuminate\Http\Request;
+use DB;
 
 class CardSizeController extends Controller
 {
@@ -24,7 +26,8 @@ class CardSizeController extends Controller
      */
     public function create()
     {
-        return  view('Admin.admincardsizepages.create_card_size');
+      $carddata = Card::all();
+     return  view('Admin.admincardsizepages.create_card_size',compact('carddata'));
     }
 
     /**
@@ -37,12 +40,16 @@ class CardSizeController extends Controller
     {
         $request->validate([
             "card_type" => "required",
-            "card_size" => "required",           
+            "card_size" => "required", 
+            "card"    =>   "required",
+            "card_quantity" => "required"       
         ]);
 
         $data = array(
           'card_type' => $request->card_type,
-          'card_size' => $request->card_size
+          'card_size' => $request->card_size,
+          'card_id' => $request->card,
+          'card_size_qty' => $request->card_quantity
         );
 
         CardSize::create($data);
@@ -109,8 +116,10 @@ class CardSizeController extends Controller
         0 =>'id',
         1 =>'srno',
         2=> 'card_type',
-        3=> 'card_size',                      
-        4=> 'action'
+        3=> 'card_size', 
+        4=> 'card_title',  
+        5=> 'card_quantity',                       
+        6=> 'action'
         );
             
         $totalDataRecord = CardSize::count();
@@ -124,40 +133,49 @@ class CardSizeController extends Controller
             
         if(empty($request->input('search.value')))
         {
-        $cardsize_data = CardSize::offset($start_val)
+        $cardsize_data = DB::table('card_sizes')
+        ->leftJoin('cards AS card','card.id','=','card_sizes.card_id')
+        ->select('card_sizes.*','card.card_title')
+        ->offset($start_val)
         ->limit($limit_val)
         ->orderBy('id', 'ASC')
         // ->orderBy($order_val,$dir_val)
-        ->get();
+        ->get();       
         }
         else {
         $search_text = $request->input('search.value');
 
-        $cardsize_data = CardSize::select("id","card_type", "card_size")
-                            
-                            ->where(function ($query) use ($search_text) {
-                                $query->where('id', 'LIKE',"%{$search_text}%")
-                                ->orWhere('card_type', 'LIKE',"%{$search_text}%")
-                                ->orWhere('card_size', 'LIKE',"%{$search_text}%");
-        
-                            })
-                            ->offset($start_val)
-                            ->limit($limit_val)
-                            ->orderBy('id', 'ASC')
-                            // ->orderBy($order_val,$dir_val)
-                            ->get();
 
-        $totalFilteredRecord = CardSize::select("id","card_type", "card_size")
-                             
-                            ->where(function ($query) use ($search_text) {
-                                $query->where('id', 'LIKE',"%{$search_text}%")
-                                        ->orWhere('card_type', 'LIKE',"%{$search_text}%")
-                                        ->orWhere('card_size', 'LIKE',"%{$search_text}%");
-            
+        $cardsize_data = DB::table('card_sizes')
+                        ->leftJoin('cards AS card','card.id','=','card_sizes.card_id')
+                        ->select('card_sizes.*','card.card_title')
+                        ->where(function ($query) use ($search_text) {
+                            $query->where('card_sizes.id', 'LIKE',"%{$search_text}%")
+                            ->orWhere('card_sizes.card_type', 'LIKE',"%{$search_text}%")
+                            ->orWhere('card_sizes.card_size', 'LIKE',"%{$search_text}%")
+                            ->orWhere('card_sizes.card_size_qty', 'LIKE',"%{$search_text}%")
+                            ->orWhere('card.card_title', 'LIKE',"%{$search_text}%");
                             })
+                        ->offset($start_val)
+                        ->limit($limit_val)
+                        ->orderBy('card_sizes.id', 'ASC')
+                        // ->orderBy($order_val,$dir_val)
+                        ->get();
+
+        $totalFilteredRecord = DB::table('card_sizes')
+                            ->leftJoin('cards AS card','card.id','=','card_sizes.card_id')
+                            ->select('card_sizes.*','card.card_title')
+                            ->where(function ($query) use ($search_text) {
+                                $query->where('card_sizes.id', 'LIKE',"%{$search_text}%")
+                                ->orWhere('card_sizes.card_type', 'LIKE',"%{$search_text}%")
+                                ->orWhere('card_sizes.card_size', 'LIKE',"%{$search_text}%")
+                                ->orWhere('card_sizes.card_size_qty', 'LIKE',"%{$search_text}%")
+                                ->orWhere('card.card_title', 'LIKE',"%{$search_text}%");
+                                })
                             ->offset($start_val)
                             ->limit($limit_val)
-                            ->orderBy($order_val,$dir_val)
+                            ->orderBy('card_sizes.id', 'ASC')
+                            // ->orderBy($order_val,$dir_val)
                             ->count();
         }
             
@@ -165,17 +183,17 @@ class CardSizeController extends Controller
         if(!empty($cardsize_data))
         {
             $i = $start_val+1;
-        //  echo"<pre>",print_r($user_data);die;
+        //  echo"<pre>",print_r($cardsize_data);die;
         foreach ($cardsize_data as $value)
         {
-          
+         
         
             $nestedData['id'] = $value->id;
             $nestedData['srno'] = $i;
             $nestedData['card_type'] = $value->card_type;  
             $nestedData['card_size'] = $value->card_size;  
-            
-            
+            $nestedData['card_title'] = $value->card_title; 
+            $nestedData['card_quantity'] = $value->card_size_qty;            
             $nestedData['action'] = '         
             <button class="btn  btn-dark p-2" >
             <a href="javascript:void(0);" onClick="delete_card_size('.$value->id.')" data-id="'.$value->id.'" class="text-white delete-card-size'.$value->id.'" style=" color: #FFFFFF;"><i class="fa fa-trash-o"></i> Delete </button></a>';

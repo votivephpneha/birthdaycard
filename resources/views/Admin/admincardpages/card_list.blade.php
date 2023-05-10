@@ -102,9 +102,9 @@
 
                                             <tr>
 
-                                                <th>Sno#</th>
+                                                <th>S.no#</th>
 
-                                                <th>Id</th>
+                                                <th>Ids</th>
 
                                                 <th>Title</th>
 
@@ -281,7 +281,7 @@
 
     function check(id) {
 
-        if (confirm('Are you sure delete this card')) {
+        if (confirm('Are you sure delete this card ?')) {
 
             var cardid = $('.delete-card' + id).data('id');
 

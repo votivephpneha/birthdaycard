@@ -19,8 +19,10 @@
 			<div class="add_video_btn">
 				<form method="post" action="{{ url('post_video') }}" enctype="multipart/form-data">
 					@csrf
+					<input type="hidden" name="qr_img_val" value="" class="qr_image">
 					<input type="hidden" name="card_id" value="{{ $db_card_data->id }}">
-					<input type="file" name="add_video_file">
+					<input type="hidden" name="card_size_id" value="{{ $c_size_id }}">
+					<input type="file" name="add_video_file" id='videoUpload'>
 					<input type="submit" name="add_video_btn" value="Add Video">
 				</form>
 			</div>
@@ -30,4 +32,28 @@
 		</div>
 	</div>
 </div>	
+<script src =  
+    "https://code.jquery.com/jquery-3.5.1.js">  
+</script>
+<script type="text/javascript">
+	document.getElementById("videoUpload")
+	.onchange = function(event) {
+	  let file = event.target.files[0];
 
+	  console.log("file","{{ url('public/upload/videos') }}/"+file.name);
+	  
+	  let finalURL =  
+'https://chart.googleapis.com/chart?cht=qr&chl=' +  
+        htmlEncode("{{ url('public/upload/videos') }}/"+file.name) +  
+        '&chs=160x160&chld=L|0' 
+        console.log("finalURL",finalURL);
+        $('.qr-code').attr('src', finalURL);  
+       $(".qr_image").val(finalURL); 
+	  
+	}
+
+	function htmlEncode(value) {  
+    return $('<div/>').text(value)  
+        .html();  
+    }  
+</script>

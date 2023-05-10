@@ -11,6 +11,12 @@ class CardSize extends Model
 
     protected $fillable = [
         'card_type',
-        'card_size',       
+        'card_size',  
+        'card_id'  ,
+        'card_size_qty',   
     ];
+
+    public function card(){
+        return $this->belongsTo(Card::class,'card_id');
+    }
 }

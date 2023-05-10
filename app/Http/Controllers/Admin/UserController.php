@@ -218,7 +218,7 @@ class UserController extends Controller
              if ($request->hasFile("image")) {
                  $image = $request->file("image");
                  $imageName = time() . "." . $image->extension();
-                 $image->move(public_path("images"), $imageName);
+                 $image->move(public_path("upload/user"), $imageName);
              } else {
                  $imageName = $userfind->image;
              }

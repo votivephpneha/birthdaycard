@@ -30,12 +30,12 @@
           {{ $message }}
         </div>
          @endif
-         
 		@foreach ($cards_data as $card)
 		<div class="col-md-3">
-
+		   <div class="card--lists">
 			<div class="card_image" data-toggle="modal" data-target="#myModal-{{ $card->id }}">
 				<img src="{{ url('/public/upload/cards') }}/{{ $card->card_image }}">
+			</div>
 				@if($user)
 				<?php
 				    $user_id = Auth::user()->id;
@@ -48,8 +48,8 @@
 						<input type="hidden" name="favorite_id" value="1">
 						<input type="hidden" name="user_id" value="{{ $user->id }}">
 						<input type="hidden" name="card_id" value="{{ $card->id }}">
-						<button type="submit">
-							<span class="fav-{{ $card->id }}" onclick="addFav('{{ $user->id }}','{{ $card->id }}')"><i class="fa fa-heart"></i></span>
+						<button class="favourite" type="submit">
+							<span class="fav fav-{{ $card->id }}" onclick="addFav('{{ $user->id }}','{{ $card->id }}')"><i class="fa fa-heart"></i></span>
 						</button>
 					</form>
 				@else
@@ -58,8 +58,8 @@
 						<input type="hidden" name="favorite_id" value="0">
 						<input type="hidden" name="user_id" value="{{ $user->id }}">
 						<input type="hidden" name="card_id" value="{{ $card->id }}">
-						<button type="submit">
-							<span class="fav-{{ $card->id }}" onclick="addFav('{{ $user->id }}','{{ $card->id }}')"><i class="fa fa-heart-o"></i></span>
+						<button class="favourite" type="submit">
+							<span class="fav fav-{{ $card->id }}" onclick="addFav('{{ $user->id }}','{{ $card->id }}')"><i class="fa fa-heart-o"></i></span>
 						</button>
 					</form>	
 				@endif
@@ -68,19 +68,18 @@
 						@csrf
 						<input type="hidden" name="favorite_id" value="0">
 						
-						<button type="submit">
+						<button class="favourite" type="submit">
 							<span class="fav"><i class="fa fa-heart-o"></i></span>
 						</button>
 					</form>	
 				@endif
 			</div>
 		</div>
-		<!-- Modal -->
-  <div class="modal fade" id="myModal-{{ $card->id }}" role="dialog" style="opacity: 1;background:transparent;">
-    <div class="modal-dialog">
+		<div class="modal fade cardpage_mdl" id="myModal-{{ $card->id }}" role="dialog" style="opacity: 1;background:transparent;">
+    <div class="modal-dialog modal-lg card--modal">
     
       <!-- Modal content-->
-      <div class="modal-content">
+      <div class="modal-content card-mod-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           
@@ -108,6 +107,7 @@
           	</div>
           	<div class="col-md-6">
           		<div class="card-sizes">
+				<h4>Select Size</h4>
           			<form  name="post_sizes_form" method="post" action="{{ url('post_sizes') }}">
           				@csrf
           				<input type="hidden" name="card_id" value="{{ $card->id }}" >
@@ -115,7 +115,8 @@
 	          			@foreach ($card_sizes as $c_size)
 	          				<div class="card_size_name">
 	          					<input type="hidden" name="card_qty" value="{{ $c_size->card_size_qty }}">
-	          					<input type="radio" name="c_size" value="{{ $c_size->card_type }}" required="">&nbsp;{{ $c_size->card_type }}
+	          					
+	          					<input type="radio" name="c_size" value="{{ $c_size->id  }}" required="">&nbsp;{{ $c_size->card_type }}
 	          					<div class="card_name_size">{{ $c_size->card_size }}</div>
 	          					
 	          				</div>
@@ -125,7 +126,7 @@
       						<label for="quantity">Quantity</label>
       						<input type="number" class="form-control" name="qty_box" id="qty_box" required="">
       					</div>
-	          			<input type="submit" name="btn" value="Submit">
+	          			<input class="submit_btn" type="submit" name="btn" value="Submit">
           			</form>
           		</div>
           	</div>

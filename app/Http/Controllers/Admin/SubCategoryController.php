@@ -141,7 +141,10 @@ class SubCategoryController extends Controller
             
         if(empty($request->input('search.value')))
         {
-        $subcategry_data = Sub_category::where('status',1)->offset($start_val)
+        $subcategry_data = Sub_category::join('categories', 'categories.id', '=', 'sub_categories.category_id')
+        ->select("sub_categories.id","categories.name as name1", "sub_categories.name","sub_categories.status")
+        ->where('sub_categories.status',1)
+        ->offset($start_val)
         ->limit($limit_val)
         ->orderBy('id', 'ASC')
         // ->orderBy($order_val,$dir_val)
@@ -150,26 +153,29 @@ class SubCategoryController extends Controller
         else {
         $search_text = $request->input('search.value');
 
-        $subcategry_data = Sub_category::select("id","category_id", "name","status")
-                            ->where('status',1)
+        $subcategry_data = Sub_category::join('categories', 'categories.id', '=', 'sub_categories.category_id')
+                            ->select("sub_categories.id","categories.name as name1", "sub_categories.name","sub_categories.status")
+                            ->where('sub_categories.status',1)
                             ->where(function ($query) use ($search_text) {
-                                $query->where('id', 'LIKE',"%{$search_text}%")
-                                ->orWhere('name', 'LIKE',"%{$search_text}%")
-                                ->orWhere('status', 'LIKE',"%{$search_text}%");
-        
+                                $query->where('sub_categories.id', 'LIKE',"%{$search_text}%")
+                                ->orWhere('sub_categories.name', 'LIKE',"%{$search_text}%")
+                                ->orWhere('sub_categories.status', 'LIKE',"%{$search_text}%")
+                                ->orWhere('categories.name', 'LIKE',"%{$search_text}%");
                             })
                             ->offset($start_val)
                             ->limit($limit_val)
-                            ->orderBy('id', 'ASC')
+                            ->orderBy('sub_categories.id', 'ASC')
                             // ->orderBy($order_val,$dir_val)
                             ->get();
 
-        $totalFilteredRecord = Sub_category::select("id","category_id", "name","status")
-                             ->where('status',1)
+        $totalFilteredRecord = Sub_category::join('categories', 'categories.id', '=', 'sub_categories.category_id')
+                             ->select("sub_categories.id","categories.name as name1", "sub_categories.name","sub_categories.status")
+                             ->where('sub_categories.status',1)
                             ->where(function ($query) use ($search_text) {
-                                $query->where('id', 'LIKE',"%{$search_text}%")
-                                       ->orWhere('name', 'LIKE',"%{$search_text}%")
-                                        ->orWhere('status', 'LIKE',"%{$search_text}%");
+                                $query->where('sub_categories.id', 'LIKE',"%{$search_text}%")
+                                ->orWhere('sub_categories.name', 'LIKE',"%{$search_text}%")
+                                ->orWhere('sub_categories.status', 'LIKE',"%{$search_text}%")
+                                ->orWhere('categories.name', 'LIKE',"%{$search_text}%");
             
                             })
                             ->offset($start_val)
@@ -190,7 +196,7 @@ class SubCategoryController extends Controller
             $nestedData['id'] = $value->id;
             $nestedData['srno'] = $i;
             $nestedData['subcategory'] = $value->name;  
-            $nestedData['category'] = $value->parent->name;           
+            $nestedData['category'] = $value->name1;           
             
             $nestedData['action'] = '<button class="btn btn-dark p-2" >
             <a href="'.route('edit.sub.category',[$value->id]) .' " class="text-white" style=" color: #FFFFFF;"><i class="fa fa-edit" ></i>Edit</button></a>

@@ -17,6 +17,8 @@ use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Admin\CustomTextController;
 use App\Http\Controllers\Front\FrontCardController;
 use App\Http\Controllers\Admin\FavouriteCardsController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\VoucherCodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,10 +53,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/birthday-cards', [FrontCardController::class, 'index'])->name('birthday-cards');
 Route::post('/birthday-favourites', [FrontCardController::class, 'addFavourites'])->name('addFavourites');
 Route::post('/post_sizes', [FrontCardController::class, 'post_sizes'])->name('post_sizes');
-Route::get('/video_upload_page/{card_id}', [FrontCardController::class, 'video_upload_page'])->name('video_upload_page');
+Route::get('/video_upload_page/{card_id}/{card_size_id}', [FrontCardController::class, 'video_upload_page'])->name('video_upload_page');
 Route::post('/post_video', [FrontCardController::class, 'post_video'])->name('post_video');
-Route::get('/show_video/{card_id}', [FrontCardController::class, 'show_video'])->name('show_video');
+Route::get('/show_video/{card_id}/{card_size_id}', [FrontCardController::class, 'show_video'])->name('show_video');
 Route::post('/delete_video', [FrontCardController::class, 'delete_video'])->name('delete_video');
+Route::get('/card_editor/{card_id}/{card_size_id}', [FrontCardController::class, 'card_editor'])->name('card_editor');
 Route::get('/registration', [CustomerController::class, 'index'])->name('registration');
 Route::post('/submitUser', [CustomerController::class, 'submitUser'])->name('submitUser');
 Route::get('/loginUser', [CustomerController::class, 'loginUser'])->name('loginUser');
@@ -191,6 +194,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 	Route::get('/favourite-card-list', [FavouriteCardsController::class, 'index'])->name('favorite-card-list');
 	Route::get('/getfavouritecardlist', [FavouriteCardsController::class, 'getfavouritecardist'])->name('get.favouritecardlist');
 	Route::post('/delete-favourite-card', [FavouriteCardsController::class, 'destroy'])->name('delete.fav.card.post');
+
+	// Booking Management routes
+	Route::get('/order-list', [OrderController::class, 'index'])->name('order-list');
+	Route::get('/getOrderlist', [OrderController::class, 'getOrderList'])->name('get.orderlist');
+	Route::get('/order-details/{id}', [OrderController::class, 'show'])->name('order-detail');
+	Route::post('/orderstatuschange',[OrderController::class,'OrderstatusChange'])->name('order.status.change');
+
+	//Voucher Code routes
+	Route::get('/voucher-code-list', [VoucherCodeController::class, 'index'])->name('vouchercodelist');
+	Route::get('/getvouchercodelist', [VoucherCodeController::class, 'GetVoucherCodeList'])->name('get.vouchercodelist');
+	Route::get('/create-voucher-code', [VoucherCodeController::class, 'create'])->name('create.voucher.code');
+    Route::post('/create-voucher-code', [VoucherCodeController::class, 'store'])->name('create.voucher.code.post');
+	Route::get('/edit-voucher-code/{id}', [VoucherCodeController::class, 'edit'])->name('edit.voucher.code');
+	Route::post('/edit-voucher-code/{id}', [VoucherCodeController::class, 'update'])->name('edit.voucher.code.post');
+	Route::post('/delete-voucher-code', [VoucherCodeController::class, 'destroy'])->name('delete.voucher.code');
+	Route::post('/voucher-code-status-change',[VoucherCodeController::class,'VoucherStatusChange'])->name('voucher.code.status.change');
 
 
 });
