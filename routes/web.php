@@ -170,6 +170,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 	Route::post('/create-card_size', [CardSizeController::class, 'store'])->name('create.card.size.post');
 	Route::get('/getcardsizelist', [CardSizeController::class, 'getCardSizelist'])->name('get.cardsizelist');
 	Route::post('/delete-card-size', [CardSizeController::class, 'destroy'])->name('delete.card.size.post');
+	Route::get('/edit-card-size/{id}', [CardSizeController::class, 'edit'])->name('edit.card.size');
+    Route::post('/edit-card-size/{id}', [CardSizeController::class, 'update'])->name('edit.card.size.post');
 
 	// Content management Routes
 	Route::get('/content-pagelist', [AdminPagesController::class, 'index'])->name('content-pagelist');

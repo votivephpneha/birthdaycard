@@ -42,6 +42,7 @@ class CardSizeController extends Controller
             "card_type" => "required",
             "card_size" => "required", 
             "card"    =>   "required",
+            "card_price" => "required",
             "card_quantity" => "required"       
         ]);
 
@@ -49,6 +50,7 @@ class CardSizeController extends Controller
           'card_type' => $request->card_type,
           'card_size' => $request->card_size,
           'card_id' => $request->card,
+          'card_price' => $request->card_price,
           'card_size_qty' => $request->card_quantity
         );
 
@@ -77,9 +79,11 @@ class CardSizeController extends Controller
      * @param  \App\Models\CardSize  $cardSize
      * @return \Illuminate\Http\Response
      */
-    public function edit(CardSize $cardSize)
+    public function edit(CardSize $cardSize,$id)
     {
-        //
+      $carddata = Card::all();
+      $findcardsize = CardSize::find($id);
+      return  view('Admin.admincardsizepages.edit_card_size',compact('carddata','findcardsize'));
     }
 
     /**
@@ -89,9 +93,35 @@ class CardSizeController extends Controller
      * @param  \App\Models\CardSize  $cardSize
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CardSize $cardSize)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            "card_type" => "required",
+            "card_size" => "required", 
+            "card"    =>   "required",
+            "card_price" => "required",
+            "card_quantity" => "required"  
+        ]);
+         
+        
+        $cardsizefind = CardSize::find($id);
+        
+
+        if (empty($cardsizefind)) {
+            return back()->with("failed", "Data not found");
+        } else {
+                      
+            $cardsizefind->card_type = $request->card_type;
+            $cardsizefind->card_size= $request->card_size;
+            $cardsizefind->card_id = $request->card;
+            $cardsizefind->card_price = $request->card_price;
+            $cardsizefind->card_size_qty = $request->card_quantity;
+            $cardsizefind->save();
+            return redirect("admin/card-size-list")->with(
+                "success",
+                "Card size updated successfully !"
+            );
+        }
     }
 
     /**
@@ -118,8 +148,9 @@ class CardSizeController extends Controller
         2=> 'card_type',
         3=> 'card_size', 
         4=> 'card_title',  
-        5=> 'card_quantity',                       
-        6=> 'action'
+        5=> 'card_quantity',  
+        6=> 'card_price',                       
+        7=> 'action'
         );
             
         $totalDataRecord = CardSize::count();
@@ -144,8 +175,7 @@ class CardSizeController extends Controller
         }
         else {
         $search_text = $request->input('search.value');
-
-
+        
         $cardsize_data = DB::table('card_sizes')
                         ->leftJoin('cards AS card','card.id','=','card_sizes.card_id')
                         ->select('card_sizes.*','card.card_title')
@@ -154,6 +184,7 @@ class CardSizeController extends Controller
                             ->orWhere('card_sizes.card_type', 'LIKE',"%{$search_text}%")
                             ->orWhere('card_sizes.card_size', 'LIKE',"%{$search_text}%")
                             ->orWhere('card_sizes.card_size_qty', 'LIKE',"%{$search_text}%")
+                            ->orWhere('card_sizes.card_price', 'LIKE',"%{$search_text}%")
                             ->orWhere('card.card_title', 'LIKE',"%{$search_text}%");
                             })
                         ->offset($start_val)
@@ -170,6 +201,7 @@ class CardSizeController extends Controller
                                 ->orWhere('card_sizes.card_type', 'LIKE',"%{$search_text}%")
                                 ->orWhere('card_sizes.card_size', 'LIKE',"%{$search_text}%")
                                 ->orWhere('card_sizes.card_size_qty', 'LIKE',"%{$search_text}%")
+                                ->orWhere('card_sizes.card_price', 'LIKE',"%{$search_text}%")
                                 ->orWhere('card.card_title', 'LIKE',"%{$search_text}%");
                                 })
                             ->offset($start_val)
@@ -193,8 +225,10 @@ class CardSizeController extends Controller
             $nestedData['card_type'] = $value->card_type;  
             $nestedData['card_size'] = $value->card_size;  
             $nestedData['card_title'] = $value->card_title; 
+            $nestedData['card_price'] = '$'.number_format($value->card_price, 2);
             $nestedData['card_quantity'] = $value->card_size_qty;            
-            $nestedData['action'] = '         
+            $nestedData['action'] = '<button class="btn btn-dark p-2">
+            <a href="'.route('edit.card.size',[$value->id]) .' " class="text-white" style=" color: #FFFFFF;"><i class="fa fa-edit" ></i>Edit</button></a>         
             <button class="btn  btn-dark p-2" >
             <a href="javascript:void(0);" onClick="delete_card_size('.$value->id.')" data-id="'.$value->id.'" class="text-white delete-card-size'.$value->id.'" style=" color: #FFFFFF;"><i class="fa fa-trash-o"></i> Delete </button></a>';
             

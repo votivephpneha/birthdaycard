@@ -1,6 +1,6 @@
 @extends('Admin.layout.layout')
 
-@section('title', 'Create card  Size')
+@section('title', 'Edit card  Size')
 
 
 @section('current_page_css')
@@ -19,7 +19,7 @@
   <div class="">
     <div class="page-title">
       <div class="title_left">
-        <h3>Create Card Size</h3>
+        <h3>Edit Card Size</h3>
       </div>
 
       <!-- <div class="title_right">
@@ -47,13 +47,13 @@
           </div>
           <div class="x_content">
             <br />
-            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="POST" action="{{ route('create.card.size.post')}}" enctype="multipart/form-data">
+            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="POST" action="{{ route('edit.card.size.post',$findcardsize->id)}}" enctype="multipart/form-data">
               @csrf
               <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Card Type<span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input type="text" id="card_type" name="card_type"  class="form-control col-md-7 col-xs-12">
+                  <input type="text" id="card_type" name="card_type"  class="form-control col-md-7 col-xs-12" value="{{$findcardsize->card_type}}">
                   @if($errors->has('card_type'))
 
                 <span class="text-danger">{{ $errors->first('card_type')}}</span>
@@ -65,8 +65,8 @@
               <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Card Size<span class="required">*</span>
                 </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input type="text" id="card_size" name="card_size"  class="form-control col-md-7 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-12"> 
+                  <input type="text" id="card_size" name="card_size"  class="form-control col-md-7 col-xs-12" value="{{$findcardsize->card_size}}">
                   @if($errors->has('card_size'))
 
                 <span class="text-danger">{{ $errors->first('card_size')}}</span>
@@ -78,7 +78,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Card Quantity<span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input type="number" id="card_quantity" name="card_quantity"  class="form-control col-md-7 col-xs-12">
+                  <input type="number" id="card_quantity" name="card_quantity"  class="form-control col-md-7 col-xs-12" value="{{$findcardsize->card_size_qty}}">
                   @if($errors->has('card_quantity'))
 
                 <span class="text-danger">{{ $errors->first('card_quantity')}}</span>
@@ -90,7 +90,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Card Price<span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input type="number" id="card_price" name="card_price"  class="form-control col-md-7 col-xs-12">
+                  <input type="text" id="card_price" name="card_price"  class="form-control col-md-7 col-xs-12" value="{{number_format($findcardsize->card_price, 2)}}">
                   @if($errors->has('card_price'))
 
                 <span class="text-danger">{{ $errors->first('card_price')}}</span>
@@ -99,27 +99,23 @@
                 </div>
               </div>
               <div class="form-group">
-                <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Select Card</label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select name="card" id="card" class="form-control">
-                            <option value="">No card</option>
-                            @foreach($carddata as $data)
-                            <option value="{{$data->id}}">{{$data->card_title}}</option>
+                  <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Select Card</label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                      <select name="card" id="card" class="form-control">
+                          <option value=""@if($findcardsize->card_id==null) selected @endif>Select Card</option>
+                          @foreach($carddata as $data)
+                          <option value="{{$data->id}} "@if($findcardsize->card_id!=null && $findcardsize->card_id == $data->id) selected @endif>{{$data->card_title}}</option>
 
-                            @endforeach
+                          @endforeach
 
-                        </select>
-                    @if($errors->has('card'))
+                      </select>
+                      @if($errors->has('card'))
 
-                    <span class="text-danger">{{ $errors->first('card')}}</span>
+                      <span class="text-danger">{{ $errors->first('card')}}</span>
 
-                    @endif
+                      @endif
+                  </div>
                 </div>
-              </div>
-              
-              
-
-            
               <!-- <div class="form-group">
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Birth <span class="required">*</span>
                 </label>

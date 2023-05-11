@@ -18,7 +18,7 @@ class FrontCardController extends Controller{
 
 	public function index(){
 
-		$data['cards_data'] = DB::table('cards')->select('*')->get();
+		$data['cards_data'] = DB::table('cards')->select('*')->where('status','Active')->get();
 		
 		
 		return view("Front/cards")->with($data);

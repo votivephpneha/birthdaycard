@@ -8,9 +8,9 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container login-page">
 	<div class="row background-login">
-		<div class="col-md-5 col-lg-6 m-auto">
+		<div class="col-md-12 col-lg-12 m-auto">
   <div class="user_registration section-title-signup">
       <h2>User Login</h2>
       @if ($message = Session::get('message'))

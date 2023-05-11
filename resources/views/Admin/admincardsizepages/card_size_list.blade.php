@@ -84,6 +84,7 @@
                           <th>Card Type</th>
                           <th>Card Size</th>
                           <th>Card Title</th>
+                          <th>Card Price</th>
                           <th>Card Quantity</th>
                           <th>Action</th>
                         </tr>
@@ -155,6 +156,12 @@
               {
                 "data": "card_title",
                 name: 'card_title',
+                searchable: false,
+                "orderable": false
+              },
+              {
+                "data": "card_price",
+                name: 'card_price',
                 searchable: false,
                 "orderable": false
               },

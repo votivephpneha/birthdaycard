@@ -72,7 +72,7 @@
           </div>
           
           
-        <center>  <button type="submit" class="btn btn-default">Update Profile</button></center>
+        <center>  <button class="profile_upd" type="submit" class="btn btn-default">Update Profile</button></center>
         </form>
       </div>
     </div>

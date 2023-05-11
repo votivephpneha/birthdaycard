@@ -307,7 +307,7 @@ class CardController extends Controller
             $nestedData['id'] = $value->id;
             $nestedData['title'] = $value->card_title;
             $nestedData['image'] ='<img src="'.$imagepath.'" height="50" width="50">';  
-            $nestedData['price'] = '£'.$newprice ;
+            $nestedData['price'] = '$'.$newprice ;
                    
                 if($value->status == "Active"){
                 $nestedData['status'] ='<div class="changediv'.$value->id.' status-change"><span class="label label-success change-status'.$value->id.'"  onClick="StatusChange('.$value->id.')">'.$value->status.'</span></div>';

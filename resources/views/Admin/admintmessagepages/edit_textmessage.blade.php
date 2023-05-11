@@ -63,6 +63,24 @@
               @endif
               </div>
             </div>
+            <div class="form-group">
+                  <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Select Card(optional)</label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                      <select name="card" id="card" class="form-control">
+                          <option value=""@if($messdata->card_id==null) selected @endif>Select Card</option>
+                          @foreach($carddata as $data)
+                          <option value="{{$data->id}} "@if($messdata->card_id!=null && $messdata->card_id == $data->id) selected @endif>{{$data->card_title}}</option>
+
+                          @endforeach
+
+                      </select>
+                      @if($errors->has('card'))
+
+                      <span class="text-danger">{{ $errors->first('card')}}</span>
+
+                      @endif
+                  </div>
+                </div>
             
             
             <div class="form-group">

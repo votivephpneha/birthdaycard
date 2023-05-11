@@ -75,7 +75,7 @@
 				@endif
 			</div>
 		</div>
-		<div class="modal fade cardpage_mdl" id="myModal-{{ $card->id }}" role="dialog" style="opacity: 1;background:transparent;">
+		<div class="modal fade cardpage_mdl card_modal" id="myModal-{{ $card->id }}" role="dialog" style="opacity: 1;background:transparent;">
     <div class="modal-dialog modal-lg card--modal">
     
       <!-- Modal content-->
@@ -89,7 +89,7 @@
           	<div class="col-md-6">
           		<?php 
           			$gall_images_data = DB::table('card_gallery_images')->get()->where('card_id',$card->id);
-          			$card_sizes = DB::table('card_sizes')->get();
+          			$card_sizes = DB::table('card_sizes')->where('card_id',$card->id)->get();
 					
           		?>
           		<div class="thumb-image">
@@ -114,12 +114,20 @@
 	          			
 	          			@foreach ($card_sizes as $c_size)
 	          				<div class="card_size_name">
-	          					<input type="hidden" name="card_qty" value="{{ $c_size->card_size_qty }}">
-	          					
-	          					<input type="radio" name="c_size" value="{{ $c_size->id  }}" required="">&nbsp;{{ $c_size->card_type }}
-	          					<div class="card_name_size">{{ $c_size->card_size }}</div>
-	          					
-	          				</div>
+							  <div class="card_radio">
+										<input type="hidden" name="card_qty" value="{{ $c_size->card_size_qty }}">
+										<input type="radio" name="c_size" value="{{ $c_size->id  }}" required="">&nbsp;{{ $c_size->card_type }}
+							  </div>
+							  <div class="card_grid_info">
+								<div class="card_name_size">{{ $c_size->card_size }}</div>
+							  </div>
+							  <div class="card_price">
+								<div class="card_name_price">$20</div>
+							  </div>	  
+								<div class="inner_card_icon">  
+								  <span><i class='bx bx-gift'></i></span>
+								</div>
+							</div>
 	          				
 	          			@endforeach
 	          			<div class="qty_box">

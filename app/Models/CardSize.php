@@ -13,7 +13,8 @@ class CardSize extends Model
         'card_type',
         'card_size',  
         'card_id'  ,
-        'card_size_qty',   
+        'card_size_qty',
+        'card_price',   
     ];
 
     public function card(){

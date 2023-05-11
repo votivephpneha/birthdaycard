@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
+use App\Models\Card;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -23,8 +24,9 @@ class MessageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return  view('Admin.admintmessagepages.create_textmessage');
+    {   
+        $carddata = Card::all();
+        return  view('Admin.admintmessagepages.create_textmessage',compact('carddata'));
     }
 
     /**
@@ -37,8 +39,15 @@ class MessageController extends Controller
     {
         $request->validate([
             "text_mess" => "required",
-            "mess_status" => "required",           
+            "mess_status" => "required", 
+            // "card"       => "required"          
         ]);
+        $card_id = '' ;
+
+        if($request->card){
+          $card_id = $request->card; 
+        }
+        
 
         if ($request->mess_status == 1) {
             $status = "Active";
@@ -49,6 +58,7 @@ class MessageController extends Controller
         $textmess = new Message();
         $textmess->text_message = $request->text_mess;      
         $textmess->status = $status;
+        $textmess->card_id =  $card_id ;
         $textmess->save();
 
         return redirect("admin/textmessagelist")->with(
@@ -77,7 +87,8 @@ class MessageController extends Controller
     public function edit(Message $message,$id)
     {
         $messdata =  Message::find($id);
-        return view('Admin.admintmessagepages.edit_textmessage',compact('messdata'));
+        $carddata = Card::all();
+        return view('Admin.admintmessagepages.edit_textmessage',compact('messdata','carddata'));
     }
 
     /**
@@ -93,7 +104,13 @@ class MessageController extends Controller
             "text_mess" => "required",
             "mess_status" => "required",
         ]);
+        
+        $card_id = '' ;
 
+        if($request->card){
+          $card_id = $request->card; 
+        } 
+        
         $textmessfind = Message::find($id);
         if (empty($textmessfind)) {
             return back()->with("failed", "Data not found");
@@ -103,9 +120,10 @@ class MessageController extends Controller
             } else {
                 $status = "Inactive";
             }
-            
+           
             $textmessfind->text_message = $request->text_mess ;
             $textmessfind->status = $status;
+            $textmessfind->card_id = $card_id;
             $textmessfind->save();
 
             return redirect("admin/textmessagelist")->with(
@@ -141,7 +159,7 @@ class MessageController extends Controller
         );
             
         $totalDataRecord = Message::count();
-            
+                    
         $totalFilteredRecord = $totalDataRecord;
             
         $limit_val = $request->input('length');
@@ -193,8 +211,6 @@ class MessageController extends Controller
         //  echo"<pre>",print_r($user_data);die;
         foreach ($mess_data as $value)
         {
-          
-        
             $nestedData['id'] = $value->id;
             $nestedData['srno'] = $i;
             $nestedData['textmessage'] = $value->text_message;  

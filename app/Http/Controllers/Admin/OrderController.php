@@ -202,7 +202,7 @@ class OrderController extends Controller
             $nestedData['card_title'] = $value->card_title; 
             $nestedData['customer_id'] = $value->customer_id;   
             $nestedData['customer_name'] = $value->fname." ".$value->lname ;  
-            $nestedData['booking_price'] = '£'.number_format($value->price * $value->card_qty, 2); 
+            $nestedData['booking_price'] = '$'.number_format($value->price * $value->card_qty, 2); 
             
             if($value->order_status == 0){
              $nestedData['booking_status'] = 'Pending'; 

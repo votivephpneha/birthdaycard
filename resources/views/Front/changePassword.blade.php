@@ -32,20 +32,20 @@
          @endif
         <form name="change_password" method="post" action="{{ url('user/postuser_ChangePassword') }}" enctype="multipart/form-data">
           @csrf
-          <div class="form-group">
+          <div class="form-group mb-tm">
             <label for="old_password">Old Password</label>
             <input type="password" class="form-control" id="old_password" placeholder="Enter Old Password" name="old_password">
           </div>
-          <div class="form-group">
+          <div class="form-group mb-tm">
             <label for="new_password">New Password</label>
             <input type="password" class="form-control" id="new_password" placeholder="Enter New Password" name="new_password">
           </div>
-          <div class="form-group">
+          <div class="form-group mb-tm">
             <label for="confirm_password">Confirm Password</label>
             <input type="password" class="form-control" id="confirm_password" placeholder="Enter Confirm Password" name="confirm_password">
           </div>
           
-          <button type="submit" class="btn btn-default">Submit</button>
+          <button type="submit" class="btn btn-default profile_upd">Submit</button>
         </form>
       </div>
     </div>

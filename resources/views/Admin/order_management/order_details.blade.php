@@ -181,10 +181,10 @@ $('#order_status').on('change', function() {
                                                 <td>{{$orderdetail[0]->card_qty}}</td>
                                                 <td>{{$orderdetail[0]->card_title}}</td>
                                                 <td>{{$orderdetail[0]->card_size}}</td>
-                                                <td>£{{number_format($orderdetail[0]->price, 2)}}</td>
+                                                <td>${{number_format($orderdetail[0]->price, 2)}}</td>
                                                 <!-- <td>El snort testosterone trophy driving gloves handsome gerry Richardson helvetica tousled street art master testosterone trophy driving gloves handsome gerry Richardson
                 </td> -->
-                                                <td>£{{number_format($orderdetail[0]->price * $orderdetail[0]->card_qty, 2)}}
+                                                <td>${{number_format($orderdetail[0]->price * $orderdetail[0]->card_qty, 2)}}
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -214,19 +214,19 @@ $('#order_status').on('change', function() {
                                             <tbody>
                                                 <tr>
                                                     <th style="width:50%">Subtotal:</th>
-                                                    <td> £{{ number_format($orderdetail[0]->sub_total, 2)}}</td>
+                                                    <td> ${{ number_format($orderdetail[0]->sub_total, 2)}}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Postage costs:</th>
-                                                    <td> £{{$orderdetail[0]->postage_costs}}</td>
+                                                    <td> ${{$orderdetail[0]->postage_costs}}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Shipping:</th>
-                                                    <td> 0.00</td>
+                                                    <td> $0.00</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total:</th>
-                                                    <td>£{{number_format($orderdetail[0]->total, 2)}}</td>
+                                                    <td>${{number_format($orderdetail[0]->total, 2)}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

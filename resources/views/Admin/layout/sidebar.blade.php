@@ -26,13 +26,13 @@
                             <li><a href="{{route('cardlist')}}">List</a></li>
                         </ul>
                     </li>
-                    <li><a><i class="fa fa-edit"></i> Custom Card Text <span class="fa fa-chevron-down"></span></a>
+                    <!-- <li><a><i class="fa fa-edit"></i> Custom Card Text <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{route('textfontlist')}}">Text Font</a></li>
                             <li><a href="{{route('textcolorlist')}}">Text Color</a></li>
                             <li><a href="{{route('textsizelist')}}">Text Size</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li><a><i class="fa fa-pencil-square"></i> Message Managment <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{route('messagelist')}}">List</a></li>
