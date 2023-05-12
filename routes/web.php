@@ -19,6 +19,7 @@ use App\Http\Controllers\Front\FrontCardController;
 use App\Http\Controllers\Admin\FavouriteCardsController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\VoucherCodeController;
+use App\Http\Controllers\Admin\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,7 @@ Route::post('/post_video', [FrontCardController::class, 'post_video'])->name('po
 Route::get('/show_video/{card_id}/{card_size_id}', [FrontCardController::class, 'show_video'])->name('show_video');
 Route::post('/delete_video', [FrontCardController::class, 'delete_video'])->name('delete_video');
 Route::get('/card_editor/{card_id}/{card_size_id}', [FrontCardController::class, 'card_editor'])->name('card_editor');
+Route::post('/post_card', [FrontCardController::class, 'post_card'])->name('post_card');
 Route::get('/registration', [CustomerController::class, 'index'])->name('registration');
 Route::post('/submitUser', [CustomerController::class, 'submitUser'])->name('submitUser');
 Route::get('/loginUser', [CustomerController::class, 'loginUser'])->name('loginUser');
@@ -187,7 +189,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 	Route::get('/cardsubcategorylist/{subcatid}', [SubCategoryController::class, 'index'])->name('subcategorylist');
 	Route::get('/create-sub-category/{subcatid}', [SubCategoryController::class, 'create'])->name('create.sub.category');
 	Route::post('/create-sub-category/{subcatid}', [SubCategoryController::class, 'store'])->name('create.sub.category.post');
-	Route::get('/getsubcategorylist', [SubCategoryController::class, 'getSubCategorylist'])->name('get.subcategorylist');
+	Route::get('/getsubcategorylist/{subcatid}', [SubCategoryController::class, 'getSubCategorylist'])->name('get.subcategorylist');
 	Route::get('/edit-card-subcategory/{id}', [SubCategoryController::class, 'edit'])->name('edit.sub.category');
     Route::post('/edit-card-subcategory/{id}', [SubCategoryController::class, 'update'])->name('edit.sub.category.post');
 	Route::post('/delete-sub-category', [SubCategoryController::class, 'destroy'])->name('delete.sub.category.post');
@@ -212,6 +214,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 	Route::post('/edit-voucher-code/{id}', [VoucherCodeController::class, 'update'])->name('edit.voucher.code.post');
 	Route::post('/delete-voucher-code', [VoucherCodeController::class, 'destroy'])->name('delete.voucher.code');
 	Route::post('/voucher-code-status-change',[VoucherCodeController::class,'VoucherStatusChange'])->name('voucher.code.status.change');
+
+	//payment history routes
+	Route::get('/payment-list', [PaymentController::class, 'index'])->name('paymentlist');
+	Route::get('/getpaymenttranslist', [PaymentController::class, 'GetPaymentTranslist'])->name('get.paymentranstlist');
+    Route::get('/view-payment-detail/{id}', [PaymentController::class, 'show'])->name('view.payment.detail');
 
 
 });

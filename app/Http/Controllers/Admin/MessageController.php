@@ -42,7 +42,7 @@ class MessageController extends Controller
             "mess_status" => "required", 
             // "card"       => "required"          
         ]);
-        $card_id = '' ;
+        $card_id = null ;
 
         if($request->card){
           $card_id = $request->card; 
@@ -105,7 +105,7 @@ class MessageController extends Controller
             "mess_status" => "required",
         ]);
         
-        $card_id = '' ;
+        $card_id = null ;
 
         if($request->card){
           $card_id = $request->card; 

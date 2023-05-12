@@ -119,8 +119,9 @@ class SubCategoryController extends Controller
 
 
     // get category list
-    public function getSubCategorylist(Request $request)
+    public function getSubCategorylist(Request $request,$id)
     {
+        $catid = $id ;
         $totalFilteredRecord = $totalDataRecord = $draw_val = "";
         $columns_list = array(
         0 =>'id',
@@ -144,9 +145,11 @@ class SubCategoryController extends Controller
         $subcategry_data = Sub_category::join('categories', 'categories.id', '=', 'sub_categories.category_id')
         ->select("sub_categories.id","categories.name as name1", "sub_categories.name","sub_categories.status")
         ->where('sub_categories.status',1)
+        ->where('sub_categories.category_id','=',$catid)
         ->offset($start_val)
         ->limit($limit_val)
-        ->orderBy('id', 'ASC')
+        ->orderBy('sub_categories.id', 'ASC')
+        // ->groupBy('sub_categories.category_id')
         // ->orderBy($order_val,$dir_val)
         ->get();
         }
@@ -156,6 +159,7 @@ class SubCategoryController extends Controller
         $subcategry_data = Sub_category::join('categories', 'categories.id', '=', 'sub_categories.category_id')
                             ->select("sub_categories.id","categories.name as name1", "sub_categories.name","sub_categories.status")
                             ->where('sub_categories.status',1)
+                            ->where('sub_categories.category_id','=',$catid)
                             ->where(function ($query) use ($search_text) {
                                 $query->where('sub_categories.id', 'LIKE',"%{$search_text}%")
                                 ->orWhere('sub_categories.name', 'LIKE',"%{$search_text}%")
@@ -171,6 +175,7 @@ class SubCategoryController extends Controller
         $totalFilteredRecord = Sub_category::join('categories', 'categories.id', '=', 'sub_categories.category_id')
                              ->select("sub_categories.id","categories.name as name1", "sub_categories.name","sub_categories.status")
                              ->where('sub_categories.status',1)
+                             ->where('sub_categories.category_id','=',$catid)
                             ->where(function ($query) use ($search_text) {
                                 $query->where('sub_categories.id', 'LIKE',"%{$search_text}%")
                                 ->orWhere('sub_categories.name', 'LIKE',"%{$search_text}%")

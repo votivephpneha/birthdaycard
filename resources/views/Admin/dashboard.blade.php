@@ -58,7 +58,7 @@
 
           <div class="count">{{ !empty($totaluser) ? $totaluser : 0  }}</div>
 
-          <h3>Total User</h3>
+          <h3>Total Users</h3>
 
         </div>
 
@@ -77,21 +77,19 @@
 
       </div>
 
-      <!-- <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+      <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
 
         <div class="tile-stats">
 
-          <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
+          <div class="icon"><i class="fa fa-exchange"></i></div>
 
-          <div class="count">179</div>
+          <div class="count">{{ !empty($totalorder) ? $totalorder : 0  }}</div>
 
-          <h3>New Sign ups</h3>
-
-          <p>Lorem ipsum psdea itgum rixt.</p>
+          <h3>Total Orders</h3>
 
         </div>
 
-      </div>  -->
+      </div> 
 
       <!-- <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
 

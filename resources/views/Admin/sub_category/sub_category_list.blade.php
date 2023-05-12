@@ -124,7 +124,7 @@
           [0, 'desc']
       ],
 
-      ajax: '{{route("get.subcategorylist")}}',
+      ajax: '{{route("get.subcategorylist",request()->route("subcatid"))}}',
       
       "columns": [
               {

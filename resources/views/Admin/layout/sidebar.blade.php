@@ -68,6 +68,11 @@
                       <li><a href="{{route('vouchercodelist')}}">List</a></li>
                     </ul>
                     </li>
+                    <li><a><i class="fa fa-gbp"></i>Payment History<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{{route('paymentlist')}}">List</a></li>
+                    </ul>
+                    </li>
                     <li><a><i class="fa fa-edit"></i>Content Management<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{route('content-pagelist')}}">List</a></li>

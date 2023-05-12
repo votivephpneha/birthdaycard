@@ -197,14 +197,9 @@ $('#order_status').on('change', function() {
                             <div class="row">
                                 <!-- accepted payments column -->
                                 <div class="col-xs-6">
-                                    <p class="lead">Payment Method:</p>
-                                    <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-                                        {{$orderdetail[0]->payment_method}}
-                                    </p>
-                                    <p class="lead">Payment Status:</p>
-                                    <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-                                        {{$orderdetail[0]->pay_status}}
-                                    </p>
+                                    <p class="lead">Payment Information:</p>
+                                    <b>Payment method:</b> {{$orderdetail[0]->payment_method}}
+                                    <p><strong>Payment Status:</strong> {{$orderdetail[0]->pay_status}}</p>
                                 </div>
                                 <!-- /.col -->
                                 <div class="col-xs-6">
@@ -222,7 +217,7 @@ $('#order_status').on('change', function() {
                                                 </tr>
                                                 <tr>
                                                     <th>Shipping:</th>
-                                                    <td> $0.00</td>
+                                                    <td> 0.00</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total:</th>

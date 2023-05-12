@@ -129,8 +129,54 @@ class FrontCardController extends Controller{
 	public function card_editor(Request $request){
 		$card_id = $request->card_id;
 		$card_size_id = $request->card_size_id;
+
+		$data['cart_id'] = DB::table('cart_table')->where('card_id',$card_id)->where('sizes',$card_size_id)->get()->first();
+		//print_r($data['cart_id']->status);die;
 		$data['db_card_data'] = DB::table('cards')->where('id',$request->card_id)->get()->first();
-		$data['db_card_size_data'] = DB::table('cart_table')->where('card_id',$request->card_id)->where('sizes',$card_size_id)->get()->first();
+		$data['colors'] = DB::table('text_colors')->get();
+		$data['db_text_data'] = DB::table('predesigned_text')->where('cart_id',$data['cart_id']->cart_id)->where('txt_id',1)->get()->first();
+		$data['db_text_data1'] = DB::table('predesigned_text')->where('cart_id',$data['cart_id']->cart_id)->where('txt_id',2)->get()->first();
+		$data['db_text_data2'] = DB::table('predesigned_text')->where('cart_id',$data['cart_id']->cart_id)->where('txt_id',3)->get()->first();
+
 		return view('Front/card_editor')->with($data);
+	}
+
+	public function post_card(Request $request){
+		$text_id = $request->text_id;
+		$card_id = $request->card_id;
+		$card_size_id = $request->card_size_id;
+		$cart_id = $request->cart_id;
+		if($text_id == 1){
+			$text_size_font = $request->text_size_one;
+			$text_color_font = $request->text_color_one;
+			$text_font = $request->text_one;
+		}
+		if($text_id == 2){
+			$text_size_font = $request->text_size_two;
+			$text_color_font = $request->text_color_two;
+			$text_font = $request->text_two;
+		}
+		if($text_id == 3){
+			$text_size_font = $request->text_size_three;
+			$text_color_font = $request->text_color_three;
+			$text_font = $request->text_three;
+		}
+		
+		
+
+		$data['db_text_data'] = DB::table('predesigned_text')->where('cart_id',$cart_id)->where('txt_id',$text_id)->get()->first();
+
+
+
+		if(!empty($data['db_text_data'])){
+			$post_text = DB::table('predesigned_text')->where('cart_id',$cart_id)->where('txt_id',$text_id)->update(['size'=>$text_size_font,'color'=>$text_color_font,'Text'=>$text_font,'created_at'=>date('Y-m-d H:i:s')]);
+		}else{
+			$post_text = DB::table('predesigned_text')->insert(['cart_id'=>$cart_id,'txt_id'=>$text_id,'size'=>$text_size_font,'color'=>$text_color_font,'Text'=>$text_font,'created_at'=>date('Y-m-d H:i:s')]);
+		}
+        
+
+        
+        return redirect('card_editor/'.$card_id.'/'.$card_size_id);
+
 	}
 }
