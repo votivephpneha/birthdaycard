@@ -25,7 +25,7 @@
           <li class="dropdown dxc-none">
             <a href="#"><i class='bx bx-menu'></i></a>
             <ul class="">
-              <li><a href="#">BIRTHDAY CARDS</a></li>
+              <li><a href="{{ url('birthday-cards') }}">BIRTHDAY CARDS</a></li>
               <li><a href="#">WRAPPING PAPERS</a></li>
               <li><a href="#">MONEY CLIPS</a></li>
               <li><a href="#">PHONE ACCESSORIES</a></li>

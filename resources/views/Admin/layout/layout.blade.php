@@ -62,6 +62,17 @@
     <script src="{{ asset('public/build/js/custom.min.js') }}"></script>
     <!-- DATA TABLE JS-->
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+    <script>
+    setTimeout(function() {
+    $('.alert-success').fadeOut('fast');
+     }, 1000); //
+     
+    
+
+    setTimeout(function() {
+    $('.alert-danger').fadeOut('fast');
+     }, 1000); //
+    </script>
 
     @yield('current_page_js')
 </body>

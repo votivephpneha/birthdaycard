@@ -96,11 +96,28 @@
                                         @if($paytrandata[0]->order_status ==6) Return request accepted @endif
                                         @if($paytrandata[0]->order_status ==7) Return request declined @endif </p>
                   </div>
+				  <div class="myOrderDtel order_date">
+                  <p><strong>Order Date: </strong> {{date('Y-m-d', strtotime($paytrandata[0]->created_at))}} </p>
+                  </div>
                   <!-- <div class="myOrderDtel">
                      <label>Order Status</label>
                      </span></strong>
                   </div> -->
-                  <div class="table-responsive">
+                  
+                  <!--<div class="myOrderDtel">
+                     <label>Comment</label>
+                     <strong></strong>
+                     </div>-->
+                  <div class="myOrderActnBox">
+                     <div class="myOrderDtelBtn">
+                         <!-- <a href=" cd" target="_blank">View Reciept</a> -->
+                     </div>
+                     </div>
+               </div>
+            </div>
+			
+			<div class="table-status-pay">
+				<div class="table-responsive">
                   <table class="table-responsive order_details">
                      <tr>
                         <th>Subtotal</th>
@@ -122,22 +139,8 @@
                      </tr>
                   </table>
                   </div>
-                  
-                  
-                  <div class="myOrderDtel order_date">
-                  <p><strong>Order Date: </strong> {{date('Y-m-d', strtotime($paytrandata[0]->created_at))}} </p>
-                  </div>
-                  <!--<div class="myOrderDtel">
-                     <label>Comment</label>
-                     <strong></strong>
-                     </div>-->
-                  <div class="myOrderActnBox">
-                     <div class="myOrderDtelBtn">
-                         <!-- <a href=" cd" target="_blank">View Reciept</a> -->
-                     </div>
-                     </div>
-               </div>
-            </div>
+				 </div>
+			
         </div>
       </div>
     </div>

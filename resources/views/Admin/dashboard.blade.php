@@ -49,6 +49,7 @@
   <div class="">
 
     <div class="row top_tiles">
+      <a href="{{route('userlist')}}">
 
       <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
 
@@ -61,10 +62,12 @@
           <h3>Total Users</h3>
 
         </div>
+       </a>
 
       </div>
 
       <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+      <a href="{{route('cardlist')}}">
 
         <div class="tile-stats">
 
@@ -74,11 +77,11 @@
 
           <h3>Total Cards</h3>
         </div>
-
+       </a>
       </div>
 
       <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-
+      <a href="{{route('order-list')}}">
         <div class="tile-stats">
 
           <div class="icon"><i class="fa fa-exchange"></i></div>
@@ -88,7 +91,7 @@
           <h3>Total Orders</h3>
 
         </div>
-
+        </a>
       </div> 
 
       <!-- <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">

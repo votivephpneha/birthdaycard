@@ -8,3 +8,13 @@
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
 
 <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+
+<script>
+setTimeout(function() {
+$('.alert-success').fadeOut('slow');
+    }, 500); //
+
+setTimeout(function() {
+$('.alert-danger').fadeOut('slow');
+    }, 500); //
+</script>

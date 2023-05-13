@@ -7,7 +7,7 @@
         <!-- menu profile quick info -->
         <div class="profile clearfix">
             <div class="profile_pic">
-                <img src="{{ asset('public/images/img.jpg')}}" alt="..." class="img-circle profile_img">
+                <img src="{{ asset('public/upload/user').'/'. Session::get('proimg')}}" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
                 <span>Welcome,</span>

@@ -355,15 +355,19 @@
 
             success: function(data) {
 
-                $('#sumess').html('<div class="alert alert-success alert-block">' +
+                $('#sumess').fadeIn('slow').html('<div class="alert alert-success alert-block">' +
 
-                    '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                '<button type="button" class="close" data-dismiss="alert">×</button>' +
 
-                    '<strong>' + data + '</strong>' +
+                '<strong>' + data + '</strong>' +
 
-                    '</div>').fadeIn('slow');
+                '</div>');
 
+                setTimeout(function() {
 
+                $('#sumess').fadeOut("slow");
+
+                }, 300 );
 
                 if (Statusvalue == 'Active') {
 

@@ -44,8 +44,9 @@ class CustomerController extends Controller{
 	      'email'  => $request->get('email'),
 	      'password' => $request->get('password')
 	    );
+        $user = User::where('email', '=', $request->email)->first();
         
-		if(Auth::attempt($user_data))
+		if(Auth::attempt($user_data) && $user->status == 'Active')
 		{
 			if($user_data['email']=="admin@gmail.com"){
 				session::flash('error', 'Email or Password is Incorrect.');

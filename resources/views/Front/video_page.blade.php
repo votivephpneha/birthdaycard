@@ -10,6 +10,7 @@
 @section('content')
 
 <div class="container video_page">
+	
 	<div class="video_image_content">
 		<div class="video_qr_image">
 			<img src="{{ url('public/upload/cards') }}/{{ $db_card_data->card_image }}" style="width:200px;">
@@ -52,6 +53,12 @@
 			
 			<div class="video_btns">
 			<div class="add_video_btn">
+				@if ($message = Session::get('error'))
+		        <div class="alert alert-danger">
+		          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		          {{ $message }}
+		        </div>
+		         @endif
 				<form id="attachUpload" method="post" action="{{ url('post_video') }}" enctype="multipart/form-data">
 					@csrf
 					<input type="hidden" name="qr_img_val" value="" class="qr_image">
@@ -63,7 +70,7 @@
 				</form>
 			</div>
 			<div class="no_thanks_btn">
-				<a href="#">No Thanks</a>
+				<a href="{{ url('/card_editor') }}/{{ $db_card_data->id }}/{{ $c_size_id }}">No Thanks</a>
 			</div>
 		</div>
 			

@@ -210,10 +210,14 @@
           'status' : Statusvalue
     },
     success: function(data) {            
-      $('#sumess').html('<div class="alert alert-success alert-block">'+
-              '<button type="button" class="close" data-dismiss="alert">×</button>'+
-                  '<strong>'+ data +'</strong>' +
-            '</div>' ).fadeIn('slow');
+      $('#sumess').fadeIn().html('<div class="alert alert-success alert-block">' +
+                '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                '<strong>' + data + '</strong>' +
+                '</div>');
+
+      setTimeout(function() {
+        $('#sumess').fadeOut("slow");
+        }, 300 );
   
       if(Statusvalue == 'Active'){        
       $('.changediv' +id).html('<span class="label label-success change-status'+id+'"  onClick="VoucherStatusChange('+id+')">'+Statusvalue+'</span>' ).fadeIn('slow');

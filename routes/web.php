@@ -60,6 +60,7 @@ Route::get('/show_video/{card_id}/{card_size_id}', [FrontCardController::class, 
 Route::post('/delete_video', [FrontCardController::class, 'delete_video'])->name('delete_video');
 Route::get('/card_editor/{card_id}/{card_size_id}', [FrontCardController::class, 'card_editor'])->name('card_editor');
 Route::post('/post_card', [FrontCardController::class, 'post_card'])->name('post_card');
+Route::get('/cart_continue', [FrontCardController::class, 'cart_continue'])->name('cart_continue');
 Route::get('/registration', [CustomerController::class, 'index'])->name('registration');
 Route::post('/submitUser', [CustomerController::class, 'submitUser'])->name('submitUser');
 Route::get('/loginUser', [CustomerController::class, 'loginUser'])->name('loginUser');
@@ -86,12 +87,11 @@ Route::post('/login', [AuthController::class, 'adminLogin'])->name('login.post')
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
 	Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-
-
 	Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
 	Route::get('/changepassword', [AuthController::class, 'ChangePassword'])->name('chagepassword');
 	Route::post('/changepassword', [AuthController::class, 'ChangePasswordSubmit'])->name('chagepassword.post');
+	Route::get('/changeprofile', [AuthController::class, 'ChangeProfile'])->name('change-profile');
+	Route::post('/changeprofile', [AuthController::class, 'ChangeProfileStore'])->name('change-profile-post');
 
 	// customer management routes
 	Route::get('/userlist', [UserController::class, 'Userlist'])->name('userlist');

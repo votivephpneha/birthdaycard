@@ -3081,6 +3081,7 @@ button.profile_upd:hover {
     color: #ff0091;
     background-color: rgb(255, 255, 255);
     padding: 8px;
+	max-width: 415px;
 }
 
 .process-wrap.active-step1 {
@@ -3207,6 +3208,7 @@ label.label-add-video {
     background-color: #ff0091;
     margin-top: 0px;
     width: 100%;
+	max-width: 415px;
 }
 input#videoUpload {
     position: absolute;
@@ -3221,4 +3223,110 @@ input#videoUpload {
 .video_qr_image img:nth-child(2) {
     border-right: 1px solid #efefef;
     border-left: 1px solid #efefef;
+}
+
+/*13-may*/
+
+.video_btns_qr {
+    background: #ffffff;
+    padding: 24px;
+    border-top: 1px solid #efefef;
+}
+.video_qr {
+    line-height: 0;
+}
+.countinue_btn {
+    position: relative;
+	    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    min-height: 48px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 150ms linear 0s, box-shadow 150ms linear 0s;
+    border-radius: 8px;
+    box-shadow: rgb(0 32 77 / 15%) 0px 1px 4px 0px;
+    font-weight: 700;
+    line-height: 1.5rem;
+    font-size: 1rem;
+    letter-spacing: 0px;
+    text-decoration: none;
+    border: 2px solid #FF0091;
+    color: rgb(255, 255, 255);
+    background-color: #FF0091;
+    padding: 8px;
+    width: 100%;
+	max-width: 415px;
+	margin: 0 auto;
+}
+.countinue_btn a {
+    color: #ffffff;
+}
+.del_video_btn input[type="submit"] {
+    position: relative;
+    display: inline-flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    min-height: 48px;
+    text-align: center;
+    transition: background-color 150ms linear 0s, box-shadow 150ms linear 0s;
+    box-shadow: rgb(0 32 77 / 15%) 0px 1px 4px 0px;
+    font-weight: 700;
+    line-height: 1.5rem;
+    font-size: 1rem;
+    letter-spacing: 0px;
+    text-decoration: none;
+    border: 2px solid #FF0091;
+    border-radius: 8px;
+    color: #FF0091;
+    background-color: rgb(255, 255, 255);
+    margin-top: 0px;
+    padding: 8px;
+    width: 100%;
+	max-width: 415px;
+}
+.replace_btn input#videoUpload {
+    position: relative;
+    height: auto;
+    width: auto;
+}
+form.del_video_btn {
+    display: flex;
+    justify-content: center;
+}
+.replace_btn {
+    display: flex;
+    justify-content: center;
+	margin-bottom: 15px;
+}
+input#replace_video {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0px, 0px, 0px, 0px);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0px;
+    border: 0px;
+}
+.footer-ctn {
+    background: #ffffff;
+    padding-bottom: 24px;
+    padding-top: 24px;
+}
+.agree_bx {
+    background: #ffffff;
+    padding: 15px;
+    border-top: 1px solid #efefef;
+	    border-bottom: 1px solid #efefef;
+}
+.chk_cond {
+    text-align: center;
+    max-width: 450px;
 }

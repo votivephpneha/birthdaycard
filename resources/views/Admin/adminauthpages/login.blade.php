@@ -36,13 +36,13 @@
             <form method="POST" action="{{route('login.post')}}">
               @csrf
               <h1>Login Form</h1>
-              <div>
+              <div class="form_m_20">
                 <input type="text" class="form-control" placeholder="Email" name="email" />
                 @if($errors->has('email'))
                 <span class="text-danger">{{ $errors->first('email')}}</span>
                 @endif
               </div>
-              <div>
+              <div class="form_m_20">
                 <input type="password" class="form-control" placeholder="Password" name="password"/>
                 @if($errors->has('password'))
                 <span class="text-danger">{{ $errors->first('password')}}</span>
@@ -58,7 +58,7 @@
 
               <div class="clearfix"></div>
 
-              <div class="separator">
+              <div class="">
                 <!-- <p class="change_link">New to site?
                   <a href="" class="to_register"> Create Account </a>
                 </p> -->
@@ -124,5 +124,6 @@
         </div> -->
       </div>
     </div>
+    @include('Admin.custom_js')
   </body>
 </html>
