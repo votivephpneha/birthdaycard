@@ -48,6 +48,8 @@ class CustomerController extends Controller{
         
 		if(Auth::attempt($user_data) && $user->status == 'Active')
 		{
+            Session::put("name1", $user->fname);
+            Session::put("proimg1", $user->image);
 			if($user_data['email']=="admin@gmail.com"){
 				session::flash('error', 'Email or Password is Incorrect.');
 				return redirect()->route('loginUser');
@@ -214,7 +216,9 @@ class CustomerController extends Controller{
 
 	public function front_logout()
     {
-        Auth::logout();
-        return Redirect("/loginUser");
+        
+            Auth::logout();
+            return Redirect("/loginUser");
+        
     }
 }

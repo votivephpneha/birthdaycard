@@ -263,7 +263,120 @@ $(".close").click(function(){
   });
 
 });
+var sum = 0;
+ $(".cart_price").each(function(i,val){
+    var card_price = $.trim($(this).html()).replace("$","");
+    sum = parseInt(sum) + parseInt(card_price);
+    console.log("cart_price",$.trim($(this).html()).replace("$",""));
 
+ });
+ console.log("cart_price",sum.toFixed(2));
+ $(".total_price").html("$"+sum.toFixed(2));
+
+function qtyInc(event,cart_id,cart_price,size_qty){
+  //alert(cart_id);
+  
+
+  if(event == 'plus'){
+
+    
+    $(".min-"+cart_id).removeAttr("disabled");
+    var qty_value = $("#qty-"+cart_id).val();
+    qty_value++;
+    $("#qty-"+cart_id).val(qty_value);
+    var price = qty_value * cart_price;
+    $("#qty-"+cart_id).val();
+    $(".cart_price-"+cart_id).text("$"+price.toFixed(2));
+    var remaining_qty = size_qty - qty_value;
+    //alert(remaining_qty);
+    if(remaining_qty<1){
+      $(".qty_td-"+cart_id).append("<p>Card quantity is not available</p>");
+      $(".plus-"+cart_id).attr("disabled","disabled");
+    }
+
+    $.ajax({
+      type: "post",
+      url: "{{ url('/post_cart') }}",
+      data: {cart_id:cart_id,qty:qty_value,_token:"{{ csrf_token() }}"},
+      cache: false,
+      success: function(data){
+         //$("#resultarea").text(data);
+      }
+    });
+
+    var price_sum = 0;
+    
+    $(".cart_price").each(function(i,val){
+      var price = $.trim($(this).html().replace("$",""));
+      
+      price_sum = parseInt(price_sum) + parseInt(price);
+    });
+    console.log("price",price_sum);
+    $(".total_price").html("$"+price_sum.toFixed(2));
+  }
+
+  if(event == 'minus'){
+    var qty_value = $("#qty-"+cart_id).val();
+    qty_value--;
+    if(qty_value < 2){
+      $(".min-"+cart_id).attr("disabled","disabled");
+    }
+    $("#qty-"+cart_id).val(qty_value);
+    var price = qty_value * cart_price;
+
+    $("#qty-"+cart_id).val();
+    $(".cart_price-"+cart_id).text("$"+price.toFixed(2));
+
+    $.ajax({
+      type: "post",
+      url: "{{ url('/post_cart') }}",
+      data: {cart_id:cart_id,qty:qty_value,_token:"{{ csrf_token() }}"},
+      cache: false,
+      success: function(data){
+         //$("#resultarea").text(data);
+      }
+    });
+
+    var price_sum = 0;
+    
+    $(".cart_price").each(function(i,val){
+      var price = $.trim($(this).html().replace("$",""));
+      
+      price_sum = parseInt(price_sum) + parseInt(price);
+    });
+    console.log("price",price_sum);
+    $(".total_price").html("$"+price_sum.toFixed(2));
+  }
+}
+
+var cart_id_array = localStorage.getItem("cart_id_array");
+  var arry_json = JSON.parse(cart_id_array);
+
+  
+  $.each(arry_json,function(i,val){
+      console.log("val",val);
+
+    $.ajax({
+      type: "GET",
+      url: "{{ url('cart_table') }}",
+      data: {cart_id:val},
+      cache: false,
+      success: function(data){
+        
+        
+      }
+    });
+    
+  });
+
+  $(".user_logout").click(function(){
+    localStorage.removeItem("cart_id_array");
+  });
+
+  function clickSize(size_value,card_size_price){
+    alert(size_value);
+    $(".card_size_price").val(card_size_price);
+  }
 </script>
   @yield('current_page_js')
 </body>

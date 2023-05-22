@@ -26,6 +26,8 @@
   <link href="{{ url('public/assets/css/style.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet">
   <style>
     .error{
       color:red;
@@ -261,6 +263,35 @@ $(".close").click(function(){
   });
 
 });
+
+ $(".editor-add-basket").click(function(){
+    var cart_id_array = localStorage.getItem("cart_id_array");
+    //console.log("cart_id_array",cart_id_array);
+    if(cart_id_array){
+      var cart_id = $(".cart1_id").val();
+      
+      if(cart_id_array.indexOf(cart_id) === -1){
+        var arry_json = JSON.parse(cart_id_array);
+        arry_json.push(cart_id);
+        var new_local = JSON.stringify(arry_json);
+        //console.log("cart_id_array",cart_id);
+        localStorage.setItem("cart_id_array",new_local);
+      }
+      
+      
+    }else{
+      var cart_id = $(".cart1_id").val();
+    
+      var cart_id_array = [];
+
+      
+      cart_id_array.push(cart_id);
+      var new_array = JSON.stringify(cart_id_array);
+      console.log("cart_id_array",new_array);
+      localStorage.setItem("cart_id_array",new_array);
+    }
+    
+  });
 
 </script>
   @yield('current_page_js')
