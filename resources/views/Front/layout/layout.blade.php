@@ -377,6 +377,19 @@ var cart_id_array = localStorage.getItem("cart_id_array");
     alert(size_value);
     $(".card_size_price").val(card_size_price);
   }
+
+  function remove_fav(favourite_card_id){
+    $.ajax({
+      type: "GET",
+      url: "{{ url('user/favourites_delete') }}",
+      data: {favourite_card_id:favourite_card_id},
+      cache: false,
+      success: function(data){
+        window.location.href = "{{ url('user/user_favourites') }}";
+        
+      }
+    });
+  }
 </script>
   @yield('current_page_js')
 </body>

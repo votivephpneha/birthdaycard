@@ -10,13 +10,15 @@
 @section('content')
 <style>
 	.cart_page{
-		margin-top:134px;
+		margin-top:50px;
 	}
 </style>
-<div class="container cart_page">
-	<div class="cart_header">
+<div class="cart_titlebar">
+<div class="container cart_header">
 		<h2>Cart</h2>
 	</div>
+</div>
+<div class="container cart_page">
 	<div class="cart_content">
 		    @if ($message = Session::get('message'))
 		      <div class="alert alert-success">
@@ -26,9 +28,10 @@
 		     @endif
 		     
 		     @if(count($cart_data) > 0)
-			<table class="table table-bordered">
+			<table class="table cart_infos">
 				<thead>
 					<tr>
+						<th></th>
 						<th>Image</th>
 						<th>Title</th>
 						<th>Quantity</th>
@@ -59,17 +62,17 @@
 							<td>
 								<span class="delete_icon" onclick="deleteCartItem('{{ $cart_item->cart_id }}')">
 									<i class="fa fa-trash"></i>
-								</span>
-								<img src="{{ url('public/upload/cards') }}/{{ $card_data[0]->card_image }}" style="width:100px;"></td>
-							<td>{{ $card_data[0]->card_title }}</td>
-							<td class="qty_td-{{ $cart_item->cart_id }}">
+								</span></td>
+								<td class="product-thumbnail"><img src="{{ url('public/upload/cards') }}/{{ $card_data[0]->card_image }}" style="width:100px;"></td>
+							<td class="product-title">{{ $card_data[0]->card_title }}</td>
+							<td class="qty_td-{{ $cart_item->cart_id }} qty-box">
 								
-								<button class="min-{{ $cart_item->cart_id }} button" onclick="qtyInc('minus','{{ $cart_item->cart_id }}','{{ $card_price }}','{{ $size_quantity }}')" @if($cart_item->qty < 2) disabled @endif>
+								<button class="min-{{ $cart_item->cart_id }} button min-qty" onclick="qtyInc('minus','{{ $cart_item->cart_id }}','{{ $card_price }}','{{ $size_quantity }}')" @if($cart_item->qty < 2) disabled @endif>
 								-
 								</button>
 
-								<input type="text" name="qty-{{ $cart_item->cart_id }}" id="qty-{{ $cart_item->cart_id }}" value="{{ $cart_item->qty }}" readonly />
-								<button class="plus-{{ $cart_item->cart_id }} button" onclick="qtyInc('plus','{{ $cart_item->cart_id }}','{{ $card_price }}','{{ $size_quantity }}')">
+								<input class="qty-cen" type="text" name="qty-{{ $cart_item->cart_id }}" id="qty-{{ $cart_item->cart_id }}" value="{{ $cart_item->qty }}" readonly />
+								<button class="plus-{{ $cart_item->cart_id }} button plus-qty" onclick="qtyInc('plus','{{ $cart_item->cart_id }}','{{ $card_price }}','{{ $size_quantity }}')">
 								+
 								</button>
 
@@ -94,7 +97,7 @@
 					@endforeach
 					
 					<tr>
-						<td colspan="4">Total</td>
+						<td colspan="5">Total</td>
 						<td class="total_price">
 							
 						</td>

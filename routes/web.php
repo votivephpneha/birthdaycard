@@ -77,7 +77,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'customer_auth'], function () 
 	Route::post('/postuser_ChangePassword', [CustomerController::class, 'postuser_ChangePassword'])->name('postuser_ChangePassword');
 	Route::get('/user_order', [CustomerController::class, 'user_order'])->name('user_order');
 	Route::get('/user_favourites', [CustomerController::class, 'user_favourites'])->name('user_favourites');
-
+	Route::get('/order_detail/{order_id}', [CustomerController::class, 'order_detail'])->name('order_detail');
+	Route::get('/favourites_delete', [CustomerController::class, 'favourites_delete'])->name('favourites_delete');
 	Route::get('/front_logout', [CustomerController::class, 'front_logout'])->name('front_logout');
 });
 

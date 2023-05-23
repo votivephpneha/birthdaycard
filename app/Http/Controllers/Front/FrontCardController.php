@@ -116,7 +116,9 @@ class FrontCardController extends Controller{
 	        if($data['video_data']){
 	        	$favourite_cards = DB::table('videos')->where('cart_id',$cart_id)->update(['video_name'=>$file->getClientOriginalName(),'qr_image_link'=>$qr_img_val, 'created_at'=>date('Y-m-d H:i:s')]);
 	        }else{
-	        	$favourite_cards = DB::table('videos')->insert(['card_id'=>$card_id,'card_size_id'=>$card_size_id,'video_name'=>$file->getClientOriginalName(),'cart_id'=>$cart_id, 'qr_image_link'=>$qr_img_val, 'created_at'=>date('Y-m-d H:i:s')]);
+	        	$video_id = DB::table('videos')->insertGetId(['video_name'=>$file->getClientOriginalName(),'cart_id'=>$cart_id, 'qr_image_link'=>$qr_img_val, 'created_at'=>date('Y-m-d H:i:s')]);
+	        	
+	        	$favourite_cards = DB::table('cart_table')->where('cart_id',$cart_id)->update(['video_id'=>$video_id, 'created_at'=>date('Y-m-d H:i:s')]);
 	        }
 
 	        session::flash('success', 'QR code is generated for this video');
@@ -190,15 +192,17 @@ class FrontCardController extends Controller{
 		if($text_font1 && $text_font2 && $text_font3){
 			if(empty($data['db_text_data'])){
 			
-				$post_text = DB::table('predesigned_text')->insert(['cart_id'=>$cart_id,'txt_id'=>1,'size'=>$text_size_font1,'color'=>$text_color_font1,'Text'=>$text_font1,'created_at'=>date('Y-m-d H:i:s')]);
+				$post_text1 = DB::table('predesigned_text')->insertGetId(['cart_id'=>$cart_id,'txt_id'=>1,'size'=>$text_size_font1,'color'=>$text_color_font1,'Text'=>$text_font1,'created_at'=>date('Y-m-d H:i:s')]);
 			
 			
-				$post_text = DB::table('predesigned_text')->insert(['cart_id'=>$cart_id,'txt_id'=>2,'size'=>$text_size_font2,'color'=>$text_color_font2,'Text'=>$text_font2,'created_at'=>date('Y-m-d H:i:s')]);
+				$post_text2 = DB::table('predesigned_text')->insertGetId(['cart_id'=>$cart_id,'txt_id'=>2,'size'=>$text_size_font2,'color'=>$text_color_font2,'Text'=>$text_font2,'created_at'=>date('Y-m-d H:i:s')]);
 			
 			
-				$post_text = DB::table('predesigned_text')->insert(['cart_id'=>$cart_id,'txt_id'=>3,'size'=>$text_size_font3,'color'=>$text_color_font3,'Text'=>$text_font3,'created_at'=>date('Y-m-d H:i:s')]);
+				$post_text3 = DB::table('predesigned_text')->insertGetId(['cart_id'=>$cart_id,'txt_id'=>3,'size'=>$text_size_font3,'color'=>$text_color_font3,'Text'=>$text_font3,'created_at'=>date('Y-m-d H:i:s')]);
 
-				$update_cart_status = DB::table('cart_table')->where('cart_id',$cart_id)->where('sizes',$card_size_id)->update(['status'=>1,'created_at'=>date('Y-m-d H:i:s')]);
+				$post_text = $post_text1.",".$post_text2.",".$post_text3;
+
+				$update_cart_status = DB::table('cart_table')->where('cart_id',$cart_id)->where('sizes',$card_size_id)->update(['status'=>1,'predesigned_text_id'=>$post_text,'created_at'=>date('Y-m-d H:i:s')]);
 				
 			}else{
 				
@@ -300,21 +304,20 @@ class FrontCardController extends Controller{
 				$card_size_id = $c_data->sizes;
 				$qty = $c_data->qty;
 				$card_price = $c_data->price;
-				$order_details = DB::table('order_details')->insert(['order_id'=>$order_id,'user_id'=>$user_id, 'card_id'=>$card_id, 'card_size_id'=>$card_size_id, 'qty'=>$qty, 'card_price'=>$card_price, 'created_at'=>date('Y-m-d H:i:s')]);
-				if($order_details){
-					DB::table('cart_table')->where('user_id',$user_id)->where('status',1)->delete();
-					$token = Str::random(64);
-			        
-					Mail::send('Front.order-invoice', ['token' => $token,'email'=>$email_address,'order_id'=>$order_id], function($message) use($request){
-				                $message->to($request->email_address);
-				                $message->from('votivephp.neha@gmail.com','BirthdayCards');
-				                $message->subject('Order Invoice');
-
-	    			});
-	            
-				}
+				$video_id = $c_data->video_id;
+				$predesigned_text_id = $c_data->predesigned_text_id;
+				$order_details = DB::table('order_details')->insert(['order_id'=>$order_id,'user_id'=>$user_id, 'card_id'=>$card_id, 'card_size_id'=>$card_size_id, 'video_id'=>$video_id, 'predesigned_text_id'=>$predesigned_text_id, 'qty'=>$qty, 'card_price'=>$card_price, 'created_at'=>date('Y-m-d H:i:s')]);
+				
 			}
+			$token = Str::random(64);
+			        
+			Mail::send('Front.order-invoice', ['token' => $token,'email'=>$email_address,'order_id'=>$order_id], function($message) use($request){
+		                $message->to($request->email_address);
+		                $message->from('votivephp.neha@gmail.com','BirthdayCards');
+		                $message->subject('Order Invoice');
 
+			});
+			DB::table('cart_table')->where('user_id',$user_id)->where('status',1)->delete();
 			return redirect('order_status/'.$order_id);
 
 		}	

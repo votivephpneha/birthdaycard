@@ -137,7 +137,23 @@ class CustomerController extends Controller{
     	if(Auth::user()->fname == 'admin'){
             return redirect()->route('loginUser');
         }
-    	return view("Front/user_order");
+        $user_id = Auth::user()->id;
+        $data['order_data'] = DB::table('order')->where(['customer_id' => $user_id])->get();
+
+        //print_r($data['order_data']);
+    	return view("Front/user_order")->with($data);
+    }
+
+    public function order_detail(Request $request)
+    {
+        $order_id = $request->order_id;
+        return view("Front/order_detail",['order_id'=>$order_id]);
+    }
+
+    public function favourites_delete(Request $request){
+        $favourite_card_id = $request->favourite_card_id;
+
+        DB::table('favourite_cards')->where(['favourite_card_id'=> $favourite_card_id])->delete();
     }
 
     public function user_favourites(){
@@ -145,8 +161,8 @@ class CustomerController extends Controller{
             return redirect()->route('loginUser');
         }
         $user_id = Auth::user()->id;
-        $data['favourites_data'] = DB::table('favourite_cards')->where(['user_id' => $user_id]);
-
+        $data['favourites_data'] = DB::table('favourite_cards')->where(['user_id' => $user_id])->get();
+        
     	return view("Front/user_favourites")->with($data);
     }
 
