@@ -63,13 +63,14 @@ class OrderController extends Controller
                       ->get();
 
         $card_details = DB::table("order_details")
-                        ->select("order_details.*","cards.card_title","card_sizes.card_size","card_sizes.card_price As price")
+                        ->select("order_details.*","cards.card_title","card_sizes.card_size","card_sizes.card_price As price","videos.qr_image_link")
                         ->leftJoin("order","order.order_id","=","order_details.order_id")
                         ->leftJoin("cards","cards.id","=","order_details.card_id")
-                        ->leftJoin("card_sizes","card_sizes.id","=","order_details.card_size_id")  
+                        ->leftJoin("card_sizes","card_sizes.id","=","order_details.card_size_id")
+                        ->leftJoin("videos","videos.video_id","=","order_details.video_id")   
                         ->where('order.id',$id)                    
                         ->get();
-
+                        
        $admindata = Auth::user();
                  
      return view("Admin.order_management.order_details",compact('orderdetail','admindata','card_details'));

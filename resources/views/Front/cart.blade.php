@@ -42,7 +42,7 @@
 				</thead>
 				<tbody class="cart_data">
 					
-					@foreach($cart_data as $cart_item)
+					<!-- @foreach($cart_data as $cart_item)
 						<?php
 
 							$card_data = DB::table('cards')->where('id',$cart_item->card_id)->get();
@@ -94,7 +94,7 @@
 							    </span>
 							</td>
 						</tr>
-					@endforeach
+					@endforeach -->
 					
 					<tr>
 						<td colspan="5">Total</td>
@@ -105,32 +105,50 @@
 				</tbody>
 			</table>
 			@else
-				<div>
-					<span>No item available.<a href="{{ url('birthday-cards') }}">Continue Shopping</a></span>
+				<div class="empty-cart">
+					<span>No item available.</span>
+					<span><a href="{{ url('birthday-cards') }}">Continue Shopping</a></span>
 				</div>
+				
+
 			@endif
+			
 			<div class="checkout_btn" style="text-align: right">
 				<a href="{{ url('checkout') }}">Checkout</a>
 			</div>
+			
 	</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript">
 	var cart_id_array = localStorage.getItem("cart_id_array");
 	var arry_json = JSON.parse(cart_id_array);
+		
+	if(!cart_id_array || arry_json.length<1){
+		$(".checkout_btn").hide();
+		$(".cart_infos").hide();
+		$(".empty-cart").show();
+	}
 
-	
+	var sum = 0;
 	$.each(arry_json,function(i,val){
-	    console.log("val",val);
+	    
 
 		$.ajax({
 		  type: "GET",
-		  url: "{{ url('cart_table') }}",
+		  url: "{{ url('cart_data') }}",
 		  data: {cart_id:val},
 		  cache: false,
 		  success: function(data){
+		  	//console.log("data",data);
+		  	$(".cart_data").prepend(data);
+		  	var card_price = $.trim($(".cart_price-"+val).html()).replace("$","");
 		  	
-		  	
+		  	sum = parseInt(sum) + parseInt(card_price);
+
+		  	console.log("cart_price2",sum);
+
+		  	$(".total_price").html("$"+sum.toFixed(2));
 		  }
 		});
 		
@@ -148,6 +166,15 @@
 		  	window.location.href = "{{ url('cart') }}"; 
 		  }
 		});
+
+		var cart_id_array = localStorage.getItem("cart_id_array");
+  		var arry_json = JSON.parse(cart_id_array);
+  		
+  		arry_json.pop(cart_id);
+  		console.log("arry_json",arry_json);
+
+  		var new_json = JSON.stringify(arry_json);
+  		localStorage.setItem("cart_id_array",new_json);
 	}
 	
   

@@ -116,13 +116,10 @@
 					<div class="order_div">
 						<h3>Your Order</h3>
 						<div class="total_cost_div">
-							<?php
-								$user_id = Auth::user()->id;
-								$cart_data = DB::table('cart_table')->where(['user_id' => $user_id])->where(['status' => 1])->get();
-							?>
+							
 							<div class="checkout_items">
-								<table style="width:100%">
-									@foreach($cart_data as $c_data)
+								<table style="width:100%" class="checkout_table_data">
+									<!-- @foreach($cart_data as $c_data)
 									<?php
 										$card_data = DB::table('cards')->where(['id' => $c_data->card_id])->get();
 									?>
@@ -141,14 +138,14 @@
 										</td>
 									</tr>
 								
-									@endforeach
+									@endforeach -->
 									<tr class="order_amt">
 										<th>Total Cost</th>
 										<td class="total_cost_order">
 											<input type="hidden" name="order_total_price" value="{{ $total_price }}">
-											<?php
-												echo "$".number_format((float)$total_price, 2, '.', '');
-											?>
+											<span class="pay_now_price">
+												
+											</span>
 										</td>
 									</tr>
 								</table>

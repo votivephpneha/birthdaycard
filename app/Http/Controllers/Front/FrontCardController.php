@@ -247,12 +247,22 @@ class FrontCardController extends Controller{
 		
 	}
 
+	public function cart_data(Request $request){
+		$cart_id = $request->cart_id;
+		$data['cart_data'] = DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->get();
+
+		
+		return view('Front/cart_data')->with($data);
+		
+	}
+
 	public function post_cart(Request $request){
 		$cart_id = $request->cart_id;
 		
 		$qty = $request->qty;
+		$price = $request->price;
 
-		$cart_update = DB::table('cart_table')->where('cart_id',$cart_id)->update(['qty'=>$qty,'created_at'=>date('Y-m-d H:i:s')]);
+		$cart_update = DB::table('cart_table')->where('cart_id',$cart_id)->update(['qty'=>$qty,'price'=>$price,'created_at'=>date('Y-m-d H:i:s')]);
 
 		
 	}
@@ -327,5 +337,14 @@ class FrontCardController extends Controller{
 		$order_id = $request->order_id;
 		
 		return view("Front/order_status",['order_id'=>$order_id]);
+	}
+
+	public function checkout_data(Request $request){
+
+		$cart_id = $request->cart_id;
+		$data['cart_data'] = DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->get();
+
+		
+		return view('Front/checkout_data')->with($data);
 	}
 }

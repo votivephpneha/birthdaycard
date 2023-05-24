@@ -87,6 +87,8 @@ Route::group(['prefix' => '', 'middleware' => 'customer_auth'], function () {
 	Route::get('/delete_cart_item', [FrontCardController::class, 'delete_cart_item'])->name('delete_cart_item');
 	Route::post('/post_cart', [FrontCardController::class, 'post_cart'])->name('post_cart');
 	Route::get('/cart_table', [FrontCardController::class, 'cart_table_show_data'])->name('cart_table');
+	Route::get('/cart_data', [FrontCardController::class, 'cart_data'])->name('cart_data');
+	Route::get('/checkout_data', [FrontCardController::class, 'checkout_data'])->name('checkout_data');
 	Route::get('/checkout/', [FrontCardController::class, 'checkout'])->name('checkout');
 	Route::post('/post_checkout', [FrontCardController::class, 'post_checkout'])->name('post_checkout');
 	Route::get('/order_status/{order_id}', [FrontCardController::class, 'order_status'])->name('order_status');

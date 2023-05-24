@@ -12,7 +12,7 @@
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{asset('public/images/favicon.ico')}}" type="image/ico" />
+    <link rel="icon" href="{{asset('public/images/newicon.ico')}}" type="image/ico" />
     <title>Order List | BirthdayCards</title>
     <div class="main_container">
         @include('Admin.layout.datatable_css')
@@ -159,7 +159,8 @@
                                                 @endif
                                                 <td> {{ date('d/m/Y', strtotime($arr->created_at))}}</td>
                                                 <td><button class="btn btn-dark p-2">
-                                                <a href="{{route('order-detail',[$arr->id])}}" class="text-white" style=" color: #FFFFFF;"><i class="fa fa-eye" ></i>View</button></a></td>                                                
+                                                <a href="{{route('order-detail',[$arr->id])}}" class="text-white" style=" color: #FFFFFF;"><i class="fa fa-eye" ></i>View</button></a>   
+                                            </td>                                                
                                             </tr>
                                             <?php $i++; ?>
                                             @endforeach
@@ -337,24 +338,33 @@
     });
    });
 
-    //  delete card
-    function check(id) {
-        if (confirm('Are you sure delete this card')) {
-            var cardid = $('.delete-card' + id).data('id');
+//  delete order
+function delete_subcategory(id) {
+    toastDelete.fire({}).then(function(e) {
+        if (e.value === true) {
+            var orderid = $('.delete-order' + id).data('id');
             $.ajax({
                 type: 'post',
-                url: "{{ route('delete.card.post') }}",
+                url: "",
                 data: {
                     _token: "{{csrf_token()}}",
-                    'id': cardid
-
+                    'id': orderid
                 },
                 success: function(data) {
-                    location.reload();
+                    const obj = JSON.parse(data);
+                    console.log(obj.msg);
+                    $("#row" + id).remove();
+                    success_noti(obj.msg);
+                    // $('#example').DataTable().ajax.reload();
                 }
             });
+        } else {
+            e.dismiss;
         }
-    };
+    }, function(dismiss) {
+        return false;
+    });
+};
 
 
     //Active Inactive status change 

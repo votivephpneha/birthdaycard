@@ -230,6 +230,46 @@ $(function() {
     }
   });
 });  
+
+  $(function() {
+  // Initialize form validation on the registration form.
+  // It has the name attribute "registration"
+  $("form[name='checkout_form']").validate({
+    // Specify validation rules
+    rules: {
+      // The key name on the left side is the name attribute
+      // of an input field. Validation rules are defined
+      // on the right side
+      fname: "required",
+      lname: "required",
+      address: "required",
+      city: "required",
+      country: "required",
+      post_code: "required",
+      phone_no: "required",
+      email_address: "required"
+      
+    },
+    // Specify validation error messages
+    messages: {
+      fname: "Please provide a first name",
+      lname: "Please provide a last name",
+      address: "Please provide address",
+      city: "Please provide city",
+      country: "Please provide country",
+      post_code: "Please provide a postal code",
+      phone_no: "Please provide a phone no",
+      email_address: "Please provide a email address"
+      
+      
+    },
+    // Make sure the form is submitted to the destination defined
+    // in the "action" attribute of the form when valid
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+});
 //  $(function() {
 //   // Initialize form validation on the registration form.
 //   // It has the name attribute "registration"
@@ -297,7 +337,7 @@ function qtyInc(event,cart_id,cart_price,size_qty){
     $.ajax({
       type: "post",
       url: "{{ url('/post_cart') }}",
-      data: {cart_id:cart_id,qty:qty_value,_token:"{{ csrf_token() }}"},
+      data: {cart_id:cart_id,price:price,qty:qty_value,_token:"{{ csrf_token() }}"},
       cache: false,
       success: function(data){
          //$("#resultarea").text(data);
@@ -330,7 +370,7 @@ function qtyInc(event,cart_id,cart_price,size_qty){
     $.ajax({
       type: "post",
       url: "{{ url('/post_cart') }}",
-      data: {cart_id:cart_id,qty:qty_value,_token:"{{ csrf_token() }}"},
+      data: {cart_id:cart_id,price:price,qty:qty_value,_token:"{{ csrf_token() }}"},
       cache: false,
       success: function(data){
          //$("#resultarea").text(data);
@@ -369,12 +409,12 @@ var cart_id_array = localStorage.getItem("cart_id_array");
     
   });
 
-  $(".user_logout").click(function(){
-    localStorage.removeItem("cart_id_array");
-  });
+  // $(".user_logout").click(function(){
+  //   localStorage.removeItem("cart_id_array");
+  // });
 
   function clickSize(size_value,card_size_price){
-    alert(size_value);
+    //alert(size_value);
     $(".card_size_price").val(card_size_price);
   }
 
@@ -390,6 +430,37 @@ var cart_id_array = localStorage.getItem("cart_id_array");
       }
     });
   }
+
+  var cart_id_array = localStorage.getItem("cart_id_array");
+  var arry_json = JSON.parse(cart_id_array);
+
+  var sum = 0;
+  $.each(arry_json,function(i,val){
+      
+
+    $.ajax({
+      type: "GET",
+      url: "{{ url('checkout_data') }}",
+      data: {cart_id:val},
+      cache: false,
+      success: function(data){
+        
+        $(".checkout_table_data").prepend(data);
+        var card_price = $.trim($(".total_card_price-"+val).html()).replace("$","");
+        
+        sum = parseInt(sum) + parseInt(card_price);
+
+        console.log("cart_price2",sum);
+
+        $(".pay_now_price").html("$"+sum.toFixed(2));
+        $(".order_total_price").val(sum.toFixed(2));
+      }
+    });
+    
+  });
+  $(".place-order-btn").click(function(){
+    localStorage.removeItem("cart_id_array");
+  });
 </script>
   @yield('current_page_js')
 </body>
