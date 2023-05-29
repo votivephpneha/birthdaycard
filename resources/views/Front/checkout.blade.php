@@ -17,18 +17,13 @@
 <div class="container checkout_header">
 		<h2>Checkout</h2>
 	</div>
-</div>
-<div class="container checkout_page">
 	<?php
 		$user = Auth::user();
-		$total_price = 0;
-		foreach ($cart_data as $c_data) {
-			
-			$total_price = $total_price + $c_data->price;
-		}
 		
-
 	?>
+</div>
+<div class="container checkout_page">
+	
 	<form method="post" name="checkout_form" action="{{ url('post_checkout') }}">
 		@csrf
 		<div class="row">
@@ -40,6 +35,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 						  	      <label for="first_name">First Name</label>
+						  	      <input type="hidden" name="cart_id_array" class="cart_id_array" value="">
 						  	      <input type="text" class="form-control" id="fname" placeholder="" name="fname" value="{{ $user->fname }}">
 						  	    </div>
 							</div>
@@ -53,30 +49,46 @@
 							<div class="col-md-12">
 								<div class="form-group">
 						  	      <label for="city">Country / Region</label>
-						  	      <input type="text" class="form-control" id="country" placeholder="" name="country">
+						  	     <!--  <input type="text" class="form-control" id="country" placeholder="" name="country"> -->
+						  	      <select class="form-control" id="country" placeholder="" name="country" onchange="changeCountry()">
+						  	      	<option value="">Select Countries</option>
+						  	      	@foreach($countries as $country)
+						  	      		<option value="{{ $country->id }}">{{ $country->name }}</option>
+						  	      	@endforeach
+						  	      </select>
+						  	    </div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+						  	      <label for="state">State</label>
+						  	      <!-- <input type="text" class="form-control" id="state" placeholder="" name="state"> -->
+						  	      <select class="form-control" id="state" placeholder="" name="state" onchange="changeState()">
+						  	      	<option value="">Select State</option>
+						  	      	
+						  	      </select>
+						  	    </div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+						  	      <label for="city">Town / City</label>
+						  	      <select class="form-control" id="city" placeholder="" name="city">
+						  	      	<option value="">Select Cities</option>
+						  	      	
+						  	      </select>
+						  	      <!-- <input type="text" class="form-control" id="city" placeholder="" name="city"> -->
 						  	    </div>
 							</div>
 							
 							<div class="col-md-12">
 								<div class="form-group">
 						  	      <label for="address">Street address </label>
-						  	      <input type="text" class="form-control" id="address" placeholder="" name="address" value="{{ $user->address }}">
+						  	      <input type="text" class="form-control" id="address" placeholder="" name="address" value="{{ $user->address }}" autocomplete="off">
 						  	    </div>
 							</div>
 							
-							<div class="col-md-12">
-								<div class="form-group">
-						  	      <label for="city">Town / City</label>
-						  	      <input type="text" class="form-control" id="city" placeholder="" name="city">
-						  	    </div>
-							</div>
 							
-							<div class="col-md-12">
-								<div class="form-group">
-						  	      <label for="state">State</label>
-						  	      <input type="text" class="form-control" id="state" placeholder="" name="state">
-						  	    </div>
-							</div>
+							
+							
 							
 							<div class="col-md-12">
 								<div class="form-group">
@@ -142,7 +154,7 @@
 									<tr class="order_amt">
 										<th>Total Cost</th>
 										<td class="total_cost_order">
-											<input type="hidden" name="order_total_price" value="{{ $total_price }}">
+											<input type="hidden" name="order_total_price" class="order_total_price" value="">
 											<span class="pay_now_price">
 												
 											</span>

@@ -10,7 +10,7 @@
   <meta content="" name="keywords">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="{{ url('public/assets/img/faviconc.png') }}" rel="icon">
+  <link rel="icon" href="{{asset('public/images/newicon.ico')}}" type="image/ico" />
   
   <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Source+Sans+Pro:wght@200;300;400;600;700&display=swap" rel="stylesheet">
 
@@ -230,7 +230,45 @@ $(function() {
     }
   });
 });  
-
+$(function() {
+  // Initialize form validation on the registration form.
+  // It has the name attribute "registration"
+  $("form[name='contact_form']").validate({
+    // Specify validation rules
+    rules: {
+      // The key name on the left side is the name attribute
+      // of an input field. Validation rules are defined
+      // on the right side
+      fname: "required",
+      email: {
+        required: true,
+        // Specify that email should be validated
+        // by the built-in "email" rule
+        email: true
+      },
+      phone_no: "required",
+      subject: "required",
+      message: "required",
+      
+    },
+    // Specify validation error messages
+    messages: {
+      fname: "Please enter your name",
+      phone_no: "Please enter your phone number",
+      subject: "Please enter the subject",
+      email: {
+        required: "Please enter the email address",
+        email: "Please enter a valid email address"
+      },
+      message: "Please enter the message",
+    },
+    // Make sure the form is submitted to the destination defined
+    // in the "action" attribute of the form when valid
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+});
   $(function() {
   // Initialize form validation on the registration form.
   // It has the name attribute "registration"
@@ -267,6 +305,7 @@ $(function() {
     // in the "action" attribute of the form when valid
     submitHandler: function(form) {
       form.submit();
+      localStorage.removeItem("cart_id_array");
     }
   });
 });
@@ -330,7 +369,7 @@ function qtyInc(event,cart_id,cart_price,size_qty){
     var remaining_qty = size_qty - qty_value;
     //alert(remaining_qty);
     if(remaining_qty<1){
-      $(".qty_td-"+cart_id).append("<p>Card quantity is not available</p>");
+      $(".qty_td-"+cart_id+" .qty_not_available").show();
       $(".plus-"+cart_id).attr("disabled","disabled");
     }
 
@@ -367,6 +406,13 @@ function qtyInc(event,cart_id,cart_price,size_qty){
     $("#qty-"+cart_id).val();
     $(".cart_price-"+cart_id).text("$"+price.toFixed(2));
 
+    var remaining_qty = size_qty - qty_value;
+    //alert(remaining_qty);
+    if(remaining_qty > 0){
+      $(".qty_td-"+cart_id+" .qty_not_available").hide();
+      $(".plus-"+cart_id).removeAttr("disabled");
+    }
+
     $.ajax({
       type: "post",
       url: "{{ url('/post_cart') }}",
@@ -376,6 +422,8 @@ function qtyInc(event,cart_id,cart_price,size_qty){
          //$("#resultarea").text(data);
       }
     });
+
+    
 
     var price_sum = 0;
     
@@ -432,6 +480,7 @@ var cart_id_array = localStorage.getItem("cart_id_array");
   }
 
   var cart_id_array = localStorage.getItem("cart_id_array");
+  $(".cart_id_array").val(cart_id_array);
   var arry_json = JSON.parse(cart_id_array);
 
   var sum = 0;
@@ -458,9 +507,156 @@ var cart_id_array = localStorage.getItem("cart_id_array");
     });
     
   });
-  $(".place-order-btn").click(function(){
-    localStorage.removeItem("cart_id_array");
+
+  function changeCountry(){
+    var country_id = $("#country").val();
+    //alert(country_id);
+    $.ajax({
+      type: "GET",
+      url: "{{ url('get_state') }}",
+      data: {country_id:country_id},
+      cache: false,
+      success: function(data){
+        //console.log("data",data);
+        
+          $("#state").html(data);
+        
+        
+      }
+    });
+  }
+
+  function changeState(){
+    var state_id = $("#state").val();
+    //alert(country_id);
+    $.ajax({
+      type: "GET",
+      url: "{{ url('get_city') }}",
+      data: {state_id:state_id},
+      cache: false,
+      success: function(data){
+        //console.log("data",data);
+        
+          $("#city").html(data);
+        
+        
+      }
+    });
+  }
+
+  function searchProduct(){
+    var search = $(".search").val();
+    //alert(search);
+    $.ajax({
+      type: "GET",
+      url: "{{ url('get_cards') }}",
+      data: {search_words:search},
+      cache: false,
+      success: function(data){
+        //console.log("data",data);
+        
+          //$("#city").html(data);
+        
+        
+      }
+    });
+  }
+function myFunction(){
+    
+    // var search = $(".search").val();
+    // alert(search);
+    // $.ajax({
+    //   type: "GET",
+    //   url: "{{ url('get_cards') }}",
+    //   data: {search_words:search},
+    //   cache: false,
+    //   success: function(data){
+    //     //console.log("data",data);
+        
+    //       //$("#city").html(data);
+        
+        
+    //   }
+    // });
+  }
+   function searchProduct(){
+
+    $(".search-drpdwn").show();
+    var search = $(".search").val();
+    //alert(search);
+    $.ajax({
+      type: "GET",
+      url: "{{ url('get_cards') }}",
+      data: {search_words:search},
+      cache: false,
+      success: function(data){
+        //console.log("data",data);
+        
+        $(".search-drpdwn-products").html(data);
+        
+        
+      }
+    });
+  }
+
+  $(document).mouseup(function(e){
+    var search_box = $(".search-drpdwn");
+
+    // If the target of the click isn't the container
+    if(!search_box.is(e.target) && search_box.has(e.target).length === 0){
+        search_box.hide();
+    }
   });
+  
+  $(document).ready (function () {  
+    $('#order-data').after ('<div id="nav"></div>');  
+    var rowsShown = 5;  
+    var rowsTotal = $('#order-data tbody tr').length;  
+    console.log("rowsTotal",rowsTotal);
+    var numPages = rowsTotal/rowsShown;  
+    for (i = 0;i < numPages;i++) {  
+        var pageNum = i + 1;  
+        $('#nav').append ('<a href="#" rel="'+i+'">'+pageNum+'</a> ');  
+    }  
+    $('#order-data tbody tr').hide();  
+    $('#order-data tbody tr').slice (0, rowsShown).show();  
+    $('#nav a:first').addClass('active');  
+    $('#nav a').bind('click', function() {  
+    $('#nav a').removeClass('active');  
+      $(this).addClass('active');  
+          var currPage = $(this).attr('rel');  
+          var startItem = currPage * rowsShown;  
+          var endItem = startItem + rowsShown;  
+          $('#order-data tbody tr').css('opacity','0.0').hide().slice(startItem, endItem).  
+          css('display','table-row').animate({opacity:1}, 300);  
+      });  
+    });   
+
+    function searchModel(card_id){
+       
+       $.ajax({
+        type: "GET",
+        url: "{{ url('searchModel') }}",
+        data: {card_id:card_id},
+        cache: false,
+        success: function(data){
+          //console.log("data",data);
+          
+          $(".searchModal").html(data);
+          $(".close").click(function(){
+            $(".modal").hide();
+          });
+          $(".card_carousel").owlCarousel({
+            items:1,
+            
+            nav:true,
+            dots:true
+          });
+
+          
+        }
+      });
+    }
 </script>
   @yield('current_page_js')
 </body>

@@ -67,6 +67,11 @@
                             <button type="button" class="close" data-dismiss="alert">×</button>
 
                             <strong>{{ Session::get('success')}}</strong>
+                            @php
+                            header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+                            header("Cache-Control: post-check=0, pre-check=0", false);
+                            header("Pragma: no-cache");
+                            @endphp
 
                         </div>
 
@@ -338,33 +343,7 @@
     });
    });
 
-//  delete order
-function delete_subcategory(id) {
-    toastDelete.fire({}).then(function(e) {
-        if (e.value === true) {
-            var orderid = $('.delete-order' + id).data('id');
-            $.ajax({
-                type: 'post',
-                url: "",
-                data: {
-                    _token: "{{csrf_token()}}",
-                    'id': orderid
-                },
-                success: function(data) {
-                    const obj = JSON.parse(data);
-                    console.log(obj.msg);
-                    $("#row" + id).remove();
-                    success_noti(obj.msg);
-                    // $('#example').DataTable().ajax.reload();
-                }
-            });
-        } else {
-            e.dismiss;
-        }
-    }, function(dismiss) {
-        return false;
-    });
-};
+
 
 
     //Active Inactive status change 

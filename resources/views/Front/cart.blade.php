@@ -27,7 +27,7 @@
 		    </div>
 		     @endif
 		     
-		     @if(count($cart_data) > 0)
+		     
 			<table class="table cart_infos">
 				<thead>
 					<tr>
@@ -104,14 +104,14 @@
 					</tr>
 				</tbody>
 			</table>
-			@else
-				<div class="empty-cart">
+			
+				<div class="empty-cart" style="display: none">
 					<span>No item available.</span>
 					<span><a href="{{ url('birthday-cards') }}">Continue Shopping</a></span>
 				</div>
 				
 
-			@endif
+			
 			
 			<div class="checkout_btn" style="text-align: right">
 				<a href="{{ url('checkout') }}">Checkout</a>
@@ -141,14 +141,20 @@
 		  cache: false,
 		  success: function(data){
 		  	//console.log("data",data);
-		  	$(".cart_data").prepend(data);
-		  	var card_price = $.trim($(".cart_price-"+val).html()).replace("$","");
+		  	if(data){
+		  		$(".cart_data").prepend(data);
+			  	var card_price = $.trim($(".cart_price-"+val).html()).replace("$","");
+			  	
+			  	sum = parseInt(sum) + parseInt(card_price);
+
+			  	console.log("cart_price2",sum);
+
+			  	$(".total_price").html("$"+sum.toFixed(2));
+			  }else{
+			  	$(".empty-cart").show();
+			  	$(".cart_infos").hide();
+			  }
 		  	
-		  	sum = parseInt(sum) + parseInt(card_price);
-
-		  	console.log("cart_price2",sum);
-
-		  	$(".total_price").html("$"+sum.toFixed(2));
 		  }
 		});
 		

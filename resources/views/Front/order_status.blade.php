@@ -58,6 +58,7 @@
 			<?php
 				$order = DB::table('order')->where('order_id',$order_id)->get();
 				$order_details = DB::table('order_details')->where('order_id',$order_id)->get();
+				//print_r($order);
 				
 				$i = 0;
 			?>

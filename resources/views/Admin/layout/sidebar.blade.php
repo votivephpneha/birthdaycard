@@ -79,6 +79,16 @@
                             <li><a href="{{route('content-pagelist')}}">List</a></li>
                         </ul>
                     </li>
+                    <li><a><i class="fa fa-phone"></i>Contact us<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{route('contactuslist')}}">List</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-file-image-o"></i>Blog Management<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{route('bloglist')}}">List</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

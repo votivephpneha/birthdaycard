@@ -46,7 +46,7 @@ class CustomerController extends Controller{
 	    );
         $user = User::where('email', '=', $request->email)->first();
         
-		if(Auth::attempt($user_data) && $user->status == 'Active')
+		if(Auth::guard("customer")->attempt($user_data) && $user->status == 'Active')
 		{
             Session::put("name1", $user->fname);
             Session::put("proimg1", $user->image);
@@ -233,7 +233,7 @@ class CustomerController extends Controller{
 	public function front_logout()
     {
         
-            Auth::logout();
+            Auth::guard("customer")->logout();
             return Redirect("/loginUser");
         
     }

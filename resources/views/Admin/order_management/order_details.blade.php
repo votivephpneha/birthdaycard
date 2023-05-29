@@ -10,6 +10,7 @@
 
 
 @section('current_page_js')
+
 <script type="text/javascript">
 $('#order_status').on('change', function() {
 
@@ -23,6 +24,27 @@ $('#order_status').on('change', function() {
     }
 
 });
+
+function myFunction(text_id) {
+    //alert(text_id);
+    var predta = text_id.split(',');
+    
+    var predesigned_ids = JSON.stringify(predta);
+    console.log("predesigned_ids",predesigned_ids);
+    //console.log("predta",val);
+    $.ajax({
+        type: 'get',
+        url: "{{ url('admin/getText') }}",
+        data: {text_id:predesigned_ids},
+        
+        success: function(resultData) { 
+            console.log(resultData);
+            $(".order_text_data").html(resultData);
+         }
+    });
+    
+    
+}
 </script>
 
 @endsection
@@ -200,8 +222,9 @@ $('#order_status').on('change', function() {
                                                 <th>Card Title</th>
                                                 <th>Card Size</th>
                                                 <th>Price</th>
-                                                <th style="width: ">Qr link</th>
+                                                <th >Qr link</th>
                                                 <th>Total</th>
+                                                <th>Predesign Text detail<th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -221,6 +244,9 @@ $('#order_status').on('change', function() {
                                                 @endif
                                                 <td>${{number_format($data->card_price, 2)}}
                                                 </td>
+                                                <td><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal"  onclick="myFunction('<?php echo $data->predesigned_text_id?>')">
+                                                 view
+                                                </button></td>
                                             </tr>
                                             @endforeach
                                             @endif
@@ -284,5 +310,60 @@ $('#order_status').on('change', function() {
         </div>
     </div>
 </div>
-<!-- /page content -->
+
+ <!-- Modal -->
+ <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Predesign Text</h4>
+        </div>
+        <div class="modal-body" style="padding:40px 50px;">
+        <div class="card_text_dtl">
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Text</th>
+      <th scope="col">Size</th>
+      <th scope="col">Font</th>
+      <th scope="col">Colour</th>
+      <th scope="col">Horizontal Alignment</th>
+      <th scope="col">Vertical Alignment</th>
+    </tr>
+  </thead>
+  <tbody class="order_text_data">
+    <!-- <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr> -->
+  </tbody>
+</table>
+        </div>          
+        </div>
+        <div class="modal-footer">
+          
+        </div>
+      </div>
+      
+    </div>
+  </div> 
+ 
 @endsection

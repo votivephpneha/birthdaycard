@@ -21,7 +21,7 @@
         <div class="order-details-div">
 
           @if(count($order_data))
-            <table style="width:100%" class="table table-bordered">
+            <table style="width:100%" class="table table-bordered" id="order-data">
               <thead>
                 <tr>
                   <th>Order ID</th>
