@@ -20,7 +20,7 @@ class CardController extends Controller
      */
     public function index()
     {
-      $data['cardList'] = DB::table('cards')->orderby('id', 'DESC')->get();
+      $data['cardList'] = DB::table('cards')->whereNull('gift_card')->orderby('id', 'DESC')->get();
       return view('Admin.admincardpages.card_list')->with($data);
     }
 
@@ -86,6 +86,7 @@ class CardController extends Controller
         $card->category_id = $request->category_id;
         $card->sub_category_id = $request->subcategory_id;
         $card->card_back_image =  $backimageName;
+        $card->gift_card =  null;
         $cardValue = $card->save();
 
         $files = $request->file('gall_image');
@@ -138,7 +139,7 @@ class CardController extends Controller
     {
         $carddata =  Card::find($id);
         $categorydata = Category::all();
-        $subcategory = Sub_category::all();
+        $subcategory = Sub_category::where('category_id', $carddata->category_id)->get();
         return view('Admin.admincardpages.edit_card',compact('carddata','categorydata','subcategory'));
     }
 
@@ -197,6 +198,7 @@ class CardController extends Controller
             $cardfind->category_id = $request->category_id;
             $cardfind->sub_category_id = $request->subcategory_id; 
             $cardfind->card_back_image =  $backimageName;
+            $cardfind->gift_card =  null;
 
             $cardupdatevalue = $cardfind->save();
 
@@ -378,4 +380,10 @@ class CardController extends Controller
                 );
        return response()->json('Card status changed successfully.');
 	}
+
+    public function getsubcatlist(Request $request){
+      $cat_id = $request->categ_id;
+      $data['sublist'] = Sub_category::where('category_id',$cat_id)->get();
+      return view('Admin.admincardpages.subcatlist')->with($data);
+    }
 }

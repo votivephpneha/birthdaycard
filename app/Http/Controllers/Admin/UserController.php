@@ -214,8 +214,10 @@ class UserController extends Controller
  
              if($request->password == ""){
                  $password = $userfind->password;
+                 $temp_pass = $userfind->temp_password;
              }else{
                  $password = Hash::make($request->password);
+                 $temp_pass = $request->password;
              }
  
              $userfind->fname = $request->name;
@@ -223,6 +225,8 @@ class UserController extends Controller
              $userfind->phone = $request->user_mob;
              $userfind->email = $request->email;
              $userfind->status = $status;
+             $userfind->password = $password;
+             $userfind->temp_password = $temp_pass;
              $userfind->address = $request->user_add;
              $userfind->image = $imageName;
              $userfind->role = "user";

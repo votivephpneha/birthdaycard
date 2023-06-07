@@ -71,13 +71,24 @@
 				<tr>
 					<td>{{ $i }}</td>
 					<td style="color: #ff0091;font-weight: 600;">{{ $card_detail[0]->card_title }}</td>
-					<td>{{ $card_size_detail[0]->card_type }}<br>{{ $card_size_detail[0]->card_size }}</td>	
+					<td>
+						@if($o_det->card_size_id != 0)
+						{{ $card_size_detail[0]->card_type }}<br>{{ $card_size_detail[0]->card_size }}
+						@else
+							Gift
+						@endif
+					</td>	
 						
 					<td>{{ $o_det->qty }}</td>	
 					<td>
 						<?php
-							$card_price = $card_size_detail[0]->card_price;	
-							echo "$".number_format((float)$card_price, 2, '.', '');
+						    if($o_det->card_size_id != 0){
+								$card_price = $card_size_detail[0]->card_price;	
+								echo "$".number_format((float)$card_price, 2, '.', '');
+							}else{
+								$gift_price = $o_det->card_price;
+								echo "$".number_format((float)$gift_price, 2, '.', '');
+							}
 						?>
 						
 					</td>	

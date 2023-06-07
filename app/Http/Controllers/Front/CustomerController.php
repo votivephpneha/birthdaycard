@@ -157,13 +157,15 @@ class CustomerController extends Controller{
     }
 
     public function user_favourites(){
-    	if(Auth::user()->fname == 'admin'){
-            return redirect()->route('loginUser');
+        if(Auth::guard('customer')->user()){
+        	$user_id = Auth::guard('customer')->user()->id;
+            $data['favourites_data'] = DB::table('favourite_cards')->where(['user_id' => $user_id])->get();
+
+            return view("Front/user_favourites")->with($data);
+        }else{
+            return view("Front/user_favourites");
         }
-        $user_id = Auth::user()->id;
-        $data['favourites_data'] = DB::table('favourite_cards')->where(['user_id' => $user_id])->get();
         
-    	return view("Front/user_favourites")->with($data);
     }
 
     public function forget_password(){
@@ -191,7 +193,7 @@ class CustomerController extends Controller{
             
              Mail::send('Front.forget-password-email', ['token' => $token,'email'=>$request->email], function($message) use($request){
                 $message->to($request->email);
-                $message->from('info@votiveinfo.in','BirthdayCards');
+                $message->from('birthday@birthdaystoreuk.co.uk','BirthdayCards');
                 $message->subject('Reset Password');
             });
 

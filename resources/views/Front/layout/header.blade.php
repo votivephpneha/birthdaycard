@@ -61,19 +61,16 @@
             <a href="#"><i class='bx bx-menu'></i></a>
             <ul class="">
               <li><a href="{{ url('birthday-cards') }}">BIRTHDAY CARDS</a></li>
-              <li><a href="#">WRAPPING PAPERS</a></li>
-              <li><a href="#">MONEY CLIPS</a></li>
-              <li><a href="#">PHONE ACCESSORIES</a></li>
-              <li><a href="#">BLOG</a></li>
+              <li><a href="{{ url('gift_card') }}">Gifts</a></li>
+              <li><a href="{{ url('blogs') }}">BLOG</a></li>
               <li><a href="{{ url('contact-us') }}">CONTACT US</a></li>
+              
             </ul>
           </li>
           <div class="menu1">
-            <li><a href="#">BIRTHDAY CARDS</a></li>
-            <li><a href="#">WRAPPING PAPERS</a></li>
-            <li><a href="#">MONEY CLIPS</a></li>
-            <li><a href="#">PHONE ACCESSORIES</a></li>
-            <li><a href="#">BLOG</a></li>
+            <li><a href="{{ url('birthday-cards') }}">BIRTHDAY CARDS</a></li>
+            <li><a href="#">Gifts</a></li>
+            <li><a href="{{ url('blogs') }}">BLOG</a></li>
             <li><a href="{{ url('contact-us') }}">CONTACT US</a></li>
           </div>
 
@@ -85,7 +82,7 @@
             @endif
           </li>
           <li><a class="nav-link " href="{{ url('cart') }}"><i class='bx bx-cart'></i></a></li>
-          <li><a class="getstarted " href="#"> Design Your Card</a></li>
+          <li><a class="getstarted " href="{{ url('birthday-cards') }}"> Design Your Card</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->

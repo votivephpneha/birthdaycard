@@ -87,6 +87,16 @@ $(document).ready(function() {
               </div>
             </div>
             <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Description">Blog Thumb Image<span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="file" id="blog_thumb_image" name="blog_thumb_image"  class="form-control col-md-7 col-xs-12">
+                @if($errors->has('blog_thumb_image'))
+              <span class="text-danger">{{ $errors->first('blog_thumb_image')}}</span>
+              @endif
+              </div>
+            </div>
+            <div class="form-group">
               <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Blog Status</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                   <select name="blog_status" id="blog_status"  class="form-control">

@@ -49,13 +49,24 @@
 				<tr>
 					<td style="padding: 10px 20px; font-size: 16px; border: 0px !important; text-align: left !important; background: transparent !important; border-bottom: 1px solid #ececec !important; vertical-align: middle;text-align: center !important;">{{ $i }}</td>
 					<td style="color: #ff0091;padding: 10px 20px; font-size: 16px; border: 0px !important; text-align: left !important; background: transparent !important; border-bottom: 1px solid #ececec !important; vertical-align: middle;text-align: center !important;">{{ $card_detail[0]->card_title }}</td>
-					<td style="padding: 10px 20px; font-size: 16px; border: 0px !important; text-align: left !important; background: transparent !important; border-bottom: 1px solid #ececec !important; vertical-align: middle;text-align: center !important;">{{ $card_size_detail[0]->card_type }}<br>{{ $card_size_detail[0]->card_size }}</td>	
+					<td style="padding: 10px 20px; font-size: 16px; border: 0px !important; text-align: left !important; background: transparent !important; border-bottom: 1px solid #ececec !important; vertical-align: middle;text-align: center !important;">
+						@if($o_det->card_size_id != 0)
+						{{ $card_size_detail[0]->card_type }}<br>{{ $card_size_detail[0]->card_size }}
+						@else
+							Gift
+						@endif
+					</td>	
 						
 					<td style="padding: 10px 20px; font-size: 16px; border: 0px !important; text-align: left !important; background: transparent !important; border-bottom: 1px solid #ececec !important; vertical-align: middle;text-align: center !important;">{{ $o_det->qty }}</td>	
 					<td style="padding: 10px 20px; font-size: 16px; border: 0px !important; text-align: left !important; background: transparent !important; border-bottom: 1px solid #ececec !important; vertical-align: middle;text-align: center !important;">
 						<?php
-							$card_price = $card_size_detail[0]->card_price;	
-							echo "$".number_format((float)$card_price, 2, '.', '');
+						    if($o_det->card_size_id != 0){
+								$card_price = $card_size_detail[0]->card_price;	
+								echo "$".number_format((float)$card_price, 2, '.', '');
+							}else{
+								$gift_price = $o_det->card_price;
+								echo "$".number_format((float)$gift_price, 2, '.', '');
+							}
 						?>
 						
 					</td>	

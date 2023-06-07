@@ -16,7 +16,7 @@
 	    <div class="col-md-9">
 	    	<div class="user-profile-tab">
 		    	<h2>Order Details</h2>
-		    	<div class="order-details-div">
+		    	<div class="order-details-div table-responsive">
 					<table style="width:100%;" class="table table-bordered">
 						<thead>
 							<tr>

@@ -9,8 +9,20 @@
 
 @section('content')
 
+<?php
+  
+?>
 
 <div class="container">
+  @if(empty(Auth::guard('customer')->user()))
+  <div class="fav-wish">
+  <div class="row user_wishlist_div">  
+    <h2>My favourites</h2>
+    <div class="login_wishlist">Please <a href="{{ url('loginUser') }}">login</a> first</div>
+  </div>  
+  </div>
+  @else  
+  
   <div class="row user_profile_div">
     <div class="col-md-3">
       @include('Front.user_header')
@@ -119,6 +131,7 @@
       </div>
     </div>
   </div>
-  
+  @endif
 </div>  
+
 @endsection

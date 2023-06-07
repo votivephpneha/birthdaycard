@@ -18,7 +18,7 @@
     <div class="col-md-9">
       <div class="user-profile-tab">
         <h2>My Orders</h2>
-        <div class="order-details-div">
+        <div class="order-details-div table-responsive">
 
           @if(count($order_data))
             <table style="width:100%" class="table table-bordered" id="order-data">

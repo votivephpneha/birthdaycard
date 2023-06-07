@@ -9,6 +9,24 @@
 
 
 @section('current_page_js')
+<script>
+  $('#category_id').change(function () {
+    var cat_id = $(this).val();
+    $.ajax({
+     url: "{{route('get.subcatlist')}}",
+     type : "POST",
+     data :{
+       _token: "{{csrf_token()}}",
+      categ_id : cat_id
+     },
+     success:function(response){
+        console.log(response);
+        $('#subcategory_id').html(response);
+     }
+    });
+   
+  });  
+</script>
 
 @endsection
 
@@ -119,9 +137,6 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <select name="subcategory_id" id="subcategory_id" class="form-control">
                                         <option value="">No sub category</option>
-                                        @foreach($subcategory as $data)
-                                        <option value="{{$data->id}}">{{$data->name}}</option>
-                                        @endforeach
                                     </select>
                                     @if($errors->has('subcategory_id'))
                                     <span class="text-danger">{{ $errors->first('subcategory_id')}}</span>

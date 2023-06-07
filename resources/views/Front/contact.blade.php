@@ -11,10 +11,21 @@
 
 <section class="registration-page">
   <div class="container reg-page">
-    <div class="row background-login">
+	<div class="row contact_det_info">
+	<h2 class="pt-3 mb-3">Contact Us</h2>
+		<p>Please Contact Us Using One Of The Methods Below Or Simply Fill Out the Form Below</p>
+		<p>E-mail: <a href="mailto:info@gmail.com">info@gmail.com</a></p>
+		<p>Phone: 0123456789</p>
+		<p>If Your Requesting A Free Sample In The "Your Subject/Order Number" Section Please Type</p>
+		<p>"Free Sample".</p>
+		<p>Also,</p>
+		<p>In The "Your Message" Section Please Type Your Delivery Address</p>
+		<span>Please fill out the form to contact us and we will get back to you within 24 hours</span>
+	</div>
+    <div class="row contact--form">
       <div class="col-md-12 col-lg-12 m-auto">
     <div class="user_registration section-title-signup">
-        <h2 class="pt-3 mb-3">Contract Us</h2>
+        
         @if ($message = Session::get('email_error'))
         <div class="alert alert-danger">
         	  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -31,12 +42,12 @@
   	  	@csrf
   	    <div class="form-group">
   	      <label for="email">Name</label>
-  	      <input type="text" class="form-control" id="fname" placeholder="" name="fname">
+  	      <input type="text" class="form-control" id="fname" placeholder="Your Name" name="fname">
   	    </div>
   	    
   	    <div class="form-group">
   	      <label for="email">Email</label>
-  	      <input type="email" class="form-control" id="email" placeholder="" name="email">
+  	      <input type="email" class="form-control" id="email" placeholder="Your Email Address" name="email">
   	    </div>
   	    <div class="form-group mb-tm">
           <label for="phone_no">Phone No:</label>

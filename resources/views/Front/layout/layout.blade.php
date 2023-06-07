@@ -309,6 +309,46 @@ $(function() {
     }
   });
 });
+  $(function() {
+  // Initialize form validation on the registration form.
+  // It has the name attribute "registration"
+  $("form[name='trackorder_form']").validate({
+    // Specify validation rules
+    rules: {
+      // The key name on the left side is the name attribute
+      // of an input field. Validation rules are defined
+      // on the right side
+      order_no: "required",
+      email_phone: "required"
+      
+    },
+    // Specify validation error messages
+    messages: {
+      order_no: "Please provide the order number",
+      email_phone: "Please provide the email or phone number"
+      
+      
+    },
+    // Make sure the form is submitted to the destination defined
+    // in the "action" attribute of the form when valid
+    submitHandler: function(form) {
+      console.log("form",form);
+      var order_no = $("#order_no").val();
+      var email_phone = $("#email_phone").val();
+
+      $.ajax({
+        type: "POST",
+        url: "{{ url('trackorder_submit') }}",
+        data: {order_no:order_no,email_phone:email_phone,_token:"{{ csrf_token() }}"},
+        cache: false,
+        success: function(data){
+          console.log("data",data);
+          $(".order_track_data").html(data);
+        }
+      });
+    }
+  });
+});
 //  $(function() {
 //   // Initialize form validation on the registration form.
 //   // It has the name attribute "registration"
@@ -609,7 +649,7 @@ function myFunction(){
   });
   
   $(document).ready (function () {  
-    $('#order-data').after ('<div id="nav"></div>');  
+    $('.order-details-div').after ('<div id="nav"></div>');  
     var rowsShown = 5;  
     var rowsTotal = $('#order-data tbody tr').length;  
     console.log("rowsTotal",rowsTotal);
@@ -657,6 +697,52 @@ function myFunction(){
         }
       });
     }
+
+    function giftSubmit(gift_card_id,gift_card_qty,gift_card_price){
+      
+      
+
+      $.ajax({
+        type: "POST",
+        url: "{{ url('submit_gift') }}",
+        data: {gift_card_id:gift_card_id,gift_card_qty:gift_card_qty,gift_card_price:gift_card_price,_token:"{{ csrf_token() }}"},
+        cache: false,
+        success: function(data){
+          console.log("data",data);
+          
+          var cart_id_array = localStorage.getItem("cart_id_array");
+          //console.log("cart_id_array",cart_id_array);
+          if(cart_id_array){
+            
+            
+            if(cart_id_array.indexOf(cart_id) === -1){
+              var arry_json = JSON.parse(cart_id_array);
+              arry_json.push(data);
+              var new_local = JSON.stringify(arry_json);
+              //console.log("cart_id_array",cart_id);
+              localStorage.setItem("cart_id_array",new_local);
+            }
+            
+            
+          }else{
+            var cart_id = $(".cart1_id").val();
+          
+            var cart_id_array = [];
+
+            
+            cart_id_array.push(data);
+            var new_array = JSON.stringify(cart_id_array);
+            console.log("cart_id_array",new_array);
+            localStorage.setItem("cart_id_array",new_array);
+          }
+
+          window.location.href = "{{ url('birthday-cards') }}";  
+        }
+
+      });
+      
+      
+    };
 </script>
   @yield('current_page_js')
 </body>

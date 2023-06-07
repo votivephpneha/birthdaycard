@@ -90,15 +90,15 @@ function myFunction(text_id) {
                                     <select class="select2_group form-control" name="order_status" id="order_status">
                                     <!-- <optgroup label="Select order status"> -->
                                     <option value="0" @if($orderdetail[0]->order_status == 0) selected @endif
-                                            >Pending</option>
+                                            >Ordered</option>
                                         <option value="1" @if($orderdetail[0]->order_status == 1) selected @endif
-                                            >Accept</option>
+                                            >In Progress</option>
                                         <option value="2" @if($orderdetail[0]->order_status == 2) selected @endif
                                             >Cancelled</option>
-                                        <option value="3" @if($orderdetail[0]->order_status == 3) selected @endif >On
-                                            the way</option>
-                                        <option value="4" @if($orderdetail[0]->order_status == 4) selected @endif
-                                            >Delivered</option>
+                                        <option value="3" @if($orderdetail[0]->order_status == 3) selected @endif >Order ready</option>
+                                        <option value="4" @if($orderdetail[0]->order_status == 4) selected @endif >In transit</option>
+                                        <option value="6" @if($orderdetail[0]->order_status == 5) selected @endif >Out for delivery</option>
+                                        <option value="4" @if($orderdetail[0]->order_status == 6) selected @endif >Delivered</option>
                                   </optgroup>
                                  </select> 
                                  <div id="cancel_area"></div>
@@ -165,13 +165,13 @@ function myFunction(text_id) {
                                         <!-- <br> -->
                                         <br>Phone: {{$admindata->phone}}
                                         <br>Email: {{$admindata->email}}<br><br>
-                                        <b>Order Status:</b> @if($orderdetail[0]->order_status ==0) Pending @endif
-                                        @if($orderdetail[0]->order_status ==1) Accept @endif
+                                        <b>Order Status:</b> @if($orderdetail[0]->order_status ==0) Ordered  @endif
+                                        @if($orderdetail[0]->order_status ==1) In Progress @endif
                                         @if($orderdetail[0]->order_status ==2) Cancelled @endif
-                                        @if($orderdetail[0]->order_status ==3) On the way @endif
-                                        @if($orderdetail[0]->order_status ==4) Delivered @endif
-                                        @if($orderdetail[0]->order_status ==5) Requested for return @endif
-                                        @if($orderdetail[0]->order_status ==6) Return request accepted @endif
+                                        @if($orderdetail[0]->order_status ==3) Order ready @endif
+                                        @if($orderdetail[0]->order_status ==4)In transit @endif
+                                        @if($orderdetail[0]->order_status ==5) Out for delivery @endif
+                                        @if($orderdetail[0]->order_status ==6)Delivered @endif
                                         @if($orderdetail[0]->order_status ==7) Return request declined @endif <br>
                                         <?php if(!empty($orderdetail[0]->cancel_reason)){ ?>
                                         <b>Cancel Reason:</b> {{$orderdetail[0]->cancel_reason  }}

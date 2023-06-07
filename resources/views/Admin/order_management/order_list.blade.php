@@ -152,15 +152,19 @@
                                                 <td>{{$arr->fname." ".$arr->lname}}</td>
                                                 <td>${{number_format($arr->total, 2)}}</td>
                                                 @if($arr->order_status == 0)
-                                                <td>Pending</td>
+                                                <td>Ordered</td>
                                                 @elseif ($arr->order_status == 1)
-                                                <td>Accept</td>
+                                                <td>In Progress</td>
                                                 @elseif ($arr->order_status == 2)
                                                 <td>Cancelled</td>
                                                 @elseif ($arr->order_status == 3)
-                                                <td>On the way</td>
+                                                <td>Order ready</td>
+                                                @elseif ($arr->order_status == 4)
+                                                <td>In transit</td>
+                                                @elseif ($arr->order_status == 5)
+                                                <td>Out for delivery</td>
                                                 @else
-                                                <td>'Delivered</td>
+                                                <td>Delivered</td>
                                                 @endif
                                                 <td> {{ date('d/m/Y', strtotime($arr->created_at))}}</td>
                                                 <td><button class="btn btn-dark p-2">

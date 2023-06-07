@@ -87,13 +87,13 @@
                  
                   <div class="myOrderstatus project_detail">
                   <p class="title order_status">Order Status:</p>
-                  <p>@if($paytrandata[0]->order_status ==0) Pending @endif
-                                        @if($paytrandata[0]->order_status ==1) Accept @endif
+                  <p>@if($paytrandata[0]->order_status ==0) Ordered @endif
+                                        @if($paytrandata[0]->order_status ==1) In Progress @endif
                                         @if($paytrandata[0]->order_status ==2) Cancelled @endif
-                                        @if($paytrandata[0]->order_status ==3) On the way @endif
-                                        @if($paytrandata[0]->order_status ==4) Delivered @endif
-                                        @if($paytrandata[0]->order_status ==5) Requested for return @endif
-                                        @if($paytrandata[0]->order_status ==6) Return request accepted @endif
+                                        @if($paytrandata[0]->order_status ==3) Order ready @endif
+                                        @if($paytrandata[0]->order_status ==4) In transit @endif
+                                        @if($paytrandata[0]->order_status ==5) Out for delivery @endif
+                                        @if($paytrandata[0]->order_status ==6) Delivered @endif
                                         @if($paytrandata[0]->order_status ==7) Return request declined @endif </p>
                   </div>
 				  <div class="myOrderDtel order_date">

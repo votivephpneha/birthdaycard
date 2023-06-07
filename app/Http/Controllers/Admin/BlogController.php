@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 
@@ -44,6 +44,7 @@ class BlogController extends Controller
             "blog_image" => "required",
             "blog_status" => "required",
             "blog_content" => "required",
+            "blog_thumb_image" => 'required',
         ]);
 
 
@@ -53,11 +54,18 @@ class BlogController extends Controller
             $image->move(public_path("upload/blogs"), $imageName);
         }
 
+        if ($request->hasFile("blog_thumb_image")) {
+            $thumbimage = $request->file("blog_thumb_image");
+            $thumbimageName =  Str::random(6) . time() . '.' . $thumbimage->getClientOriginalExtension();
+            $thumbimage->move(public_path("upload/blogs"), $thumbimageName);
+        }
+
         $blog = new Blog();
         $blog->blog_title = $request->blog_title;
         $blog->blog_description = $request->blog_content;
         $blog->status = $request->blog_title;
-        $blog->blog_image = $imageName;        
+        $blog->blog_image = $imageName;  
+        $blog->blog_thumb_image = $thumbimageName;      
         $blogValue = $blog->save();
  
         if($blogValue ){
@@ -112,12 +120,21 @@ class BlogController extends Controller
             } else {
                 $imageName = $blogfind->blog_image;
             }
-          
+                
+            if ($request->hasFile("blog_thumb_image")) {
+                $bthumimage = $request->file("blog_thumb_image");
+                $bthumbimageName =  Str::random(6) .time().'.'.$bthumimage->getClientOriginalExtension();
+                $bthumimage->move(public_path("/upload/blogs"), $bthumbimageName);
+            } else {
+                $bthumbimageName = $blogfind->blog_thumb_image;
+            }
+            // dd($bthumbimageName);
             // $cardfind->price = $request->price ;
             $blogfind->blog_title = $request->blog_title ;
             $blogfind->blog_description = $request->blog_content;
             $blogfind->status = $request->blog_status;
-            $blogfind->blog_image = $imageName;    
+            $blogfind->blog_image = $imageName;   
+            $blogfind->blog_thumb_image = $bthumbimageName;  
             $blogfindvalue = $blogfind->save();
             if($blogfindvalue ){
                 return redirect("admin/blog-list")->with(

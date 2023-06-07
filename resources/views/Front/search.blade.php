@@ -8,6 +8,7 @@
 @endsection
 
 @section('content')
+<div class="empty--search">
 <div class="container card_page">
 	<div class="card_header">
 		<h2>Search results for "{{ $request_data }}":@if(count($search_data) <= 0) No Result Found @endif</h2>
@@ -155,6 +156,7 @@
   </div>
 		@endforeach
 	</div>
+</div>
 </div>	
 
 @endsection

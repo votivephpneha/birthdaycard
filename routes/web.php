@@ -19,9 +19,12 @@ use App\Http\Controllers\Front\FrontCardController;
 use App\Http\Controllers\Admin\FavouriteCardsController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\VoucherCodeController;
+use App\Http\Controllers\Admin\GiftController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ContactusController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Front\StaticPageController;
+use App\Http\Controllers\Front\OrdertrackingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +80,17 @@ Route::get('/searchModel/', [FrontCardController::class, 'searchModel'])->name('
 Route::post('/search_submit/', [FrontCardController::class, 'search_submit'])->name('search_submit');
 Route::get('/contact-us/', [FrontCardController::class, 'contact_us'])->name('contact-us');
 Route::post('/submitContact/', [FrontCardController::class, 'submitContact'])->name('submitContact');
+Route::get('/privacy-policy/', [FrontCardController::class, 'about_us'])->name('about-us');
+Route::get('/terms-service/', [StaticPageController::class, 'index'])->name('terms_service');
+Route::get('/refund_policy/', [StaticPageController::class, 'refund_policy'])->name('refund_policy');
+Route::get('/shipping_policy/', [StaticPageController::class, 'shipping_policy'])->name('shipping_policy');
+Route::get('/user_favourites', [CustomerController::class, 'user_favourites'])->name('user_favourites');
+Route::get('/order-track/', [OrdertrackingController::class, 'index'])->name('order-track');
+Route::post('/trackorder_submit/', [OrdertrackingController::class, 'trackorder_submit'])->name('trackorder_submit');
+Route::get('/blogs/', [HomeController::class, 'blogs'])->name('blogs');
+Route::get('/blog_detail/{blog_id}', [HomeController::class, 'blog_detail'])->name('blog_detail');
+Route::get('/gift_card/', [HomeController::class, 'gift_card'])->name('gift_card');
+Route::post('/submit_gift/', [HomeController::class, 'submit_gift'])->name('submit_gift');
 Route::group(['prefix' => 'user', 'middleware' => 'customer_auth:customer'], function () {
 	Route::get('/userProfile', [CustomerController::class, 'userProfile'])->name('userProfile');
 	Route::post('/postuserProfile', [CustomerController::class, 'postuserProfile'])->name('postuserProfile');
@@ -88,13 +102,13 @@ Route::group(['prefix' => 'user', 'middleware' => 'customer_auth:customer'], fun
 	Route::get('/favourites_delete', [CustomerController::class, 'favourites_delete'])->name('favourites_delete');
 	Route::get('/front_logout', [CustomerController::class, 'front_logout'])->name('front_logout');
 });
-
-Route::group(['prefix' => '', 'middleware' => 'customer_auth:customer'], function () {
-	Route::get('/cart', [FrontCardController::class, 'cart_page'])->name('cart_page');
-	Route::get('/delete_cart_item', [FrontCardController::class, 'delete_cart_item'])->name('delete_cart_item');
-	Route::post('/post_cart', [FrontCardController::class, 'post_cart'])->name('post_cart');
-	Route::get('/cart_table', [FrontCardController::class, 'cart_table_show_data'])->name('cart_table');
-	Route::get('/cart_data', [FrontCardController::class, 'cart_data'])->name('cart_data');
+Route::get('/cart', [FrontCardController::class, 'cart_page'])->name('cart_page');
+Route::get('/cart_data', [FrontCardController::class, 'cart_data'])->name('cart_data');
+Route::get('/delete_cart_item', [FrontCardController::class, 'delete_cart_item'])->name('delete_cart_item');
+Route::post('/post_cart', [FrontCardController::class, 'post_cart'])->name('post_cart');
+Route::get('/cart_table', [FrontCardController::class, 'cart_table_show_data'])->name('cart_table');
+Route::get('/check_gift_data', [FrontCardController::class, 'check_gift_data'])->name('check_gift_data');
+Route::group(['prefix' => '', 'middleware' => 'customer_auth:customer'], function (){
 	Route::get('/checkout_data', [FrontCardController::class, 'checkout_data'])->name('checkout_data');
 	Route::get('/checkout/', [FrontCardController::class, 'checkout'])->name('checkout');
 	Route::get('/get_state/', [FrontCardController::class, 'get_state'])->name('get_state');
@@ -138,7 +152,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:adm'], function () {
 	Route::get('/viewcard/{id}', [CardController::class, 'show'])->name('view.card');
 	Route::get('/delete_card_images/{id}', [CardController::class, 'card_gallery_delete'])->name('delete-card-images');
 	Route::post('/status-change12', [CardController::class, 'Status_change'])->name('status.change');
-
+	Route::post('/getsubcatlist', [CardController::class, 'getsubcatlist'])->name('get.subcatlist');
 
 	//message management routes
 	Route::get('/textmessagelist', [MessageController::class, 'index'])->name('messagelist');
@@ -207,6 +221,27 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:adm'], function () {
 	Route::post('/edit-page/{id}', [AdminPagesController::class, 'update'])->name('edit.page.post');
 	Route::post('/delete-page', [AdminPagesController::class, 'destroy'])->name('delete.page.post');
 	Route::post('/content-page-status-change',[AdminPagesController::class,'contentp_status_change'])->name('content.page.status.change');
+	Route::get('/home-content-list', [AdminPagesController::class, 'homepagelist'])->name('home.page.list');
+	Route::get('/create-section-page', [AdminPagesController::class, 'CreateHomePage'])->name('create.home.page');
+	Route::post('/create-section-page', [AdminPagesController::class, 'StoreSecData'])->name('create.sec.page.post');
+    Route::post('/section-status-change',[AdminPagesController::class,'sectionpage_status_change'])->name('sectionpage.status.change');
+	Route::post('/delete-section', [AdminPagesController::class, 'DeleteSection'])->name('delete.secpage.post');
+	Route::get('/edit-home-content/{id}', [AdminPagesController::class, 'editSectionPage'])->name('edit.secpage.page');
+	Route::post('/edit-home-content/{id}', [AdminPagesController::class, 'UpdateSection'])->name('edit.secpage.page.post');
+	Route::get('/first-slider-list', [AdminPagesController::class, 'HomesliderFirstList'])->name('home.first.slider.list');
+	Route::get('/create-first-slider', [AdminPagesController::class, 'CreateHomesliderFirst'])->name('create.home.first.slider');
+	Route::post('/create-first-slider', [AdminPagesController::class, 'CreateHomesliderFirstPost'])->name('create.home.first.slider.post');
+	Route::post('/first-slide-status-change',[AdminPagesController::class,'FirstSlideStatuschange'])->name('first.slide.status.change');
+	Route::post('/delete-first-slide', [AdminPagesController::class, 'DeleteFirstSlide'])->name('delete.first.slide.post');
+	Route::get('/edit-first-slider/{id}', [AdminPagesController::class, 'EditHomesliderFirst'])->name('edit.home.first.slider');
+    Route::post('/edit-first-slider/{id}', [AdminPagesController::class, 'UpdateHomesliderFirst'])->name('edit.home.first.slider.post');
+	Route::get('/second-slider-list', [AdminPagesController::class, 'HomesliderSecondList'])->name('home.sec.slider.list');
+	Route::get('/create-second-slider', [AdminPagesController::class, 'CreateHomeSecFirst'])->name('create.home.sec.slider');
+    Route::post('/create-second-slider', [AdminPagesController::class, 'CreateHomesliderSecondPost'])->name('create.home.sec.slider.post');
+    Route::post('/second-slide-status-change',[AdminPagesController::class,'SecondSlideStatuschange'])->name('second.slide.status.change');
+	Route::post('/delete-second-slide', [AdminPagesController::class, 'DeleteSecondSlide'])->name('delete.sec.slide.post');
+	Route::get('/edit-second-slider/{id}', [AdminPagesController::class, 'EditHomeslidersec'])->name('edit.home.sec.slider');
+	Route::post('/edit-second-slider/{id}', [AdminPagesController::class, 'UpdateHomesliderSecond'])->name('edit.home.sec.slider.post');
 
 	// card sub category management routes
 	Route::get('/cardsubcategorylist/{subcatid}', [SubCategoryController::class, 'index'])->name('subcategorylist');
@@ -258,5 +293,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:adm'], function () {
 	Route::post('/edit-blog/{id}', [BlogController::class, 'update'])->name('edit.blog.post');
 	Route::post('/delete-blog', [BlogController::class, 'destroy'])->name('delete.blog');
 	Route::post('/blog-status-change',[BlogController::class,'Blog_status_change'])->name('blog.status.change');
+
+	//Gift management routes
+	Route::get('/giftlist', [GiftController::class, 'index'])->name('giftlist');
+	Route::get('/create-gift', [GiftController::class, 'create'])->name('create.gift');
+	Route::post('/create-gift', [GiftController::class, 'store'])->name('create.gift.post');
+	Route::get('/getcardlist', [CardController::class, 'getCardlist'])->name('get.cardlist');
+	Route::get('/editgift/{id}', [GiftController::class, 'edit'])->name('edit.gift');
+	Route::post('/editgift/{id}', [GiftController::class, 'update'])->name('edit.gift.post');
+	Route::post('/delete-gift', [GiftController::class, 'destroy'])->name('delete.gift.post');
+	Route::get('/viewcard/{id}', [CardController::class, 'show'])->name('view.card');
+	Route::get('/delete_card_images/{id}', [CardController::class, 'card_gallery_delete'])->name('delete-card-images');
+	Route::post('/gift-status-change', [GiftController::class, 'Gift_Status_change'])->name('gift.status.change');
 
 });

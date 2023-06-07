@@ -72,18 +72,6 @@ class OrderController extends Controller
                         ->leftJoin("videos","videos.video_id","=","order_details.video_id")   
                         ->where('order.id',$id)                    
                         ->get();
-        
-        // foreach($card_details as $data){
-
-        // $predesigndata  = explode(",", $data->predesigned_text_id);
-
-        //  $predesign_text = DB::table("predesigned_text")
-        //                    ->whereIn('text_id',  $predesigndata)
-        //                    ->get();       
-        // }
-        
-        // $predesign_text = DB::table("predesigned_text")
-        //                   ->whe
                         
        $admindata = Auth::user();
     
@@ -360,13 +348,27 @@ class OrderController extends Controller
               'updated_at'=> $date,
         ]);
 
-        $data['email_subject'] = 'Order Confirm';
+        $data['email_subject'] = 'Order Confirmation';
 
-        $data['email_content'] = 'Thank you for placing your order through Birthdaystore! Your order is now confirmed . Your Order No is :';
+        $data['email_content'] = 'Thank you for your order through Birthdaystore! Your order is now confirmed . Your Order No is :';
 
         $this->Send_status_email($data);
 
-     }elseif($order_status==4){        
+     }elseif($order_status==3){        
+        Order::where('order_id',$order_id)->update(
+            ['order_status' => $request->order_status,
+              'cancel_reason' => $cancel_reason,
+              'updated_at'=> $date,
+        ]);
+         
+        $data['email_subject'] = 'Order Ready';
+
+        $data['email_content'] = 'Your Order has been ready to delivery.';
+
+        $this->Send_status_email($data);
+
+        }
+     elseif($order_status==6){        
         Order::where('order_id',$order_id)->update(
             ['order_status' => $request->order_status,
               'cancel_reason' => $cancel_reason,
@@ -374,13 +376,13 @@ class OrderController extends Controller
               'updated_at'=> $date,
         ]);
          
-        $data['email_subject'] = 'Order Deliver';
+        $data['email_subject'] = 'Order Delivered';
 
-        $data['email_content'] = 'Your order is Delivered.';
+        $data['email_content'] = 'Your order has Delivered.';
 
         $this->Send_status_email($data);
 
-        }elseif($order_status==3){
+        }elseif($order_status==4){
             Order::where('order_id',$order_id)->update(
                 ['order_status' => $request->order_status,
                   'cancel_reason' => $cancel_reason,

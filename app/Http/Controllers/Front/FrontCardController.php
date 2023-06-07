@@ -18,7 +18,7 @@ class FrontCardController extends Controller{
 
 	public function index(){
 
-		$data['cards_data'] = DB::table('cards')->select('*')->where('status','Active')->get();
+		$data['cards_data'] = DB::table('cards')->select('*')->where('gift_card',NULL)->where('status','Active')->get();
 		
 		
 		return view("Front/cards")->with($data);
@@ -28,14 +28,26 @@ class FrontCardController extends Controller{
 		if($request->favorite_id == 1){
 			
 			$favourite_cards = DB::table('favourite_cards')->where(['user_id'=>$request->user_id,'card_id'=>$request->card_id])->delete();
-			session::flash('error', 'Card has been removed in the favourites');
-			return redirect()->route('birthday-cards');
+			if($request->gift_card == "gifts"){
+				session::flash('error', 'Gift has been removed in the favourites');
+				return redirect()->route('gift_card');
+			}else{
+				session::flash('success', 'Card has been removed in the favourites');
+				return redirect()->route('birthday-cards');
+			}
+			
 		}else{
 			$user = Auth::guard("customer")->user();
 			if($user){
 				$favourite_cards = DB::table('favourite_cards')->insert(['user_id'=>$request->user_id,'card_id'=>$request->card_id,'created_at'=>date('Y-m-d H:i:s')]);
-				session::flash('success', 'Card has been added in the favourites');
-				return redirect()->route('birthday-cards');
+				if($request->gift_card == "gifts"){
+					session::flash('success', 'Gift has been added in the favourites');
+					return redirect()->route('gift_card');
+				}else{
+					session::flash('success', 'Card has been added in the favourites');
+					return redirect()->route('birthday-cards');
+				}
+				
 			}else{
 				return redirect()->route('loginUser');
 			}
@@ -241,12 +253,8 @@ class FrontCardController extends Controller{
 	}
 
 	public function cart_page(){
-		if(Auth::user()){
-			$user_id = Auth::user()->id;
-		}
-		$data['cart_data'] = DB::table('cart_table')->where('user_id',$user_id)->where('status',1)->get();
-		//print_r($data['cart_data']);die;
-		return view("Front/cart")->with($data);
+		
+		return view("Front/cart");
 	}
 
 	public function cart_table_show_data(Request $request){
@@ -266,10 +274,12 @@ class FrontCardController extends Controller{
 
 		$data['card_size_data'] = DB::table('card_sizes')->where('id',$card_sizes)->where('card_id',$card_id)->get()->first();
 
-		$card_qty =  $data['card_size_data']->card_size_qty;
-
-		$remaining_qty = $card_qty - $data['cart_data'][0]->qty;
-		$data['remaining_qty'] = $remaining_qty;
+		if(!empty($data['card_size_data'])){
+        	$card_qty =  $data['card_size_data']->card_size_qty;
+        	
+			$remaining_qty = $card_qty - $data['cart_data'][0]->qty;
+			$data['remaining_qty'] = $remaining_qty;
+        }
 
 		
 		return view('Front/cart_data')->with($data);
@@ -287,14 +297,35 @@ class FrontCardController extends Controller{
 		
 	}
 
-	public function get_cards(Request $request){
+	public function check_gift_data(Request $request){
+		$cart_ids = $request->cart_ids;
+		$cart_id_array = json_decode($cart_ids);
+		//print_r(json_decode($cart_ids));
+		$i = 0;
+		foreach ($cart_id_array as $cart_id) {
+			$cart_data = DB::table('cart_table')->where('cart_id',$cart_id)->get()->first();
+			if($cart_data->card_type == "Gift"){
+				$i++;
+			}
+		}
+		$count_cart = count($cart_id_array);
+		if($count_cart == $i){
+			return true;
+		}
+	}
 
-		$data['search_data'] = DB::table('cards')->where("card_title", 'like', '%'.$request->search_words.'%')->get();
-		//print_r($search_data);
-		if(count($data['search_data'])>0){
-			foreach ($data['search_data'] as $search_data) {
-				$data1['search_data'] = $search_data;
-				echo view("Front/search_data")->with($data1);
+	public function get_cards(Request $request){
+		
+		if($request->search_words){
+			$data['search_data'] = DB::table('cards')->where("card_title", 'like', '%'.$request->search_words.'%')->get();
+			//print_r($search_data);
+			if(count($data['search_data'])>0){
+				foreach ($data['search_data'] as $search_data) {
+					$data1['search_data'] = $search_data;
+					echo view("Front/search_data")->with($data1);
+				}
+			}else{
+				echo "No card found";
 			}
 		}else{
 			echo "No card found";
@@ -307,7 +338,7 @@ class FrontCardController extends Controller{
 	}
 
 	public function delete_cart_item(Request $request){
-		echo $cart_id = $request->cart_id;
+		$cart_id = $request->cart_id;
 
 		$delete_cart_item = DB::table('cart_table')->where('cart_id',$cart_id)->delete();
         
@@ -382,11 +413,13 @@ class FrontCardController extends Controller{
 				$predesigned_text_id = $cart_data->predesigned_text_id;
 				$order_details = DB::table('order_details')->insert(['order_id'=>$order_id,'user_id'=>$user_id, 'card_id'=>$card_id, 'card_size_id'=>$card_size_id, 'video_id'=>$video_id, 'predesigned_text_id'=>$predesigned_text_id, 'qty'=>$qty, 'card_price'=>$card_price, 'created_at'=>date('Y-m-d H:i:s')]);
 
-				$card_qty_data = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->get()->first();
+				if($card_size_id != 0){
+					$card_qty_data = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->get()->first();
+				
+					$remaining_qty = $card_qty_data->card_size_qty - $qty;
 
-				$remaining_qty = $card_qty_data->card_size_qty - $qty;
-
-				$card_qty_update = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->update(['card_size_qty'=>$remaining_qty,'created_at'=>date('Y-m-d H:i:s')]);
+					$card_qty_update = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->update(['card_size_qty'=>$remaining_qty,'created_at'=>date('Y-m-d H:i:s')]);
+				}
 				
 				DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->delete();
 				
@@ -395,7 +428,7 @@ class FrontCardController extends Controller{
 			        
 			Mail::send('Front.order-invoice', ['token' => $token,'email'=>$email_address,'order_id'=>$order_id], function($message) use($request){
 		                $message->to($request->email_address);
-		                $message->from('votivephp.neha@gmail.com','BirthdayCards');
+		                $message->from('birthday@birthdaystoreuk.co.uk','BirthdayCards');
 		                $message->subject('Order Invoice');
 
 			});
@@ -423,9 +456,16 @@ class FrontCardController extends Controller{
 	}
 
 	public function search_submit(Request $request){
-		$data['search_data'] = DB::table('cards')->where("card_title", 'like', '%'.$request->search_words.'%')->get();
-		//print_r($data['search_data']);die;
-		$data['request_data'] = $request->search_words;
+
+		if($request->search_words){
+			$data['search_data'] = DB::table('cards')->where("card_title", 'like', '%'.$request->search_words.'%')->get();
+			//print_r($data['search_data']);die;
+			$data['request_data'] = $request->search_words;
+		}else{
+			$data['request_data'] = "";
+			$data['search_data'] = array();
+			$data['no_data'] = $request->search_words;
+		}
 		
 		return view('Front/search')->with($data);
 		
@@ -443,7 +483,7 @@ class FrontCardController extends Controller{
 		$token = Str::random(64);
 		
 		Mail::send('Front.contact-us-email', ['token' => $token,'email'=>$request->email,'fname'=>$request->fname,'phone_no'=>$request->phone_no,'msg'=>$request->message], function($message) use($request){
-            $message->to("votivephp.neha@gmail.com");
+            $message->to("turabi.ltd@gmail.com");
             $message->from($request->email,'BirthdayCards');
             $message->subject($request->subject);
         });
@@ -451,5 +491,11 @@ class FrontCardController extends Controller{
         session::flash('success', 'Thanks for contacting us. We will get back to you as soon as possible.');
 
         return redirect('contact-us');
+	}
+
+	// get about us page
+	public function about_us(){	 
+		$data['aboutdata'] = DB::table('pages')->where('id',1)->where('page_status',1)->first();
+		return view('Front/about_us')->with($data);	
 	}
 }

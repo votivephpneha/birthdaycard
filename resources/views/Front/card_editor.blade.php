@@ -124,7 +124,7 @@
 			  				<div class="text-color-div row">
 			  					@foreach($colors as $color)
 			  					    <div class="col-md-12">
-				  						<input type="radio" name="text-colour" value="{{ $color->color_value}}" onclick="changeTextSize('1','text-color',this.value)"><div class="clr_name" style="width:50px;height:50px;background-color: {{ $color->color_value }}"></div><span style="width:50px;height:50px;">{{ $color->color_name }}</span>
+				  						<input type="radio" name="text-colour" value="{{ $color->color_value}}" onclick="changeTextSize('1','text-color',this.value,'{{ $color->color_name}}')"><div class="clr_name" style="width:50px;height:50px;background-color: {{ $color->color_value }}"></div><span style="width:50px;height:50px;">{{ $color->color_name }}</span>
 				  					</div>
 			  						
 			  					@endforeach
@@ -284,7 +284,7 @@
 			  				<div class="text-color-div row">
 			  					@foreach($colors as $color)
 			  					    <div class="col-md-12">
-				  						<input type="radio" name="text-colour" value="{{ $color->color_value }}" onclick="changeTextSize('2','text-color',this.value)"><div class="clr_name" style="width:50px;height:50px;background-color: {{ $color->color_value }}"></div><span style="width:50px;height:50px;">{{ $color->color_name }}</span>
+				  						<input type="radio" name="text-colour" value="{{ $color->color_value }}" onclick="changeTextSize('2','text-color',this.value,'{{ $color->color_name}}')"><div class="clr_name" style="width:50px;height:50px;background-color: {{ $color->color_value }}"></div><span style="width:50px;height:50px;">{{ $color->color_name }}</span>
 				  					</div>
 			  						
 			  					@endforeach
@@ -332,12 +332,12 @@
 			  						<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28px" height="28px"><path d="M4 3a1 1 0 0 0 0 2h20a1 1 0 1 0 0-2H4Zm0 5a1 1 0 0 0 0 2h20a1 1 0 1 0 0-2H4Z" fill="currentColor"></path></svg>
 			  					</label></div>
 								<div class="col-md-2">
-			  					<input type="radio" name="alignment" class="alignment" value="vertically-middle" onclick="changeTextSize('2','text-align',this.value)">
+			  					<input type="radio" name="alignment" class="alignment" value="vertically-middle" onclick="changeTextSize('2','text-align-vertical',this.value)">
 			  					<label for="">
 			  						<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28px" height="28px"><path d="M4 10.5a1 1 0 1 0 0 2h20a1 1 0 1 0 0-2H4Zm0 5a1 1 0 1 0 0 2h20a1 1 0 1 0 0-2H4Z" fill="currentColor"></path></svg>
 			  					</label></div>
 								<div class="col-md-2">
-			  					<input type="radio" name="alignment" class="alignment" value="vertically-bottom" onclick="changeTextSize('2','text-align',this.value)">
+			  					<input type="radio" name="alignment" class="alignment" value="vertically-bottom" onclick="changeTextSize('2','text-align-vertical',this.value)">
 			  					<label for="">
 			  						<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28px" height="28px"><path d="M4 18a1 1 0 1 0 0 2h20a1 1 0 1 0 0-2H4Zm0 5a1 1 0 1 0 0 2h20a1 1 0 1 0 0-2H4Z" fill="currentColor"></path></svg>
 			  					</label></div>
@@ -445,7 +445,7 @@
 			  				<div class="text-color-div row">
 			  					@foreach($colors as $color)
 			  					    <div class="col-md-12">
-				  						<input type="radio" name="text-colour" value="{{ $color->color_value }}" onclick="changeTextSize('3','text-color',this.value)"><div class="clr_name" style="width:50px;height:50px;background-color: {{ $color->color_value }}"></div><span style="width:50px;height:50px;">{{ $color->color_name }}</span>
+				  						<input type="radio" name="text-colour" value="{{ $color->color_value }}" onclick="changeTextSize('3','text-color',this.value,'{{ $color->color_name}}')"><div class="clr_name" style="width:50px;height:50px;background-color: {{ $color->color_value }}"></div><span style="width:50px;height:50px;">{{ $color->color_name }}</span>
 				  					</div>
 			  						
 			  					@endforeach
@@ -749,7 +749,7 @@
 		$(".text-tools-three .font-tool-box").toggle();
 	});
 
-	function changeTextSize(text_id,text_type,i){
+	function changeTextSize(text_id,text_type,i,color_name){
         
 		if(text_id == 1){
 
@@ -763,7 +763,7 @@
 	        if(text_type == 'text-color'){
 	        	$(".change_hide_div-1 textarea").css("color",i);
 
-	        	$(".text_color_font1").val(i);
+	        	$(".text_color_font1").val(color_name);
 	        	
 	        }
 
@@ -809,7 +809,7 @@
 	        if(text_type == 'text-color'){
 
 	        	$(".change_hide_div-2 textarea").css("color",i);
-				$(".text_color_font2").val(i);
+				$(".text_color_font2").val(color_name);
 	        }
 
 	        if(text_type == 'text-font'){
@@ -854,7 +854,7 @@
 
 	        if(text_type == 'text-color'){
 	        	$(".change_hide_div-3 textarea").css("color",i);
-	        	$(".text_color_font3").val(i);
+	        	$(".text_color_font3").val(color_name);
 	        }
 
 	        if(text_type == 'text-font'){
@@ -1113,6 +1113,11 @@
         
     }
 });
-
+$(".exit_btn a").click(function(){
+	
+            window.history.back();
+       
+	
+});
 </script>
 @endsection

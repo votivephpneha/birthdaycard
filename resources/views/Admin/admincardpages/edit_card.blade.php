@@ -9,6 +9,24 @@
 
 
 @section('current_page_js')
+<script>
+  $('#category_id').change(function () {
+    var cat_id = $(this).val();
+    $.ajax({
+     url: "{{route('get.subcatlist')}}",
+     type : "POST",
+     data :{
+       _token: "{{csrf_token()}}",
+      categ_id : cat_id
+     },
+     success:function(response){
+        console.log(response);
+        $('#subcategory_id').html(response);
+     }
+    });
+   
+  }); 
+</script>
 
 @endsection
 

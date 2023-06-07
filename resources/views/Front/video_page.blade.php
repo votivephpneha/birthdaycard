@@ -53,13 +53,14 @@
 			
 			<div class="video_btns">
 			<div class="add_video_btn">
+				<span class="upload_error"></span>
 				@if ($message = Session::get('error'))
 		        <div class="alert alert-danger">
 		          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		          {{ $message }}
 		        </div>
 		         @endif
-				<form id="attachUpload" method="post" action="{{ url('post_video') }}" enctype="multipart/form-data">
+				<form id="attachUpload" method="post"enctype="multipart/form-data">
 					@csrf
 					<input type="hidden" name="qr_img_val" value="" class="qr_image">
 					<input type="hidden" name="card_id" value="{{ $db_card_data->id }}">
@@ -88,7 +89,7 @@
 	  let file = event.target.files[0];
 
 	  console.log("file","{{ url('public/upload/videos') }}/"+file.name);
-	  
+	  var file_size = file.size/ 1024 / 1024;
 	  let finalURL =  
 'https://chart.googleapis.com/chart?cht=qr&chl=' +  
         htmlEncode("{{ url('public/upload/videos') }}/"+file.name) +  
@@ -96,7 +97,12 @@
         console.log("finalURL",finalURL);
         $('.qr-code').attr('src', finalURL);  
        $(".qr_image").val(finalURL); 
-	   $('#attachUpload').trigger('submit');
+	   if(file_size > 10){
+       	$(".upload_error").html('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Please upload the video less than 10 MB</div>');
+       }else{
+       	$('#attachUpload').attr("action","{{ url('post_video') }}");
+       	$('#attachUpload').trigger('submit');
+       }
 	}
 
 	function htmlEncode(value) {  

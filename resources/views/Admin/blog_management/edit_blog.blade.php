@@ -85,13 +85,31 @@ $(document).ready(function() {
               </div>
             </div>
             <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Description">Blog Image Preview<span class="required">*</span>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Description"><span class="required"></span>
               </label>
               <div class="col-md-6 col-sm-6 col-xs-12">             
                   @if($blogdata->blog_image == "")
                   <img src="{{ url('public/images/imageicon.png')}}" height="50" width="50">
                   @else
                   <img src="{{ asset('public/upload/blogs').'/'. $blogdata->blog_image}}" height="50" width="50">
+                  @endif
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Description">Blog Thumb Image<span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="file" id="blog_thumb_image" name="blog_thumb_image"  class="form-control col-md-7 col-xs-12">               
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Description"><span class="required"></span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">             
+                  @if($blogdata->blog_thumb_image == "")
+                  <img src="{{ url('public/images/imageicon.png')}}" height="50" width="50">
+                  @else
+                  <img src="{{ asset('public/upload/blogs').'/'. $blogdata->blog_thumb_image}}" height="50" width="50">
                   @endif
               </div>
             </div>

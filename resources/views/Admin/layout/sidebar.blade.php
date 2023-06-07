@@ -27,6 +27,11 @@
                             <li><a href="{{route('cardlist')}}">List</a></li>
                         </ul>
                     </li>
+                    <li><a><i class="fa fa-gift"></i>Gift Management <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{route('giftlist')}}">List</a></li>
+                        </ul>
+                    </li>
                     <!-- <li><a><i class="fa fa-edit"></i> Custom Card Text <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{route('textfontlist')}}">Text Font</a></li>
@@ -74,11 +79,12 @@
                       <li><a href="{{route('paymentlist')}}">List</a></li>
                     </ul>
                     </li>
-                    <li><a><i class="fa fa-edit"></i>Content Management<span class="fa fa-chevron-down"></span></a>
+                    <!-- <li><a><i class="fa fa-edit"></i>Content Management<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{route('content-pagelist')}}">List</a></li>
+                            <li><a href="{{route('content-pagelist')}}">Page List</a></li>
+                            <li><a href="{{route('home.page.list')}}">Home Page</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li><a><i class="fa fa-phone"></i>Contact us<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{route('contactuslist')}}">List</a></li>
@@ -89,6 +95,21 @@
                             <li><a href="{{route('bloglist')}}">List</a></li>
                         </ul>
                     </li>
+                    <li><a><i class="fa fa-edit"></i>Content Management<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                    <li><a href="{{route('content-pagelist')}}">Pages</a></li>
+                        <li><a>Home Page<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                          <li><a href="{{route('home.page.list')}}">Home Page</a></li>
+                            </li>
+                            <li><a href="{{route('home.first.slider.list')}}">Home First Slider</a>
+                            </li>
+                            <li><a href="{{route('home.sec.slider.list')}}">Home Second Slider</a>
+                            </li>
+                          </ul>
+                        </li>
+                    </ul>
+                  </li> 
                 </ul>
             </div>
         </div>
