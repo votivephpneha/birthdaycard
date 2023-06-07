@@ -93,8 +93,7 @@ public function index()
      */
     public function show(Card $card,$id)
     {
-        $viewgiftdata =  Card::find($id);
-        
+        $viewgiftdata =  Card::find($id);       
         return view('Admin.gift_management.view_gift',compact('viewgiftdata'));
     }
 
@@ -179,7 +178,7 @@ public function index()
     {
        $giftlist = Card::find($request->id);       
        $gift_image_name =  $giftlist->gift_image;
-       $gift_image_path = public_path('upload/gifts/'.$gift_image_name);
+       $gift_image_path = public_path('upload/cards/'.$gift_image_name);
        if(File::exists($gift_image_path)) {
          File::delete($gift_image_path);
        }

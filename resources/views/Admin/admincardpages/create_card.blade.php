@@ -188,20 +188,7 @@
                                     <span class="text-danger">{{ $errors->first('gall_image')}}</span>
                                     @endif
                                 </div>
-                            </div>
-                            <!-- <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Birth <span class="required">*</span>
-                </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input id="birthday" name="Dob" class="date-picker form-control col-md-7 col-xs-12"  type="date">
-                    @if($errors->has('Dob'))
-
-                <span class="text-danger">{{ $errors->first('Dob')}}</span>
-
-                @endif
-                </div>
-                
-              </div> -->
+                            </div>                           
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">

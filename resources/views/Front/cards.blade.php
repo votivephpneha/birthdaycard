@@ -31,7 +31,7 @@
         </div>
          @endif
 		@foreach ($cards_data as $card)
-		<div class="col-md-3">
+		<div class="col-md-3 col-sm-4 col-xs-4">
 		   <div class="card--lists">
 			<div class="card_image" data-toggle="modal" data-target="#myModal-{{ $card->id }}">
 				<img src="{{ url('/public/upload/cards') }}/{{ $card->card_image }}">

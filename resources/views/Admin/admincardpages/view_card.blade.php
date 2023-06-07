@@ -43,7 +43,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Title</label>
+                                        <label>Title :</label>
                                         <input type="text" id="title" name="title"
                                             class="form-control col-md-7 col-xs-12" value="{{$viewdata->card_title}}"
                                             readonly>
@@ -52,7 +52,7 @@
                                 <?php if(isset($viewdata->category) AND !empty($viewdata->category) ){?>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Category</label>
+                                        <label>Category :</label>
                                         <input type="text" id="qty" name="qty" class="form-control col-md-7 col-xs-12"
                                             value="{{$viewdata->category->name}}" readonly>
                                     </div>
@@ -61,7 +61,7 @@
                                 <?php if(isset($viewdata->subcategory) AND !empty($viewdata->subcategory) ){?>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Sub Category</label>
+                                        <label>Sub Category :</label>
                                         <input type="text" id="qty" name="qty" class="form-control col-md-7 col-xs-12"
                                             value="{{$viewdata->subcategory->name}}" readonly>
                                     </div>
@@ -71,7 +71,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Description</label>
+                                        <label>Description :</label>
                                         <textarea id="des" name="description" rows="2" cols="10"
                                             class="form-control col-md-7 col-xs-12" readonly>{{$viewdata->description}}
                                         </textarea>
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Card Status</label><br>
+                                        <label>Card Status :</label><br>
                                         @if($viewdata->status == 'Active')
                                         <button type="button" class="btn btn-success">{{$viewdata->status}}</button>
                                         @else
@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Card Thumb Image </label><br>
+                                        <label>Card Thumb Image :</label><br>
                                         @if($viewdata->card_image == "")
                                         <img src="{{ url('public/images/imageicon.png')}}" height="50" width="50" >
                                         @else
@@ -103,7 +103,7 @@
                             <div class="row">    
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Card Back Image </label><br>
+                                        <label>Card Back Image :</label><br>
                                         @if($viewdata->card_back_image == "")
                                         <img src="{{ url('public/images/imageicon.png')}}" height="50" width="50" >
                                         @else
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Card Gallery Image</label><br>
+                                        <label>Card Gallery Image :</label><br>
                                         @if((!empty($viewdata->card_gell_images)))
                                         @foreach ($viewdata->card_gell_images as $dataimg)
                                         <img src="{{ asset('public/upload/gallery_images').'/'. $dataimg->gall_images}}" 

@@ -154,7 +154,7 @@
                   <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12"> Sub Category</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                       <select name="subcategory_id" id="subcategory_id" class="form-control">
-                          <option value=""@if($carddata->sub_category_id==null) selected @endif>No Category</option>
+                          <option value=""@if($carddata->sub_category_id==null) selected @endif>No Sub Category</option>
                           @foreach($subcategory as $data)
                           <option value="{{$data->id}} "@if($carddata->sub_category_id!=null && $carddata->sub_category_id == $data->id) selected @endif>{{$data->name}}</option>
 
@@ -202,7 +202,7 @@
                   
                 </div>                      
                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Thumb Image  Preview <span class="required">*</span>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required"></span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                   @if($carddata->card_image == "")
@@ -226,7 +226,7 @@
                 
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Back Image Preview <span class="required">*</span>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required"></span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                   @if($carddata->card_back_image == "")
@@ -253,7 +253,7 @@
                   
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Card Gallery Preview <span class="required">*</span>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required"></span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                   @if((!empty($carddata->card_gell_images)))

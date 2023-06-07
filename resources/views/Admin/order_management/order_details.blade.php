@@ -97,8 +97,8 @@ function myFunction(text_id) {
                                             >Cancelled</option>
                                         <option value="3" @if($orderdetail[0]->order_status == 3) selected @endif >Order ready</option>
                                         <option value="4" @if($orderdetail[0]->order_status == 4) selected @endif >In transit</option>
-                                        <option value="6" @if($orderdetail[0]->order_status == 5) selected @endif >Out for delivery</option>
-                                        <option value="4" @if($orderdetail[0]->order_status == 6) selected @endif >Delivered</option>
+                                        <option value="5" @if($orderdetail[0]->order_status == 5) selected @endif >Out for delivery</option>
+                                        <option value="6" @if($orderdetail[0]->order_status == 6) selected @endif >Delivered</option>
                                   </optgroup>
                                  </select> 
                                  <div id="cancel_area"></div>
@@ -174,7 +174,7 @@ function myFunction(text_id) {
                                         @if($orderdetail[0]->order_status ==6)Delivered @endif
                                         @if($orderdetail[0]->order_status ==7) Return request declined @endif <br>
                                         <?php if(!empty($orderdetail[0]->cancel_reason)){ ?>
-                                        <b>Cancel Reason:</b> {{$orderdetail[0]->cancel_reason  }}
+                                        <b>Cancel Reason:</b> {{$orderdetail[0]->cancel_reason  }} </br>
                                         <?php } ?>
                                         <?php if(!empty($orderdetail[0]->order_notes)){ ?>
                                         <b>Order Note:</b> {{$orderdetail[0]->order_notes  }}
@@ -188,7 +188,8 @@ function myFunction(text_id) {
                                         <strong>{{$orderdetail[0]->fname}} {{$orderdetail[0]->lname }}</strong>
                                         <br>Address: {{$orderdetail[0]->address}},{{$orderdetail[0]->city}},{{$orderdetail[0]->state}} {{$orderdetail[0]->postal_code}}
                                         <br>Phone: {{$orderdetail[0]->phone_no}}
-                                        <br>Email: {{$orderdetail[0]->email}}
+                                        <br>Email: {{$orderdetail[0]->email}}<br><br>
+                                        
                                     </address>
                                 </div>
                                 <!-- /.col -->

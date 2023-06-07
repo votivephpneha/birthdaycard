@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Sub_category;
+use App\Models\Card;
+use App\Models\Card_gallery_image;
 
 class CategoryController extends Controller
 {
@@ -39,6 +42,9 @@ class CategoryController extends Controller
         $request->validate([
             "name" => "required",
             // "parent_id" => "required",           
+        ],
+        [
+        'name' => 'The category name field is required.',			
         ]);
 
         $data = array(
@@ -80,6 +86,9 @@ class CategoryController extends Controller
     {
         $request->validate([
             "name" => "required",
+        ],
+        [
+        'name' => 'The category name field is required.',			
         ]);
 
         $category = Category::find($id);
@@ -108,6 +117,7 @@ class CategoryController extends Controller
     {
         $id = $request->id;
         $category = Category::find($id);
+        $subcat = Sub_category::where('category_id',$id)->delete();
         $result = $category->delete();
         if ($result) {
             return json_encode(array('status' => 'success','msg' => 'Category has been deleted successfully!'));

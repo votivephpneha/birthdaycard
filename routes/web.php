@@ -302,7 +302,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:adm'], function () {
 	Route::get('/editgift/{id}', [GiftController::class, 'edit'])->name('edit.gift');
 	Route::post('/editgift/{id}', [GiftController::class, 'update'])->name('edit.gift.post');
 	Route::post('/delete-gift', [GiftController::class, 'destroy'])->name('delete.gift.post');
-	Route::get('/viewcard/{id}', [CardController::class, 'show'])->name('view.card');
+	Route::get('/view-gift/{id}', [GiftController::class, 'show'])->name('view.gift');
 	Route::get('/delete_card_images/{id}', [CardController::class, 'card_gallery_delete'])->name('delete-card-images');
 	Route::post('/gift-status-change', [GiftController::class, 'Gift_Status_change'])->name('gift.status.change');
 

@@ -523,6 +523,14 @@ var cart_id_array = localStorage.getItem("cart_id_array");
   $(".cart_id_array").val(cart_id_array);
   var arry_json = JSON.parse(cart_id_array);
 
+
+  
+  if(!cart_id_array || arry_json.length<1){
+    $(".cart_count").html(0);
+  }else{
+    $(".cart_count").html(arry_json.length);
+  }
+
   var sum = 0;
   $.each(arry_json,function(i,val){
       

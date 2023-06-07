@@ -12,15 +12,9 @@
 <section class="registration-page">
   <div class="container reg-page">
 	<div class="row contact_det_info">
-	<h2 class="pt-3 mb-3">Contact Us</h2>
-		<p>Please Contact Us Using One Of The Methods Below Or Simply Fill Out the Form Below</p>
-		<p>E-mail: <a href="mailto:info@gmail.com">info@gmail.com</a></p>
-		<p>Phone: 0123456789</p>
-		<p>If Your Requesting A Free Sample In The "Your Subject/Order Number" Section Please Type</p>
-		<p>"Free Sample".</p>
-		<p>Also,</p>
-		<p>In The "Your Message" Section Please Type Your Delivery Address</p>
-		<span>Please fill out the form to contact us and we will get back to you within 24 hours</span>
+	<h2 class="pt-3 mb-3">{{ $contact_us->page_title }}</h2>
+		{!! $contact_us->page_content !!}
+		<span>{{ $contact_us->page_small_content }}</span>
 	</div>
     <div class="row contact--form">
       <div class="col-md-12 col-lg-12 m-auto">

@@ -7,6 +7,7 @@ use App\Models\HomeFirstSlide;
 use App\Models\HomeSecSlide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use File;
 
 class AdminPagesController extends Controller
 {
@@ -57,6 +58,7 @@ class AdminPagesController extends Controller
         $page->page_content = $request->page_content;
         $page->sub_title = $request->sub_title;
         $page->page_status = $request->page_status;
+        $page->page_small_content =$request->small_page_content;
 
         $res = $page->save();
         
@@ -122,6 +124,7 @@ class AdminPagesController extends Controller
             $pagefind->page_content = $request->page_content;
             $pagefind->sub_title = $request->sub_title;
             $pagefind->page_status = $request->page_status; 
+            $pagefind->page_small_content =$request->small_page_content;
             
             $res = $pagefind->save();
             
@@ -748,14 +751,14 @@ class AdminPagesController extends Controller
     
     // first section for home
     public function editSectionPage($id){
-    $secdata = HomePage::find($id);  
-    return view("Admin.home_page.edit_section_page",compact('secdata'));
+        $secdata = HomePage::find($id);  
+        return view("Admin.home_page.edit_section_page",compact('secdata'));
     }
 
     //for Home first slider data list
     public function HomesliderFirstList(){
-    $data['fsidedata'] = HomeFirstSlide::orderby('id','DESC')->get();  
-    return view("Admin.home_page.home_fslider_list")->with($data);
+        $data['fsidedata'] = HomeFirstSlide::orderby('id','DESC')->get();  
+        return view("Admin.home_page.home_fslider_list")->with($data);
     }
 
     //for create Home first slider 
@@ -765,26 +768,17 @@ class AdminPagesController extends Controller
 
     //for create Home first slider 
     public function  CreateHomesliderFirstPost(Request $request){   
-        $request->validate([
-            // "page_name" => "required",
-            // "slider_heading" => "required",
-            // "slide_content_1" => "required",
-            "slide_content_2" => "required",
-            // "slide_content_3" =>"required",
-            // "slide_content_4" => "required",
-            // "slide_content_5" => "required",
+        $request->validate([            
+            "slide_content_2" => "required",            
             "slid_status" => "required",
+        ],
+        [
+            'slide_content_2' => 'The slider description field is required.',			
         ]);
+       
 
         $fslider = new HomeFirstSlide();
-
-        // $fslider->slider_name = $request->page_name;
-        // $fslider->slider_first_heading	 = $request->slider_heading;
-        // $fslider->slider_first_desc_1 = $request->slide_content_1;
-        $fslider->slider_first_desc_2 = $request->slide_content_2;
-        // $fslider->slider_first_desc_3 = $request->slide_content_3;
-        // $fslider->slider_first_desc_4 = $request->slide_content_4;
-        // $fslider->slider_first_desc_5 = $request->slide_content_5;
+        $fslider->slider_first_desc_2 = $request->slide_content_2;  
         $fslider->slide_status = $request->slid_status;
         $res = $fslider->save();
 
@@ -839,14 +833,12 @@ class AdminPagesController extends Controller
     //for update content Home first slider 
     public function  UpdateHomesliderFirst(Request $request,$id){   
         $request->validate([
-            // "page_name" => "required",
-            // "slider_heading" => "required",
-            // "slide_content_1" => "required",
-            "slide_content_2" => "required",
-            // "slide_content_3" =>"required",
-            // "slide_content_4" => "required",
-            // "slide_content_5" => "required",
+           
+            "slide_content_2" => "required",            
             "slid_status" => "required",
+        ],
+        [
+            'slide_content_2' => 'The slider description field is required.',			
         ]);
 
         $slidefind = HomeFirstSlide::find($id);
@@ -854,13 +846,8 @@ class AdminPagesController extends Controller
             return back()->with("failed", "Data not found");
         }else{
 
-            // $slidefind->slider_name = $request->page_name;
-            // $slidefind->slider_first_heading	 = $request->slider_heading;
-            // $slidefind->slider_first_desc_1 = $request->slide_content_1;
+            
             $slidefind->slider_first_desc_2 = $request->slide_content_2;
-            // $slidefind->slider_first_desc_3 = $request->slide_content_3;
-            // $slidefind->slider_first_desc_4 = $request->slide_content_4;
-            // $slidefind->slider_first_desc_5 = $request->slide_content_5;
             $slidefind->slide_status = $request->slid_status;
             $res = $slidefind->save();
 
@@ -886,22 +873,16 @@ class AdminPagesController extends Controller
 
     //for create Home second slider 
     public function  CreateHomesliderSecondPost(Request $request){   
-        $request->validate([
-            // "page_name" => "required",
-            // "slider_heading" => "required",
-            // "slide_content" => "required",
-            "sli_img_1" => "required",
-            // "sli_img_2" =>"required",
-            // "sli_img_3" => "required",
-            // "sli_img_4" => "required",
-            // "btn_text" => "required",
+        $request->validate([            
+            "sli_img_1" => "required",           
             "slid_status" => "required",
+        ],
+        [
+            'sli_img_1' => 'The slider image field is required.',			
         ]);
          
         $slideimageName1 = '' ;
-        // $slideimageName2 = '' ;
-        // $slideimageName3 = '' ;
-        // $slideimageName4 = '' ;
+        
         // for second  slide
         if ($request->hasFile("sli_img_1")) {
             $slideimage1 = $request->file("sli_img_1");
@@ -910,39 +891,10 @@ class AdminPagesController extends Controller
             $slideimage1->move(public_path("/upload/home_slideimage"), $slideimageName1);
         }
 
-        // if ($request->hasFile("sli_img_2")) {
-        //     $slideimage2 = $request->file("sli_img_2");
-        //     $slideimageName2 = Str::random(6) . time() . '.' .$slideimage2->getClientOriginalExtension();
-        //     // $sec2imageName1 = time() . "." . $sec2image1->extension();
-        //     $slideimage2->move(public_path("/upload/home_slideimage"), $slideimageName2);
-        // }
-
-
-        // if ($request->hasFile("sli_img_3")) {
-        //     $slideimage3 = $request->file("sli_img_3");
-        //     $slideimageName3 = Str::random(6) . time() . '.' .$slideimage2->getClientOriginalExtension();
-        //     // $sec2imageName1 = time() . "." . $sec2image1->extension();
-        //     $slideimage3->move(public_path("/upload/home_slideimage"), $slideimageName3);
-        // }
-
-
-        // if ($request->hasFile("sli_img_4")) {
-        //     $slideimage4 = $request->file("sli_img_4");
-        //     $slideimageName4 = Str::random(6) . time() . '.' .$slideimage2->getClientOriginalExtension();
-        //     // $sec2imageName1 = time() . "." . $sec2image1->extension();
-        //     $slideimage4->move(public_path("/upload/home_slideimage"), $slideimageName4);
-        // }
+        
 
         $secslider = new HomeSecSlide();
-
-        // $secslider->slider_name = $request->page_name;
-        // $secslider->slider_sec_heading	 = $request->slider_heading;
-        // $secslider->slider_sec_desc = $request->slide_content;
-        $secslider->slider_sec_img_1 = $slideimageName1;
-        // $secslider->slider_sec_img_2 =  $slideimageName2;
-        // $secslider->slider_sec_img_3 = $slideimageName3;
-        // $secslider->slider_sec_img_4 = $slideimageName4;
-        // $secslider->slider_sec_btntext = $request->btn_text;
+        $secslider->slider_sec_img_1 = $slideimageName1;       
         $secslider->slider_status = $request->slid_status;
         $res = $secslider->save();
 
@@ -979,6 +931,11 @@ class AdminPagesController extends Controller
     {
         $id = $request->id;
         $secslide = HomeSecSlide::find($id);
+        $secslideimage_name =  $secslide->slider_sec_img_1;
+        $secslideimage_path = public_path('upload/home_slideimage/'.$secslideimage_name);
+        if(File::exists($secslideimage_path)) {
+          File::delete($secslideimage_path);
+        } 
         $result = $secslide->delete();
 
         if ($result) {
@@ -998,10 +955,7 @@ class AdminPagesController extends Controller
      //for update content Home first slider 
      public function  UpdateHomesliderSecond(Request $request,$id){   
         $request->validate([
-            // "page_name" => "required",
-            // "slider_heading" => "required",
-            // "slide_content" => "required",
-            // "btn_text" => "required",
+            
             "slid_status" => "required",
         ]);
 

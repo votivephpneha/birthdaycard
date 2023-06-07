@@ -81,7 +81,7 @@
               <a class="nav-link" href="{{ url('user/userProfile') }}"><i class='bx bx-user-circle'></i></a>
             @endif
           </li>
-          <li><a class="nav-link " href="{{ url('cart') }}"><i class='bx bx-cart'></i></a></li>
+          <li><a class="nav-link " href="{{ url('cart') }}"><i class='bx bx-cart'></i><span class="cart_count"></span></a></li>
           <li><a class="getstarted " href="{{ url('birthday-cards') }}"> Design Your Card</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>

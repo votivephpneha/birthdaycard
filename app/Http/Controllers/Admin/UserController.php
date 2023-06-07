@@ -139,7 +139,14 @@ class UserController extends Controller
             "password" => "required|min:6",
             "confirmpassword" => "required|min:6|same:password",
             // "image" => "required",
+        ],
+        [
+        'name' => 'The first name field is required.',	
+        'user_mob' => 'The phone number field is required.',
+        'user_add' => 'The address field is required.',	
+        'confirmpassword' => 'The confirm password field is required.',			
         ]);
+   
 
         if ($request->user_status == 1) {
             $status = "Active";
@@ -191,7 +198,12 @@ class UserController extends Controller
              "email" => "required|email|unique:users,email,".$id,
              "user_add" => "required",
              "user_status" => "required",
-         ]);
+         ],
+         [
+        'name' => 'The first name field is required.',	
+        'user_mob' => 'The phone number field is required.',
+        'user_add' => 'The address field is required.',	
+        ]);
  
          $userfind = User::find($id);
  

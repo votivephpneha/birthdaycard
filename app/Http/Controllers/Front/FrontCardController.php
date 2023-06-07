@@ -473,7 +473,8 @@ class FrontCardController extends Controller{
 	}
 
 	public function contact_us(){
-		return view('Front/contact');
+		$data['contact_us'] = DB::table('pages')->where('page_title','Contact Us')->where('page_status',"1")->get()->first();
+		return view('Front/contact')->with($data);
 	}
 
 

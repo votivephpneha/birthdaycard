@@ -9,12 +9,18 @@
 
 
 @section('current_page_js')
-<script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-       $('.ckeditor').ckeditor();
-    });
+<script src="https://cdn.ckeditor.com/4.21.0/standard-all/ckeditor.js"></script>
 
+
+<script>
+    // We need to turn off the automatic editor creation first.
+    CKEDITOR.disableAutoInline = true;
+
+    CKEDITOR.replace('editor', {
+
+    });
+    
+    </script>
 @endsection
 
 
@@ -103,7 +109,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Description">Description <span class="required">*</span>
                 </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                <textarea  name="page_content"  class="form-control ckeditor" rows="12" cols="50">{{$pagedata->page_content}}</textarea>
+                <textarea  name="page_content"  class="form-control" id="editor" rows="12" cols="50">{{$pagedata->page_content}}</textarea>
                   <!-- <input type="text" id="last-name" name="last_name"  class="form-control col-md-7 col-xs-12"> -->
                   @if($errors->has('page_content'))
 
@@ -112,6 +118,21 @@
                 @endif
                 </div>
               </div>
+              <?php if(isset($pagedata->page_small_content	) AND !empty($pagedata->page_small_content	) ){?>
+              <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Description">Small Description<span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+              <textarea  name="small_page_content"  class="form-control">{{ $pagedata->page_small_content }}</textarea>
+                <!-- <input type="text" id="last-name" name="last_name"  class="form-control col-md-7 col-xs-12"> -->
+                @if($errors->has('small_page_content'))
+
+              <span class="text-danger">{{ $errors->first('small_page_content')}}</span>
+
+              @endif
+              </div>
+            </div>
+            <?php } ?>
               <div class="form-group">
                 <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Card Status</label>
                 <div class="col-md-6 col-sm-6 col-xs-12">

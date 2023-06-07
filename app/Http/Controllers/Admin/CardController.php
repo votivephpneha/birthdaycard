@@ -56,7 +56,11 @@ class CardController extends Controller
             "category_id" => "required",
             "subcategory_id" => "required",
             "card_back_image" => "required"
-        ]);
+        ],
+        [
+		'gall_image' => 'The gallery image field is required.',			
+		]);
+   
 
         if ($request->card_status == 1) {
             $status = "Active";
@@ -159,9 +163,10 @@ class CardController extends Controller
             "title" => "required",
             // "qty" => "required",
             "category_id" => "required",
-            "subcategory_id" => "required"
+            // "subcategory_id" => "required"
             // "card_back_image" => "required"
         ]);
+        
 
         $cardfind = Card::find($id);
         if (empty($cardfind)) {
@@ -364,6 +369,13 @@ class CardController extends Controller
 
     public function card_gallery_delete($gl_id)
 	{
+        $deleteimage =  Card_gallery_image::where('id', '=', $gl_id)->get(); 
+        // dd($deleteimage); 
+        $deleimage_name =  $deleteimage[0]->gall_images;
+        $deleimage_path = public_path('upload/gallery_images/'.$deleimage_name);
+        if(File::exists($deleimage_path)) {
+            File::delete($deleimage_path);
+        }
         Card_gallery_image::where('id', '=', $gl_id)->delete();
 
         return back()->with("success", "Image has been deleted successfully.");

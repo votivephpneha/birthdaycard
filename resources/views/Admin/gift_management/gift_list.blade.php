@@ -153,7 +153,7 @@
                                                             style=" color: #FFFFFF;"><i
                                                                 class="fa fa-edit"></i>Edit</button></a>
                                                     <button class="btn btn-dark p-2">
-                                                        <a href="#" class="text-white"
+                                                        <a href="{{route('view.gift',[$arr->id])}}" class="text-white"
                                                             style=" color: #FFFFFF;"><i
                                                                 class="fa fa-eye"></i>View</button></a>
                                                     <button class="btn  btn-dark p-2">
