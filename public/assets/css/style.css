@@ -1488,15 +1488,51 @@ display: flex;
   display: flex;
 }
 
+@media only screen and (min-width: 768px) and (max-width: 991px){
+.card-mod-content .card-sizes .card_size_name {
+    gap: 6px !important;
+    padding: 9px 6px !important;
+    font-size: 11px !important;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+
+.card_image {
+    
+    height: 217px !important;
+}
+
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1100px){
+
+.card_image {
+    
+    height: 303px !important;
+}
+
+}
+
+@media only screen and (min-width:1367px) and (max-width: 5500px){
+
+.card_image {
+    
+    height: 427px !important;
+}
+.card--lists {
+   
+    margin-bottom: 28px;
+}
+}
+
+
 @media only screen and (min-width: 769px) and (max-width: 1024px){
 .grid-respoms {
     flex-direction: inherit !important;
 
 }
-.card_image {
-    
-    height: 214px !important;
-}
+
 
 }
 
@@ -1633,10 +1669,16 @@ background-color: #FFF;
     background: #FFF;
     color: #000;
 }*/
+
+.card-sizes p{
+    line-height: 19px;
+    font-size: 15px;
+}
+
 @media only screen and (min-width: 383px) and (max-width: 500px) {
 
 .main-banner {
-    height: 207px !important;
+    height: 199px !important;
 
     }
     .btn-get-started-white {
@@ -1671,7 +1713,7 @@ background-color: #FFF;
 }
 
 .main-banner {
-    height: 179px !important;
+    height: 167px !important;
 }
     .servi-text p {
     line-height: 19px;
@@ -2977,7 +3019,7 @@ background-color: #ffffff40;
 
 .main-banner{
 height: 90vh;
-background-image: url(../img/banner.png); 
+/*background-image: url(../img/banner.png); */
 background-size: 100% auto; 
 /*display: flex; */
 justify-content: center;
@@ -3088,6 +3130,13 @@ body.modal-open .modal {
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+.card-sizes label{
+    font-weight: 700;
+    font-size: 16px;
+        margin-top: 10px;
+}
+
 .card-mod-content .card-sizes .card_size_name {
     position: relative;
     display: flex;
@@ -3211,7 +3260,8 @@ body.modal-open .modal {
 }
 .card--lists {
     position: relative;
-	margin-bottom: 20px;
+	margin-bottom: 28px;
+  background: #FFF;
 }
 
 /*11-may*/

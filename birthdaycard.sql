@@ -40,6 +40,17 @@ CREATE TABLE `cards` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+DROP TABLE IF EXISTS `card_editor_images`;
+CREATE TABLE `card_editor_images` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `editor_image` varchar(255) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 DROP TABLE IF EXISTS `card_gallery_images`;
 CREATE TABLE `card_gallery_images` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -57,7 +68,7 @@ DROP TABLE IF EXISTS `card_sizes`;
 CREATE TABLE `card_sizes` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `card_type` varchar(255) NOT NULL,
-  `card_size` int(11) NOT NULL,
+  `card_size` varchar(255) NOT NULL,
   `card_id` int(11) DEFAULT NULL,
   `card_price` float(20,2) NOT NULL DEFAULT 0.00,
   `card_size_qty` varchar(255) DEFAULT NULL,
@@ -96,6 +107,16 @@ CREATE TABLE `cart_table` (
   PRIMARY KEY (`cart_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `cart_table` (`cart_id`, `card_id`, `sizes`, `card_type`, `user_id`, `qty`, `price`, `status`, `video_id`, `predesigned_text_id`, `qr_image_link`, `created_at`, `updated_at`) VALUES
+(108,	2,	2,	NULL,	0,	1,	33.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 08:26:09',	'2023-06-08 08:26:09'),
+(109,	10,	27,	NULL,	0,	1,	4.00,	0,	48,	NULL,	NULL,	'2023-06-08 10:45:01',	'2023-06-08 10:45:01'),
+(110,	2,	1,	NULL,	0,	1,	33.00,	1,	NULL,	'106,107,108',	NULL,	'2023-06-08 12:17:33',	'2023-06-08 12:17:33'),
+(111,	1,	46,	NULL,	0,	1,	5.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 12:07:06',	'2023-06-08 12:07:06'),
+(112,	1,	46,	NULL,	0,	1,	5.00,	1,	NULL,	'103,104,105',	NULL,	'2023-06-08 12:15:48',	'2023-06-08 12:15:48'),
+(117,	10,	27,	NULL,	0,	1,	4.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 12:41:06',	'2023-06-08 12:41:06'),
+(119,	10,	27,	NULL,	0,	1,	0.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 12:47:29',	'2023-06-08 12:47:29'),
+(120,	31,	43,	NULL,	0,	1,	33.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 13:09:37',	'2023-06-08 13:09:37'),
+(121,	1,	47,	NULL,	0,	1,	7.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 13:17:55',	'2023-06-08 13:17:55');
 
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
@@ -422,12 +443,6 @@ CREATE TABLE `pages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `pages` (`id`, `page_url`, `page_title`, `page_content`, `page_small_content`, `page_meta_desc`, `sub_title`, `page_status`, `created_at`, `updated_at`) VALUES
-(1,	'privacy-policy',	'Privacy Policy',	'<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic</p>',	NULL,	NULL,	'privacy policy',	1,	'2023-04-29 05:16:37',	'2023-06-07 13:25:27'),
-(9,	'terms-of-service',	'Terms OF Service',	'<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>',	NULL,	NULL,	'terms of service',	1,	'2023-05-31 03:15:51',	'2023-06-07 13:25:25'),
-(10,	'refund-policy',	'Refund Policy',	'<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>',	NULL,	NULL,	'refund policy',	1,	'2023-05-31 03:16:49',	'2023-06-07 13:25:23'),
-(11,	'shipping-policy',	'Shipping Policy',	'<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>',	NULL,	NULL,	'shipping policy',	1,	'2023-05-31 03:19:53',	'2023-06-07 13:25:21'),
-(13,	'contact-us',	'Contact Us',	'<p>Please Contact Us Using One Of The Methods Below Or Simply Fill Out the Form Below</p>\r\n\r\n<p>E-mail:&nbsp;<a href=\"mailto:info@gmail.com\">info@gmail.com</a></p>\r\n\r\n<p>Phone: 0123456789</p>\r\n\r\n<p>If Your Requesting A Free Sample In The &quot;Your Subject/Order Number&quot; Section Please Type</p>\r\n\r\n<p>&quot;Free Sample&quot;.</p>\r\n\r\n<p>Also,</p>\r\n\r\n<p>In The &quot;Your Message&quot; Section Please Type Your Delivery Address</p>',	'Please fill out the form to contact us and we will get back to you within 24 hours',	NULL,	'Contact us',	1,	'2023-06-07 10:57:18',	'2023-06-07 13:25:20');
 
 DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE `password_resets` (
@@ -610,4 +625,4 @@ CREATE TABLE `voucher_codes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 2023-06-07 13:28:50
+-- 2023-06-08 13:24:14

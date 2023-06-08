@@ -59,8 +59,8 @@ class FrontCardController extends Controller{
 	public function post_sizes(Request $request){
 		$card_id = $request->card_id;
 		$c_size = $request->c_size;
-		
-		$qty_box = $request->qty_box;
+		$description = $request->description;
+		$qty_box = "1";
 		$card_size_price = $request->card_size_price;
 
 		$price_after_qty = $qty_box * $card_size_price;
@@ -405,20 +405,22 @@ class FrontCardController extends Controller{
 
             foreach ($cart_id_arr as $cart_id) {
 				$cart_data = DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->get()->first();
-				$card_id = $cart_data->card_id;
-				$card_size_id = $cart_data->sizes;
-				$qty = $cart_data->qty;
-				$card_price = $cart_data->price;
-				$video_id = $cart_data->video_id;
-				$predesigned_text_id = $cart_data->predesigned_text_id;
-				$order_details = DB::table('order_details')->insert(['order_id'=>$order_id,'user_id'=>$user_id, 'card_id'=>$card_id, 'card_size_id'=>$card_size_id, 'video_id'=>$video_id, 'predesigned_text_id'=>$predesigned_text_id, 'qty'=>$qty, 'card_price'=>$card_price, 'created_at'=>date('Y-m-d H:i:s')]);
+				if(!empty($cart_data)){
+					$card_id = $cart_data->card_id;
+					$card_size_id = $cart_data->sizes;
+					$qty = $cart_data->qty;
+					$card_price = $cart_data->price;
+					$video_id = $cart_data->video_id;
+					$predesigned_text_id = $cart_data->predesigned_text_id;
+					$order_details = DB::table('order_details')->insert(['order_id'=>$order_id,'user_id'=>$user_id, 'card_id'=>$card_id, 'card_size_id'=>$card_size_id, 'video_id'=>$video_id, 'predesigned_text_id'=>$predesigned_text_id, 'qty'=>$qty, 'card_price'=>$card_price, 'created_at'=>date('Y-m-d H:i:s')]);
 
-				if($card_size_id != 0){
-					$card_qty_data = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->get()->first();
-				
-					$remaining_qty = $card_qty_data->card_size_qty - $qty;
+					if($card_size_id != 0){
+						$card_qty_data = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->get()->first();
+					
+						$remaining_qty = $card_qty_data->card_size_qty - $qty;
 
-					$card_qty_update = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->update(['card_size_qty'=>$remaining_qty,'created_at'=>date('Y-m-d H:i:s')]);
+						$card_qty_update = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->update(['card_size_qty'=>$remaining_qty,'created_at'=>date('Y-m-d H:i:s')]);
+					}
 				}
 				
 				DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->delete();

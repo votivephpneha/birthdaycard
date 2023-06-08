@@ -134,7 +134,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Card Status</label>
+              <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Page Status</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                   <select name="page_status" id="page_status"  class="form-control">
 

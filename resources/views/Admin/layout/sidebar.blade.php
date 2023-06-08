@@ -39,6 +39,11 @@
                             <li><a href="{{route('textsizelist')}}">Text Size</a></li>
                         </ul>
                     </li> -->
+                    <li><a><i class="fa fa-file-photo-o"></i>Card Editor Images<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{route('editorimagelist')}}">List</a></li>
+                        </ul>
+                    </li>
                     <li><a><i class="fa fa-pencil-square"></i> Message Managment <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{route('messagelist')}}">List</a></li>

@@ -31,7 +31,7 @@
         </div>
          @endif
 		@foreach ($cards_data as $card)
-		<div class="col-md-3 col-sm-4 col-xs-4">
+		<div class="col-md-3 col-6 col-sm-4 col-xs-4">
 		   <div class="card--lists">
 			<div class="card_image" data-toggle="modal" data-target="#myModal-{{ $card->id }}">
 				<img src="{{ url('/public/upload/cards') }}/{{ $card->card_image }}">
@@ -90,6 +90,7 @@
           		<?php 
           			$gall_images_data = DB::table('card_gallery_images')->get()->where('card_id',$card->id);
           			$card_sizes = DB::table('card_sizes')->where('card_id',$card->id)->get();
+          			$cards_data_modal = DB::table('cards')->select('*')->where('id',$card->id)->get()->first();
 					
           		?>
           		<div class="thumb-image">
@@ -107,12 +108,16 @@
           	</div>
           	<div class="col-md-6">
           		<div class="card-sizes">
-				<h4>Select Size</h4>
+				<label>Select Size</label>
+				<p>{{ $cards_data_modal->description }}</p>
           			<form  name="post_sizes_form" method="post" action="{{ url('post_sizes') }}">
           				@csrf
           				<input type="hidden" name="card_id" value="{{ $card->id }}" >
 	          			<input type="hidden" name="card_size_price" value="" class="card_size_price">
-	          			@foreach ($card_sizes as $c_size)
+	          			
+      					<div class="form-group">
+      						<label for="Sizes">Size</label>
+      						@foreach ($card_sizes as $c_size)
 	          				<div class="card_size_name">
 							  <div class="card_radio">
 										<input type="hidden" name="card_qty" value="{{ $c_size->card_size_qty }}">
@@ -135,11 +140,9 @@
 							</div>
 	          				
 	          			@endforeach
-	          			<div class="qty_box">
-      						<label for="quantity">Quantity</label>
-      						<input type="number" class="form-control" name="qty_box" id="qty_box" required="" min="1">
-      					</div>
-	          			<input class="submit_btn" type="submit" name="btn" value="Submit">
+      					</div>	
+	          			
+	          			<input class="submit_btn" type="submit" name="btn" value="Select Card">
           			</form>
           		</div>
           	</div>

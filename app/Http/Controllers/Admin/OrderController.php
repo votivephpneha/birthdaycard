@@ -420,7 +420,7 @@ class OrderController extends Controller
         {
              Mail::send('Admin.email_template.orderstatus_newemail', $data, function ($message) use ($data) {
 
-                $message->from('votivephp.neha@gmail.com','birthdaystore');
+                $message->from('birthday@birthdaystoreuk.co.uk','birthdaystore');
 
                 $message->to($data['user_email']);
 

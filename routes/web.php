@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\GiftController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ContactusController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\EditorImagesController;
 use App\Http\Controllers\Front\StaticPageController;
 use App\Http\Controllers\Front\OrdertrackingController;
 
@@ -305,5 +306,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:adm'], function () {
 	Route::get('/view-gift/{id}', [GiftController::class, 'show'])->name('view.gift');
 	Route::get('/delete_card_images/{id}', [CardController::class, 'card_gallery_delete'])->name('delete-card-images');
 	Route::post('/gift-status-change', [GiftController::class, 'Gift_Status_change'])->name('gift.status.change');
+
+		//Editor Images routes
+		Route::get('/editor-image-list', [EditorImagesController::class, 'index'])->name('editorimagelist');
+		Route::get('/create-editor-image', [EditorImagesController::class, 'create'])->name('create.editor.image');
+		Route::post('/create-editor-image', [EditorImagesController::class, 'store'])->name('create.editor.image.post');
+		Route::get('/edit-editor-image/{id}', [EditorImagesController::class, 'edit'])->name('edit.editor.image');
+		Route::post('edit-editor-image/{id}', [EditorImagesController::class, 'update'])->name('edit.editor.image.post');
+		Route::post('/delete-editor-image', [EditorImagesController::class, 'destroy'])->name('delete.editor.image.post');
+		Route::post('/editor-image-status-change', [EditorImagesController::class, 'editor_image_Status_change'])->name('editor.image.status.change');
 
 });
