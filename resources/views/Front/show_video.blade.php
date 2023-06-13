@@ -9,7 +9,7 @@
 
 @section('content')
 <style type="text/css">
-	body {
+  body {
   background-image: radial-gradient(circle at top right, #17141d, white);
   display: grid;
   height: 100vh;
@@ -65,112 +65,156 @@ progress[value] {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25) inset;
   color: dodgerblue;
   display: inline;
-  h
+  
 </style>
 
 <div class="container video_page">
-	<div class="video_image_content">
-		@if ($message = Session::get('success'))
+  <div class="video_image_content">
+    @if ($message = Session::get('success'))
         <div class="alert alert-success">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
           {{ $message }}
         </div>
          @endif
-		<div class="video_qr video-controls hidden" id="video-controls">
+    <div class="video_qr video-controls hidden" id="video-controls">
 <figure>
-			 <video width="100%" height="auto" class="video" id="video" preload="metadata" controls>
-			  <source src="{{ url('public/upload/videos') }}/{{ $db_card_data->video_name }}" type="video/mp4">
-			  Your browser does not support the video tag.
-			</video>
-			<figcaption>
+       <video width="100%" height="auto" class="video" id="video" preload="metadata" controls>
+        <source src="{{ url('public/upload/videos') }}/{{ $db_card_data->video_name }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <figcaption>
   
      <button id="play" aria-label="Play" role="button">►</button>
     <progress id="progress" max="100" value="0">Progress</progress>
     </figcaotion>
 </figure>
-			
-		</div>
-		
-		<div class="video_btns video_btns_qr">
-			<div class="add_video_btn">
+      
+    </div>
+    
+    <div class="video_btns video_btns_qr">
+      <div class="add_video_btn">
         <span class="upload_error"></span>
-				<form class="replace_btn" id="attachUpload" method="post" enctype="multipart/form-data">
-					@csrf
-					<input type="hidden" name="qr_img_val" value="" class="qr_image">
-					<input type="hidden" name="card_id" value="{{ $card_id }}">
-					<input type="hidden" name="card_size_id" value="{{ $card_size_id }}">
-					<input type="file" name="add_video_file" id="replace_video">
-					<input type="hidden" name="cart_id" value="{{ $cart_id }}">
-					<label class="label-add-video" for="replace_video">Replace Video <i class='bx bx-sync'></i></label>
-					<!-- <input type="submit" name="add_video_btn" value="Replace Video"> -->
-				</form>
-				<form class="del_video_btn" method="post" action="{{ url('delete_video') }}">
-					@csrf
-					<input type="hidden" name="card_id" value="{{ $card_id }}">
-					<input type="hidden" name="card_size_id" value="{{ $card_size_id }}">
-					<input type="hidden" name="cart_id" value="{{ $cart_id }}">
-					<button type="submit" name="delete_video_btn">Delete Video<i class='bx bx-trash'></i></button>
-					<!-- <input type="submit" name="delete_video_btn" value="Delete Video"> -->
-				</form>
-			</div>	
-		</div>
-		<div class="agree_bx">
-		  <div class="chk_cond">
-			<input id="checkbox" type="checkbox" />
-			<label for="checkbox"> I agree to these <a href="#">Terms and Conditions</a>.</label>
+        <div class="progress" id="progress_bar" style="display:none;height:50px; line-height: 50px;">
 
-		  </div>
-		</div>
-		<div class="footer-ctn">
-			<div class="countinue_btn">
-				<a href="#">Continue to Card Editor</a>
-			</div>
-		</div>
-	</div>
-</div>	
+            <div class="progress-bar" id="progress_bar_process" role="progressbar" style="width:0%;">0%</div>
+
+        </div>
+        <br>
+        <form class="replace_btn" id="attachUpload" method="post" enctype="multipart/form-data">
+          @csrf
+          <input type="hidden" name="qr_img_val" value="" class="qr_image">
+          <input type="hidden" name="card_id" value="{{ $card_id }}">
+          <input type="hidden" name="card_size_id" value="{{ $card_size_id }}">
+          <input type="file" name="add_video_file" id="replace_video">
+          <input type="hidden" name="cart_id" value="{{ $cart_id }}">
+          <label class="label-add-video" for="replace_video">Replace Video <i class='bx bx-sync'></i></label>
+          <!-- <input type="submit" name="add_video_btn" value="Replace Video"> -->
+        </form>
+        <form class="del_video_btn" method="post" action="{{ url('delete_video') }}">
+          @csrf
+          <input type="hidden" name="card_id" value="{{ $card_id }}">
+          <input type="hidden" name="card_size_id" value="{{ $card_size_id }}">
+          <input type="hidden" name="cart_id" value="{{ $cart_id }}">
+          <button type="submit" name="delete_video_btn">Delete Video<i class='bx bx-trash'></i></button>
+          <!-- <input type="submit" name="delete_video_btn" value="Delete Video"> -->
+        </form>
+      </div>  
+    </div>
+    <div class="agree_bx">
+      <div class="chk_cond">
+      <input id="checkbox" type="checkbox" />
+      <label for="checkbox"> I agree to these <a href="#">Terms and Conditions</a>.</label>
+
+      </div>
+    </div>
+    <div class="footer-ctn">
+      <div class="countinue_btn">
+        <a href="#">Continue to Card Editor</a>
+      </div>
+    </div>
+  </div>
+</div>  
 
 
 <script src =  
     "https://code.jquery.com/jquery-3.5.1.js">  
 </script>
 <script type="text/javascript">
-	document.getElementById("replace_video")
-	.onchange = function(event) {
-	  let file = event.target.files[0];
-
-	  console.log("file","{{ url('public/upload/videos') }}/"+file.name);
-	  var file_size = file.size/ 1024 / 1024;
-	  let finalURL =  
+  document.getElementById("replace_video")
+  .onchange = function(event) {
+    let file = event.target.files[0];
+    var file_time = "<?php echo time(); ?>";
+    var filename = file.name;
+    var file_extension = filename.split(".");
+    console.log("file","{{ url('public/upload/videos') }}/"+file.name);
+    var file_size = file.size/ 1024 / 1024;
+    let finalURL =  
 'https://chart.googleapis.com/chart?cht=qr&chl=' +  
         htmlEncode("{{ url('public/upload/videos') }}/"+file.name) +  
         '&chs=160x160&chld=L|0' 
         console.log("finalURL",finalURL);
         $('.qr-code').attr('src', finalURL);  
-       $(".qr_image").val(finalURL); 
-	   if(file_size > 10){
-          $(".upload_error").html('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Please upload the video less than 10 MB</div>');
-        }else{
-          $('#attachUpload').attr("action","{{ url('post_video') }}");
-          $('#attachUpload').trigger('submit');
-        }
-	}
+        $(".qr_image").val(finalURL); 
+        
+        // $('#attachUpload').attr("action","{{ url('post_video') }}");
+        // $('#attachUpload').trigger('submit');
+        
 
-	function htmlEncode(value) {  
+        var form_data = new FormData();
+
+        form_data.append('add_video_file', file);
+
+        form_data.append('_token', document.getElementsByName('_token')[0].value);
+        form_data.append('qr_img_val', finalURL);
+        form_data.append('card_id', "{{ $card_id }}");
+        form_data.append('card_size_id', "{{ $card_size_id }}");
+        form_data.append('cart_id', "{{ $cart_id }}");
+        form_data.append('file_time', file_time);
+
+        progress_bar.style.display = 'block';
+
+        var ajax_request = new XMLHttpRequest();
+
+        ajax_request.open("POST", "{{ url('post_video') }}");
+        var percent = 0;
+        ajax_request.upload.addEventListener('progress', function(event){
+
+            var percent_completed = Math.round((event.loaded / event.total) * 100);
+
+            progress_bar_process.style.width = percent_completed + '%';
+
+            progress_bar_process.innerHTML = percent_completed + '% completed';
+
+            percent = percent_completed;
+
+        });
+       
+        console.log($("#progress_bar_process").html()); 
+
+        var video_data = ajax_request.send(form_data);
+
+        ajax_request.onload = function() {
+          window.location.href = "{{ url('show_video') }}/{{ $card_id }}/{{ $card_size_id }}";
+          
+        }
+  }
+
+  function htmlEncode(value) {  
     return $('<div/>').text(value)  
         .html();  
     }  
     $(".countinue_btn").click(function(){
-    	if($("#checkbox").prop('checked') != true){
-	    	$(".agree_bx .chk_cond").append("<div style='color:red;'>Please check Terms & Conditions checkbox</div>");
-		}else{
-			$(".countinue_btn a").attr("href","{{ url('/card_editor') }}/{{ $card_id }}/{{ $card_size_id }}");
-		}
+      if($("#checkbox").prop('checked') != true){
+        $(".agree_bx .chk_cond").append("<div style='color:red;'>Please check Terms & Conditions checkbox</div>");
+    }else{
+      $(".countinue_btn a").attr("href","{{ url('/card_editor') }}/{{ $card_id }}/{{ $card_size_id }}");
+    }
     });
     
 </script>
 
 <script type="text/javascript">
-	// Select elements here
+  // Select elements here
 const video = document.getElementById('video');
 const videoControls = document.getElementById('video-controls');
 
@@ -181,8 +225,8 @@ if (videoWorks) {
 }
 </script>
 <script>
-	
-	const progress = document.getElementById("progress");
+  
+  const progress = document.getElementById("progress");
 
 function progressLoop() {
   $(function () {
@@ -205,17 +249,16 @@ function playPause() {
     video.play();
     button.innerHTML = "❙❙";
     
-    
-    
   }
   else  {
     video.pause(); 
     button.innerHTML = "►";
-    
   }
 }
 
 button.addEventListener( "click", playPause );
 video.addEventListener("play", progressLoop);
+
+
 </script>
 @endsection

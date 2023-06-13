@@ -14,9 +14,10 @@ class DashboardController extends Controller
     public function dashboard(){
         if (Auth::check()) {
             $totaluser = User::where('role','user')->count();
-            $totalcard = Card::count();   
+            $totalcard = Card::whereNull('gift_card')->count(); 
+            $totalgift = Card::where('gift_card','gift')->count();  
             $totalorder = Order::count();
-            return view("Admin.dashboard",compact('totaluser','totalcard','totalorder'));
+            return view("Admin.dashboard",compact('totaluser','totalcard','totalorder','totalgift'));
         }
         return redirect("login")->with(
             "failed",

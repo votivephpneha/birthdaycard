@@ -95,8 +95,8 @@
                                     <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <textarea id="des" name="description" rows="4" cols="50"
-                                        class="form-control col-md-7 col-xs-12">
+                                    <textarea id="des" name="description" rows="10" cols="50"
+                                        class="form-control col-md-7 col-xs-12" style="  resize: none;">
                                      </textarea>
                                     <!-- <input type="text" id="last-name" name="last_name"  class="form-control col-md-7 col-xs-12"> -->
                                     @if($errors->has('description'))

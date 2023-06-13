@@ -376,7 +376,8 @@ class AdminPagesController extends Controller
         }else{
             $sec2imageName4 =  $secfind->section_2_image_4;
         }
-       
+
+  
         // for third section
         if ($request->hasFile("sec_3_image")) {
             $sec3image = $request->file("sec_3_image");
@@ -385,6 +386,15 @@ class AdminPagesController extends Controller
             $sec3image->move(public_path("/upload/home_images"), $sec3imageName);
         }else{
             $sec3imageName =  $secfind->section_3_image;
+        }
+
+        if ($request->hasFile("sec_3_video")) {
+            $sec3video = $request->file("sec_3_video");
+            // $sec3imageName = time() . "." . $sec3image->extension();
+            $sec3videoName = Str::random(6) . time() . '.' .$sec3video->getClientOriginalExtension();
+            $sec3video->move(public_path("/upload/home_video"), $sec3videoName);
+        }else{
+            $sec3videoName =  $secfind->section_3_video;
         }
 
 
@@ -638,14 +648,18 @@ class AdminPagesController extends Controller
         $secfind->section_1_btn_text1 = $request->btntext1;
         $secfind->section_1_btn_text2 = $request->btntext2;
         $secfind->section_1_desc = $request->sec_content;
+
         $secfind->section_2_image_1 = $sec2imageName1;
         $secfind->section_2_image_2 = $sec2imageName2;
         $secfind->section_2_image_3 = $sec2imageName3;
         $secfind->section_2_image_4 = $sec2imageName4;
+
         $secfind->section_3_image   = $sec3imageName;
+        $secfind->section_3_video   = $sec3videoName;
         $secfind->section_3_heading = $request->sec_3_heading;
         $secfind->section_3_btn_text =$request->sec_3_btntext;
         $secfind->section_3_desc = $request->sec_3_content;
+
         $secfind->section_4_image_1 = $sec4imageName1;
         $secfind->section_4_image_2= $sec4imageName2;
         $secfind->section_4_image_3 = $sec4imageName3;
@@ -717,6 +731,23 @@ class AdminPagesController extends Controller
         }
      }
     }
+     
+    // delete home page video
+    public function home_video_delete($home_id)
+	{
+        $deletevideo =  HomePage::where('id', '=', $home_id)->get(); 
+        // dd($deleteimage); 
+        $deletevideo_name =  $deletevideo[0]->section_3_video;
+        $deletevideo_path = public_path('upload/home_video/'.$deletevideo_name);
+        if(File::exists($deletevideo_path)) {
+            File::delete($deletevideo_path);
+        }
+        HomePage::where('id', '=', $home_id)->update([
+          'section_3_video' => null 
+        ]);
+
+        return back()->with("success", "Video has been deleted successfully.");
+	}
 
     // active inactive status change
     public function sectionpage_status_change(Request $request)

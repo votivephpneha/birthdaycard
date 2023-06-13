@@ -57,6 +57,15 @@ CKEDITOR.replace('sec_5_con_2', {
 
             </div>
             @endif
+            @if(Session::has('success'))
+            <div class="alert alert-success alert-block">
+
+                <button type="button" class="close" data-dismiss="alert">×</button>
+
+                <strong>{{ Session::get('success')}}</strong>
+
+            </div>
+            @endif
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
@@ -912,10 +921,10 @@ CKEDITOR.replace('sec_5_con_2', {
                                                         @endif
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                             <div class="row">
-                                            <div class="col-md-4 demo">
+                                                <div class="col-md-4 demo">
                                                     <div class="form-group">
                                                         <label>Footer contact Image 1:</label><br>
                                                         <input type="file" id="foot_contact_img_1"
@@ -972,11 +981,11 @@ CKEDITOR.replace('sec_5_con_2', {
                                                         @endif
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                             <div class="row">
-                                            <div class="col-md-4 demo">
-                                                <div class="form-group">
+                                                <div class="col-md-4 demo">
+                                                    <div class="form-group">
                                                         <label>Footer contact Text1:</label>
                                                         <input type="text" id="foot_text1" name="foot_text1"
                                                             class="form-control col-md-7 col-xs-12"
@@ -994,7 +1003,7 @@ CKEDITOR.replace('sec_5_con_2', {
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 demo">
-                                                <div class="form-group">
+                                                    <div class="form-group">
                                                         <label>Footer contact Text 3:</label>
                                                         <input type="text" id="foot_text3" name="foot_text3"
                                                             class="form-control col-md-7 col-xs-12"
@@ -1004,8 +1013,8 @@ CKEDITOR.replace('sec_5_con_2', {
                                                 </div>
                                             </div>
                                             <div class="row">
-                                            <div class="col-md-4 demo">
-                                                <div class="form-group">
+                                                <div class="col-md-4 demo">
+                                                    <div class="form-group">
                                                         <label>Sixth Section heding:</label>
                                                         <input type="text" id="six_sec_head" name="six_sec_head"
                                                             class="form-control col-md-7 col-xs-12"
@@ -1019,13 +1028,14 @@ CKEDITOR.replace('sec_5_con_2', {
                                                         <!-- <input type="text" id="six_sec_desc" name="six_sec_desc"
                                                             class="form-control col-md-7 col-xs-12"
                                                             value="{{$secdata->footer_conttext_2}}" required><br> -->
-                                                            <textarea name="six_sec_desc" class="form-control " rows="4" cols="50"
-                                                     style="resize: none;" required>{{$secdata->section_6_desc}}</textarea><br>
+                                                        <textarea name="six_sec_desc" class="form-control " rows="4"
+                                                            cols="50" style="resize: none;"
+                                                            required>{{$secdata->section_6_desc}}</textarea><br>
 
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 demo">
-                                                <div class="form-group">
+                                                    <div class="form-group">
                                                         <label>Seventh Section heding:</label>
                                                         <input type="text" id="seven_sec_head" name="seven_sec_head"
                                                             class="form-control col-md-7 col-xs-12"
@@ -1035,14 +1045,15 @@ CKEDITOR.replace('sec_5_con_2', {
                                                 </div>
                                             </div>
                                             <div class="row">
-                                            <div class="col-md-4 demo">
-                                                <div class="form-group">
+                                                <div class="col-md-4 demo">
+                                                    <div class="form-group">
                                                         <label>Seventh Section Description:</label>
                                                         <!-- <input type="text" id="seven_sec_desc" name="seven_sec_desc"
                                                             class="form-control col-md-7 col-xs-12"
                                                             value="{{$secdata->footer_conttext_1}}" required><br> -->
-                                                            <textarea name="seven_sec_desc" class="form-control " rows="4" cols="50"
-                                                     style="resize: none;" required>{{$secdata->section_7_desc}}</textarea><br>
+                                                        <textarea name="seven_sec_desc" class="form-control " rows="4"
+                                                            cols="50" style="resize: none;"
+                                                            required>{{$secdata->section_7_desc}}</textarea><br>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 demo">
@@ -1054,7 +1065,27 @@ CKEDITOR.replace('sec_5_con_2', {
 
                                                     </div>
                                                 </div>
-</div>
+                                                <div class="col-md-4 demo">
+                                                    <div class="form-group">
+                                                        <label>Fourth Section Video :</label>
+                                                        <input type="file" id="sec_3_video" name="sec_3_video"
+                                                            class="form-control col-md-7 col-xs-12" accept="video/mp4,video/mkv, video/x-m4v,video/*"
+                                                             maxsize="2048"><br>
+                                                             <span id="preview-crop-image " >
+                                                                @if(!empty($secdata->section_3_video) && $secdata->section_3_video != null)
+                                                             <video width="300" height="240" controls>
+                                                             <source src="{{ asset('public/upload/home_video').'/'. $secdata->section_3_video}}" type="video/mp4">
+                                                             </video><br>
+                                                             <a href="{{route('delete-home-video',$secdata->id)}}"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                                             @endif
+                                                            </span>
+                                                            
+                                                                
+                                                          
+                                                            
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div>
                                                 <div class="form-group">
                                                     <button type="submit" class="btn btn-dark">Submit</button>

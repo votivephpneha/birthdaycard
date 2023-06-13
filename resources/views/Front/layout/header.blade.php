@@ -69,7 +69,7 @@
           </li>
           <div class="menu1">
             <li><a href="{{ url('birthday-cards') }}">BIRTHDAY CARDS</a></li>
-            <li><a href="#">Gifts</a></li>
+            <li><a href="{{ url('gift_card') }}">Gifts</a></li>
             <li><a href="{{ url('blogs') }}">BLOG</a></li>
             <li><a href="{{ url('contact-us') }}">CONTACT US</a></li>
           </div>

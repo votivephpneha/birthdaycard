@@ -12,6 +12,7 @@
 	.cart_page{
 		margin-top:50px;
 	}
+
 </style>
 <div class="cart_titlebar">
 <div class="container cart_header">
@@ -58,9 +59,13 @@
 				
 
 			
-			
-			<div class="checkout_btn" style="text-align: right">
-				<a href="{{ url('checkout') }}">Checkout</a>
+			<div class="checkout_btns">
+				<a href="{{ url('checkout') }}"  class="checkout_btn">Checkout</a>
+				
+				
+					<a href="{{ url('express_checkout') }}" class="checkout_btn">Express Checkout</a>
+				
+				
 			</div>
 			
 	</div>

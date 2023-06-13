@@ -17,7 +17,7 @@ class EditorImagesController extends Controller
      */
     public function index()
     {
-      $data['editorImagelist'] = EditorImages::orderby('id','DESC')->get();
+      $data['editorImagelist'] = EditorImages::orderby('id','DESC')->where('file_type','image')->get();
       return  view('Admin.editor_images.editor_image_list')->with($data);
     }
 
@@ -53,6 +53,7 @@ class EditorImagesController extends Controller
         $editorimage = new EditorImages();
         $editorimage->editor_image = $imageName;
         $editorimage->status = $request->editor_image_status;   
+        $editorimage->file_type = 'image';   
         $editorImageValue = $editorimage->save();
  
         if($editorImageValue ){
@@ -107,6 +108,7 @@ class EditorImagesController extends Controller
 
             $editimagefind->editor_image = $editimageName ;
             $editimagefind->status = $request->editor_image_status;
+            $editimagefind->file_type = 'image';
             $editimagefindvalue = $editimagefind->save();
             if($editimagefindvalue ){
                 return redirect("admin/editor-image-list")->with(
@@ -161,5 +163,163 @@ class EditorImagesController extends Controller
                 );
        return response()->json('Editor Image status changed successfully.');
 	}
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ShowVideolist()
+    {
+      $data['videoList'] = EditorImages::orderby('id','DESC')->where('file_type','video')->get();
+      return  view('Admin.demo_video.demo_video_list')->with($data);
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function CreateDemovideo()
+    {
+     return view('Admin.demo_video.create_demo_video');
+    }
+
+
+      /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function StoreDemoVideo(Request $request)
+    {
+        $request->validate([       
+            "video" => "required",
+            "video_status" => "required",            
+        ]);
+
+        if ($request->hasFile("video")) {
+            $video = $request->file("video");
+            $videoName =  Str::random(6) . time() . '.' . $video->getClientOriginalExtension();
+            $video->move(public_path("upload/editorImages"), $videoName);
+        }
+
+        $demovideo = new EditorImages();
+        $demovideo->editor_image = $videoName;
+        $demovideo->status = $request->video_status;   
+        $demovideo->file_type = 'video';   
+        $demovideoValue = $demovideo->save();
+ 
+        if($demovideoValue ){
+            return redirect("admin/demo-video-list")->with(
+                "success",
+                "Card demo video has been added successfully."
+            );
+        }else{
+           return back()->with("failed", "OOPs! Some internal issue occured.");         
+        }
+    }
+
+    // active inactive status change
+    public function demo_video_Status_change(Request $request)
+    {
+        $video_id = $request->video_id; 
+        $newstatus = $request->status;
+         
+        if($newstatus == 'Active'){
+            $newstatus = 1 ;
+        }else{
+            $newstatus = 0 ;
+        }
+        EditorImages::where('id', $video_id)
+        ->update(['status' => $newstatus
+                ]
+                );
+    return response()->json('Demo video status changed successfully.');
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Message  $message
+     * @return \Illuminate\Http\Response
+     */
+    public function DeleteVideo(Request $request)
+    {        
+        $demovideo = EditorImages::find($request->id);
+        $deletevideo = $demovideo->editor_image;
+        $deletevideo_path = public_path('upload/editorImages/'.$deletevideo);
+      
+        if(File::exists( $deletevideo_path) ) {
+            File::delete($deletevideo_path );
+        }
+         $result = $demovideo->delete();
+         if ($result) {
+            return json_encode(array('status' => 'success','msg' => 'Demo video has been deleted successfully!'));
+         }else {
+            return json_encode(array('status' => 'error','msg' => 'Some internal issue occured.'));
+         }
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Card  $card
+     * @return \Illuminate\Http\Response
+     */
+    public function editDemoVideo($id)
+    {
+        $videodata =  EditorImages::find($id);        
+        return view('Admin.demo_video.edit_demo_video',compact('videodata'));
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Card  $card
+     * @return \Illuminate\Http\Response
+     */
+    public function updateDemoVideo(Request $request, $id)
+    {
+        $request->validate([
+            "video_status" => "required",
+        ]);
+
+        $demovideofind = EditorImages::find($id);
+        if (empty($demovideofind)) {
+            return back()->with("failed", "Data not found");
+        } else {
+            
+            if ($request->hasFile("video")) {
+                $editvideo= $request->file("video");
+                $editvideoName =  Str::random(6) .time().'.'.$editvideo->getClientOriginalExtension();
+                $editvideo->move(public_path("/upload/editorImages"), $editvideoName);
+                
+            } else {
+                $editvideoName = $demovideofind->editor_image;
+            }
+
+            $demovideofind->editor_image = $editvideoName ;
+            $demovideofind->status = $request->video_status;
+            $demovideofind->file_type = 'video';
+            $demovideofindvalue = $demovideofind->save();
+            if($demovideofindvalue ){
+                return redirect("admin/demo-video-list")->with(
+                    "success",
+                    "Demo video has been updated successfully."
+                );
+            }else{
+                return back()->with("failed", "OOPs! Some internal issue occured.");  
+            }
+            
+        }
+    }
+
 
 }

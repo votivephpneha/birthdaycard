@@ -72,8 +72,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Description :</label>
-                                        <textarea id="des" name="description" rows="2" cols="10"
-                                            class="form-control col-md-7 col-xs-12" readonly>{{$viewdata->description}}
+                                        <textarea id="des" name="description" rows="10" cols="50"
+                                         style="  resize: none;" class="form-control col-md-7 col-xs-12" readonly>{{$viewdata->description}}
                                         </textarea>
                                     </div>
                                 </div>

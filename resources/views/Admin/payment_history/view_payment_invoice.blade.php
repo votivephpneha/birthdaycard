@@ -140,8 +140,8 @@
     <table class="table w-100 mt-10">
         <tr>    
             <th class="w-50">Card Title</th>
-            <th class="w-50">Card Size</th>
-            <th class="w-50">Price</th>
+            <th class="w-50">Card Type</th>
+            <th class="w-50">Unit Price	</th>
             <th class="w-50">Qty</th>
             <th class="w-50">Subtotal</th>
             <th class="w-50">Tax Amount</th>
@@ -152,8 +152,16 @@
             <!-- <td>M101</td> -->
           
             <td>{{$data->card_title}}</td>
-            <td>{{$data->card_size}}</td>
+            @if(!empty($data->card_size) && !empty($data->card_type) )
+            <td>{{$data->card_type}}<br>{{$data->card_size}}</td>
+            @else
+            <td>Gift</td>
+            @endif
+            @if(!empty($data->price))
             <td>${{number_format($data->price, 2)}}</td>
+            @else
+            <td>${{number_format($data->card_price, 2)}}</td>
+            @endif            
             <td>{{$data->qty}}</td>
             <td>${{number_format($data->card_price, 2)}}</td>
             <td>$0.00</td>

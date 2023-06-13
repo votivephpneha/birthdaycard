@@ -19,7 +19,7 @@
   <link href="{{ url('public/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ url('public/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
   <link href="{{ url('public/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
-  <link href="{{ url('public/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <!-- <link href="{{ url('public/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet"> -->
   <link href="{{ url('public/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ url('public/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
 
@@ -68,7 +68,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="{{ url('public/assets/vendor/aos/aos.js') }}"></script>
   <script src="{{ url('public/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ url('public/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+  <!-- <script src="{{ url('public/assets/vendor/glightbox/js/glightbox.min.js') }}"></script> -->
   <script src="{{ url('public/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
   <script src="{{ url('public/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
@@ -542,6 +542,25 @@ var cart_id_array = localStorage.getItem("cart_id_array");
       cache: false,
       success: function(data){
         
+        $(".checkout_table_data").prepend(data);
+        var card_price = $.trim($(".total_card_price-"+val).html()).replace("$","");
+        
+        sum = parseInt(sum) + parseInt(card_price);
+
+        console.log("cart_price2",sum);
+
+        $(".pay_now_price").html("$"+sum.toFixed(2));
+        $(".order_total_price").val(sum.toFixed(2));
+      }
+    });
+
+    $.ajax({
+      type: "GET",
+      url: "{{ url('ex_checkout_data') }}",
+      data: {cart_id:val},
+      cache: false,
+      success: function(data){
+        console.log("cart_data",data);
         $(".checkout_table_data").prepend(data);
         var card_price = $.trim($(".total_card_price-"+val).html()).replace("$","");
         

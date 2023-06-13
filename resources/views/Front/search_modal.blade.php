@@ -4,7 +4,7 @@
   background-color: rgba(0,0,0,0.4) !important; /* Black w/ opacity */
   }
 </style>
-<div class="modal fade cardpage_mdl card_modal" id="myModal-{{ $card_id }}" role="dialog" style="opacity: 1;display: block;background: transparent;">
+<div class="modal fade cardpage_mdl card_modal" id="myModal-{{ $card_id }}" role="dialog" style="opacity: 1;display: block;background:transparent;">
     <div class="modal-dialog modal-lg card--modal">
     
       <!-- Modal content-->
@@ -19,6 +19,7 @@
               <?php 
                 $gall_images_data = DB::table('card_gallery_images')->get()->where('card_id',$card_id);
                 $card_sizes = DB::table('card_sizes')->where('card_id',$card_id)->get();
+                $cards_data_modal = DB::table('cards')->select('*')->where('id',$card_id)->get()->first();
           
               ?>
               <div class="thumb-image">
@@ -36,11 +37,15 @@
             </div>
             <div class="col-md-6">
               <div class="card-sizes">
-        <h4>Select Size</h4>
+        <label>Description</label>
+        <p>{{ $cards_data_modal->description }}</p>
                 <form  name="post_sizes_form" method="post" action="{{ url('post_sizes') }}">
                   @csrf
                   <input type="hidden" name="card_id" value="{{ $card_id }}" >
                   <input type="hidden" name="card_size_price" value="" class="card_size_price">
+                  
+                <div class="form-group">
+                  <label for="Sizes">Size</label>
                   @foreach ($card_sizes as $c_size)
                     <div class="card_size_name">
                 <div class="card_radio">
@@ -64,11 +69,9 @@
               </div>
                     
                   @endforeach
-                  <div class="qty_box">
-                  <label for="quantity">Quantity</label>
-                  <input type="number" class="form-control" name="qty_box" id="qty_box" required="" min="1">
-                </div>
-                  <input class="submit_btn" type="submit" name="btn" value="Submit">
+                </div>  
+                  
+                  <input class="submit_btn" type="submit" name="btn" value="Select Card">
                 </form>
               </div>
             </div>

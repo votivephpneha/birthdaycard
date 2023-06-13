@@ -106,36 +106,47 @@ class FrontCardController extends Controller{
 		$data['db_card_data'] = DB::table('cards')->where('id',$card_id)->get()->first();
 		$data['c_size_id'] = $request->card_size_id;
 		$data['cart_id'] = Session::get('cart_id');
+
+		$data['db_video_page_data'] = DB::table('card_editor_images')->where('file_type','video')->get()->first();
+		$data['db_video_data'] = DB::table('videos')->where('cart_id',$data['cart_id'])->get()->first();
         
 		return view('Front/video_page')->with($data);
 	}
 
 	public function post_video(Request $request){
+		$file_time = $request->file_time;
 		$card_id = $request->card_id;
 		$card_size_id = $request->card_size_id;
 		$cart_id = $request->cart_id;
 		$qr_img_val = $request->qr_img_val;
 		$file = $request->file('add_video_file');
+		
 		$movieFileType=$file->getClientOriginalName();
 		$file_type = explode(".",$movieFileType);
         $file_type1 = end($file_type);
 		if($file && $file_type1 == "mp4"){
 	        $destinationPath = base_path() .'/public/upload/videos';
-	        $file->move($destinationPath,$file->getClientOriginalName());
+	        $file_name = $file_time.".".$file_type1;
+	        $file->move($destinationPath,$file_name);
 
 	        $data['video_data'] = DB::table('videos')->where('cart_id',$cart_id)->get()->first();
 
 	        if($data['video_data']){
-	        	$favourite_cards = DB::table('videos')->where('cart_id',$cart_id)->update(['video_name'=>$file->getClientOriginalName(),'qr_image_link'=>$qr_img_val, 'created_at'=>date('Y-m-d H:i:s')]);
+	        	 
+	        	$favourite_cards = DB::table('videos')->where('cart_id',$cart_id)->update(['video_name'=>$file_name,'qr_image_link'=>$qr_img_val, 'created_at'=>date('Y-m-d H:i:s')]);
+
 	        }else{
-	        	$video_id = DB::table('videos')->insertGetId(['video_name'=>$file->getClientOriginalName(),'cart_id'=>$cart_id, 'qr_image_link'=>$qr_img_val, 'created_at'=>date('Y-m-d H:i:s')]);
+	        	$video_id = DB::table('videos')->insertGetId(['video_name'=>$file_name,'cart_id'=>$cart_id, 'qr_image_link'=>$qr_img_val, 'created_at'=>date('Y-m-d H:i:s')]);
 	        	
 	        	$favourite_cards = DB::table('cart_table')->where('cart_id',$cart_id)->update(['video_id'=>$video_id, 'created_at'=>date('Y-m-d H:i:s')]);
+
+	        	
 	        }
 
 	        session::flash('success', 'QR code is generated for this video');
 
-	        return redirect('show_video/'.$card_id.'/'.$card_size_id);
+	 
+	        
     	}else{
     		session::flash('error', 'Please upload the video');
     		return redirect('video_upload_page/'.$card_id.'/'.$card_size_id);
@@ -149,6 +160,7 @@ class FrontCardController extends Controller{
 		$data['card_size_id'] = $card_size_id;
 		$data['cart_id'] = Session::get('cart_id');
 		$data['db_card_data'] = DB::table('videos')->where('cart_id',$data['cart_id'])->get()->first();
+		//print_r($data['db_card_data']);die;
 		return view('Front/show_video')->with($data);
 	}
 
@@ -174,6 +186,7 @@ class FrontCardController extends Controller{
 		$data['colors'] = DB::table('text_colors')->get();
 		$data['fonts'] = DB::table('text_fonts')->get();
 		$data['messages'] = DB::table('messages')->get();
+		$data['editor_image'] = DB::table('card_editor_images')->where('file_type','image')->get()->first();
 		// $data['db_text_data'] = DB::table('predesigned_text')->where('cart_id',$data['cart_id']->cart_id)->where('txt_id',1)->get()->first();
 		// $data['db_text_data1'] = DB::table('predesigned_text')->where('cart_id',$data['cart_id']->cart_id)->where('txt_id',2)->get()->first();
 		// $data['db_text_data2'] = DB::table('predesigned_text')->where('cart_id',$data['cart_id']->cart_id)->where('txt_id',3)->get()->first();
@@ -201,17 +214,12 @@ class FrontCardController extends Controller{
 		$text_align_ver_font2 = $request->text_align_ver_font2;
 		$text_font_font2 = $request->text_font_font2;
 	
-		$text_size_font3 = $request->text_size_font3;
-		$text_color_font3 = $request->text_color_font3;
-		$text_font3 = $request->text_font3;
-		$text_align_hor_font3 = $request->text_align_hor_font3;
-		$text_align_ver_font3 = $request->text_align_ver_font3;
-		$text_font_font3 = $request->text_font_font3;
+		
 
 		$data['db_text_data'] = DB::table('predesigned_text')->where('cart_id',$cart_id)->get()->first();
 		//print_r($data['db_text_data']);die;
 		
-		if($text_font1 && $text_font2 && $text_font3){
+		if($text_font1 && $text_font2){
 			if(empty($data['db_text_data'])){
 			
 				$post_text1 = DB::table('predesigned_text')->insertGetId(['cart_id'=>$cart_id,'txt_id'=>1,'size'=>$text_size_font1,'color'=>$text_color_font1,'Text'=>$text_font1,'font'=>$text_font_font1,'horizontal_alignment'=>$text_align_hor_font1,'vertical_alignment'=>$text_align_ver_font1,'created_at'=>date('Y-m-d H:i:s')]);
@@ -219,10 +227,8 @@ class FrontCardController extends Controller{
 			
 				$post_text2 = DB::table('predesigned_text')->insertGetId(['cart_id'=>$cart_id,'txt_id'=>2,'size'=>$text_size_font2,'color'=>$text_color_font2,'Text'=>$text_font2,'font'=>$text_font_font2,'horizontal_alignment'=>$text_align_hor_font2,'vertical_alignment'=>$text_align_ver_font2,'created_at'=>date('Y-m-d H:i:s')]);
 			
-			
-				$post_text3 = DB::table('predesigned_text')->insertGetId(['cart_id'=>$cart_id,'txt_id'=>3,'size'=>$text_size_font3,'color'=>$text_color_font3,'Text'=>$text_font3,'font'=>$text_font_font3,'horizontal_alignment'=>$text_align_hor_font3,'vertical_alignment'=>$text_align_ver_font3,'created_at'=>date('Y-m-d H:i:s')]);
 
-				$post_text = $post_text1.",".$post_text2.",".$post_text3;
+				$post_text = $post_text1.",".$post_text2;
 
 				$update_cart_status = DB::table('cart_table')->where('cart_id',$cart_id)->where('sizes',$card_size_id)->update(['status'=>1,'predesigned_text_id'=>$post_text,'created_at'=>date('Y-m-d H:i:s')]);
 				
@@ -233,19 +239,14 @@ class FrontCardController extends Controller{
 			
 				$post_text = DB::table('predesigned_text')->where('cart_id',$cart_id)->where('txt_id',2)->update(['size'=>$text_size_font2,'color'=>$text_color_font2,'Text'=>$text_font2,'created_at'=>date('Y-m-d H:i:s')]);
 			
-			
-				$post_text = DB::table('predesigned_text')->where('cart_id',$cart_id)->where('txt_id',3)->update(['size'=>$text_size_font3,'color'=>$text_color_font3,'Text'=>$text_font3,'created_at'=>date('Y-m-d H:i:s')]);
 				
 			}
 			
-			session::flash('success', 'The card has been added to the basket.');
-	        return redirect('cart_continue');
-		}else{
-			session::flash('error', 'Please add all text');
-			return redirect('card_editor/'.$card_id.'/'.$card_size_id);
+			
 		}
-		
-
+		$update_cart_status = DB::table('cart_table')->where('cart_id',$cart_id)->where('sizes',$card_size_id)->update(['status'=>1,'created_at'=>date('Y-m-d H:i:s')]);
+		session::flash('success', 'The card has been added to the basket.');
+	    return redirect('cart_continue');
 	}
 
 	public function cart_continue(){
@@ -268,6 +269,7 @@ class FrontCardController extends Controller{
 	public function cart_data(Request $request){
 		$cart_id = $request->cart_id;
 		$data['cart_data'] = DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->get();
+		
 
 		$card_id = $data['cart_data'][0]->card_id;
 		$card_sizes = $data['cart_data'][0]->sizes;
@@ -348,8 +350,7 @@ class FrontCardController extends Controller{
 	}
 
 	public function checkout(Request $request){
-		$user_id = Auth::user()->id;
-		$data['cart_data'] = DB::table('cart_table')->where('user_id',$user_id)->where('status',1)->get();
+		
 		$data['countries'] = DB::table('countries')->get();
 		
 		return view("Front/checkout")->with($data);
@@ -377,7 +378,7 @@ class FrontCardController extends Controller{
 
 	public function post_checkout(Request $request){
 		$cart_id_array = $request->cart_id_array;
-		$user_id = Auth::user()->id;
+		
 		$fname = $request->fname;
 		$lname = $request->lname;
 		$address = $request->address;
@@ -389,6 +390,18 @@ class FrontCardController extends Controller{
 		$email_address = $request->email_address;
 		$order_notes = $request->order_notes;
 		$order_total_price = $request->order_total_price;
+
+		if(Auth::user()){
+			$user_id = Auth::user()->id;
+		}else{
+			$user_data = DB::table('users')->where("email",$email_address)->get()->first();
+			if($user_data){
+				$user_id = $user_data->id;
+			}else{
+				$user_id = DB::table('users')->insertGetId(['fname'=>$fname,'lname'=>$lname, 'phone'=>$phone_no, 'email'=>$email_address, 'address'=>$address, 'created_at'=>date('Y-m-d H:i:s')]);
+			}
+			
+		}
 
 		
 		
@@ -436,8 +449,12 @@ class FrontCardController extends Controller{
 			});
 
 			
-			return redirect('order_status/'.$order_id);
-			//return view("Front/order-invoice",['order_id'=>$order_id]);
+			if(Auth::user()){
+				return redirect('order_status/'.$order_id);
+			}else{
+				return redirect('ex_order_status/'.$order_id);
+			}
+			
 
 		}	
 	}

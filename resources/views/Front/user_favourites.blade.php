@@ -57,8 +57,9 @@
           <div class="row">
             <div class="col-md-6">
               <?php 
-                $gall_images_data = DB::table('card_gallery_images')->get()->where('card_id',$card_data[0]->id);
+               $gall_images_data = DB::table('card_gallery_images')->get()->where('card_id',$card_data[0]->id);
                 $card_sizes = DB::table('card_sizes')->where('card_id',$card_data[0]->id)->get();
+                $cards_data_modal = DB::table('cards')->select('*')->where('id',$card_data[0]->id)->get()->first();
           
               ?>
               <div class="thumb-image">
@@ -76,13 +77,19 @@
             </div>
             <div class="col-md-6">
               <div class="card-sizes">
-        <h4>Select Size</h4>
+        <h4>Select card</h4>
+        <p>{{ $cards_data_modal->description }}</p>
                 <form  name="post_sizes_form" method="post" action="{{ url('post_sizes') }}">
                   @csrf
-                  <input type="hidden" name="card_id" value="{{ $card_data[0]->id }}" >
+                  
+                  <input type="hidden" name="card_id" value="{{ $card_data[0]->id }}">
                   <input type="hidden" name="card_size_price" value="" class="card_size_price">
+                  
+
+                <div class="form-group">
+                  <label for="Sizes">Select Size</label>
                   @foreach ($card_sizes as $c_size)
-                    <div class="card_size_name">
+                  <div class="card_size_name">
                 <div class="card_radio">
                     <input type="hidden" name="card_qty" value="{{ $c_size->card_size_qty }}">
                     <input type="radio" name="c_size" value="{{ $c_size->id  }}" required="" onclick="clickSize(this.value,'{{ $c_size->card_price }}')">&nbsp;{{ $c_size->card_type }}
@@ -102,13 +109,11 @@
                   <span><i class='bx bx-gift'></i></span>
                 </div>
               </div>
-                    
-                  @endforeach
-                  <div class="qty_box">
-                  <label for="quantity">Quantity</label>
-                  <input type="number" class="form-control" name="qty_box" id="qty_box" required="">
+              @endforeach
                 </div>
-                  <input class="submit_btn" type="submit" name="btn" value="Submit">
+                  
+                    
+                <input class="submit_btn" type="submit" name="btn" value="Select Card">
                 </form>
               </div>
             </div>

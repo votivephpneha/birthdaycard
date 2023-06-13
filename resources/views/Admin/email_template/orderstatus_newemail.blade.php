@@ -17,25 +17,27 @@
         <!-- End Common CSS -->
     </head>
     <body>
-        <table width="100%" cellpadding="0" cellspacing="0" border="0" class="backgroundTable main-temp" style="background-color: #d5d5d5;">
+        
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" class="backgroundTable main-temp" style="background-color: #f8f8f9;">
             <tbody>
                 <tr>
                     <td>
-                        <table width="600" align="center" cellpadding="15" cellspacing="0" border="0" class="devicewidth" style="background-color: #ffffff;">
+                        <br><br><br>
+                        <table width="600" align="center" cellpadding="15" cellspacing="0" border="0" class="devicewidth" style="background-color: #FFF; border: 1px solid #bd3496;">
                             <tbody>
                                 <!-- Start header Section -->
                                 <tr>
                                     <td style="padding-top: 30px;">
-                                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="border-bottom: 1px solid #eeeeee; text-align: center;">
+                                        <table width="560" align="center" cellpadding="0" cellspacing="0" border="0" class="devicewidthinner" style="text-align: center;">
                                             <tbody>
                                                 <tr>
                                                     <td style="padding-bottom: 10px;">
-                                                        <a href="https://votiveinfo.in/Birthdaycards/"><img src="https://votiveinfo.in/Birthdaycards/public/images/logo.png"  /></a>
+                                                        <a href="https://votiveinfo.in/Birthdaycards/"><img src="https://votiveinfo.in/Birthdaycards/public/images/logo.png"  / style="width: 185px;"></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: 14px; line-height: 18px; color: #666666;">
-                                                       <h1>Hi,{{ $user_name}}<h1>
+                                                       <h1 style="color: #000000;">Hi,{{ $user_name}}<h1>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -152,7 +154,7 @@
                                                    
                                                 </tr>
                                                 @endif
-                                                @if(!empty($order_dtl[0]->cancel_reason && $order_dtl[0]->order_status == 2 ))
+                                                @if(!empty($order_dtl[0]->new_cancel_reason ))
                                                 <tr>
                                                     <td colspan="2" style="font-size: 16px; font-weight: bold; color: #666666; padding-bottom: 5px;">
                                                        Cancel reason
@@ -161,7 +163,7 @@
                                                
                                                 <tr>
                                                     <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 10px;">
-                                                   {{ $order_dtl[0]->cancel_reason}}
+                                                   {{ $order_dtl[0]->new_cancel_reason}}
                                                     </td>
                                                    
                                                 </tr>
@@ -196,16 +198,20 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: 14px; line-height: 18px; color: #757575;">
-                                                        Card Type: {{$item->card_type}}
+                                                        Card Type: @if(!empty($item->card_type)){{$item->card_type}} @else {{'Gift'}} @endif
                                                     </td>
                                                     <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right;">
                                                     ${{number_format($item->price,2)}} Per Unit
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                   
                                                     <td style="font-size: 14px; line-height: 18px; color: #757575; padding-bottom: 10px;">
+                                                    @if(!empty($item->card_size))
                                                         Size: {{$item->card_size}}
+                                                        @endif
                                                     </td>
+                                                    
                                                     <td style="font-size: 14px; line-height: 18px; color: #757575; text-align: right; padding-bottom: 10px;">
                                                         <b style="color: #666666;">${{number_format($item->card_price,2)}}</b> Total
                                                     </td>
@@ -279,9 +285,11 @@
                                 <!-- End payment method Section -->
                             </tbody>
                         </table>
+                         <br><br><br>
                     </td>
                 </tr>
             </tbody>
         </table>
+         <br><br>
     </body>
 </html>

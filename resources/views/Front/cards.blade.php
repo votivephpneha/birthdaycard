@@ -108,7 +108,7 @@
           	</div>
           	<div class="col-md-6">
           		<div class="card-sizes">
-				<label>Select Size</label>
+				<label>Description</label>
 				<p>{{ $cards_data_modal->description }}</p>
           			<form  name="post_sizes_form" method="post" action="{{ url('post_sizes') }}">
           				@csrf

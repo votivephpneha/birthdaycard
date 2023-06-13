@@ -215,7 +215,7 @@ class PaymentController extends Controller
         $paymentdata = Order::where('id',$id)->get();
 
         $card_details = DB::table("order_details")
-                        ->select("order_details.*","cards.card_title","card_sizes.card_size","card_sizes.card_price As price","order.total","order.sub_total")
+                        ->select("order_details.*","cards.card_title","card_sizes.card_type","card_sizes.card_size","card_sizes.card_price As price","order.total","order.sub_total")
                         ->leftJoin("order","order.order_id","=","order_details.order_id")
                         ->leftJoin("cards","cards.id","=","order_details.card_id")
                         ->leftJoin("card_sizes","card_sizes.id","=","order_details.card_size_id")

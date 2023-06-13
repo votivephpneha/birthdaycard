@@ -65,7 +65,7 @@ class OrderController extends Controller
                       ->get();
 
         $card_details = DB::table("order_details")
-                        ->select("order_details.*","cards.card_title","card_sizes.card_size","card_sizes.card_price As price","videos.qr_image_link")
+                        ->select("order_details.*","cards.card_title","card_sizes.card_size","card_sizes.card_type","card_sizes.card_price As price","videos.qr_image_link")
                         ->leftJoin("order","order.order_id","=","order_details.order_id")
                         ->leftJoin("cards","cards.id","=","order_details.card_id")
                         ->leftJoin("card_sizes","card_sizes.id","=","order_details.card_size_id")
@@ -339,19 +339,19 @@ class OrderController extends Controller
         "card_data" => $card_data
   
     );
-
+    $data['order_dtl'][0]->new_cancel_reason = $cancel_reason ;
+    
      if($order_status == 1){
-
         Order::where('order_id',$order_id)->update(
             ['order_status' => $request->order_status,
               'cancel_reason' => $cancel_reason,
               'updated_at'=> $date,
         ]);
-
+        
         $data['email_subject'] = 'Order Confirmation';
 
-        $data['email_content'] = 'Thank you for your order through Birthdaystore! Your order is now confirmed . Your Order No is :';
-
+        // $data['email_content'] = 'Thank you for your order through Birthdaystore! Your order is now confirmed . Your Order No is :';
+        $data['email_content'] = 'Thanks for your order.This is your confirmation email.We will be in touch soon to let you know when,your order has been shipped.Below is your order info.';
         $this->Send_status_email($data);
 
      }elseif($order_status==3){        
@@ -363,8 +363,8 @@ class OrderController extends Controller
          
         $data['email_subject'] = 'Order Ready';
 
-        $data['email_content'] = 'Your Order has been ready to delivery.';
-
+        // $data['email_content'] = 'Your Order has been ready to delivery.';
+        $data['email_content'] = 'Your Order has been Shipped.'; 
         $this->Send_status_email($data);
 
         }
@@ -391,7 +391,7 @@ class OrderController extends Controller
         
             $data['email_subject'] = 'Order On the way';
 
-            $data['email_content'] = 'Your order is On the way.';
+            $data['email_content'] = 'your order on its way.';
     
             $this->Send_status_email($data);
 
@@ -404,8 +404,8 @@ class OrderController extends Controller
         
             $data['email_subject'] = 'Order Cancel';
 
-            $data['email_content'] = 'Your Order is cancelled.';
-    
+            $data['email_content'] = 'Your Order has been cancelled for the reason indicated below.The items listed below were part of the cancelled order.';
+            $data['order_dtl'][0]->new_cancel_reason = $cancel_reason ;
             $this->Send_status_email($data);
         }
      

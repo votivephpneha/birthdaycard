@@ -22,11 +22,28 @@
             <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                    <li><a><i class="fa fa-edit"></i> Card Management <span class="fa fa-chevron-down"></span></a>
+                    <!-- <li><a><i class="fa fa-edit"></i> Card Management <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{route('cardlist')}}">List</a></li>
+                            <li><a href="{{route('cardlist')}}">List</a></li>                              
                         </ul>
-                    </li>
+                    </li> -->
+                    <li><a><i class="fa fa-edit"></i>Card Management<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                    <li><a href="{{route('cardlist')}}">List</a></li>
+                        <li><a><i class="fa fa-file-photo-o"></i>Card Editor Images<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                          <li><a href="{{route('editorimagelist')}}">List</a></li>
+                            </li>
+                          </ul>
+                        </li>
+                        <li><a><i class="fa fa-video-camera"></i>Demo Video<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                          <li><a href="{{route('demovideolist')}}">List</a></li>
+                            </li>
+                          </ul>
+                        </li>
+                    </ul>
+                  </li>
                     <li><a><i class="fa fa-gift"></i>Gift Management <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{route('giftlist')}}">List</a></li>
@@ -39,11 +56,11 @@
                             <li><a href="{{route('textsizelist')}}">Text Size</a></li>
                         </ul>
                     </li> -->
-                    <li><a><i class="fa fa-file-photo-o"></i>Card Editor Images<span class="fa fa-chevron-down"></span></a>
+                    <!-- <li><a><i class="fa fa-file-photo-o"></i>Card Editor Images<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{route('editorimagelist')}}">List</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li><a><i class="fa fa-pencil-square"></i> Message Managment <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{route('messagelist')}}">List</a></li>
@@ -74,11 +91,6 @@
                       <li><a href="{{route('order-list')}}">List</a></li>
                     </ul>
                     </li>
-                    <!-- <li><a><i class="fa fa-tag"></i>Voucher Codes<span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{{route('vouchercodelist')}}">List</a></li>
-                    </ul>
-                    </li> -->
                     <li><a><i class="fa fa-gbp"></i>Payment History<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{route('paymentlist')}}">List</a></li>
@@ -105,7 +117,7 @@
                     <li><a href="{{route('content-pagelist')}}">Pages</a></li>
                         <li><a>Home Page<span class="fa fa-chevron-down"></span></a>
                           <ul class="nav child_menu">
-                          <li><a href="{{route('home.page.list')}}">Home Page</a></li>
+                          <li><a href="{{route('home.page.list')}}">Home Page</a>
                             </li>
                             <li><a href="{{route('home.first.slider.list')}}">Home First Slider</a>
                             </li>

@@ -24,7 +24,7 @@
 </div>
 <div class="container checkout_page">
 	
-	<form method="post" name="checkout_form" action="{{ url('post_checkout') }}">
+	<form method="post" name="checkout_form" action="@if(Auth::user()) {{ url('post_checkout') }}@else {{ url('ex_post_checkout') }} @endif">
 		@csrf
 		<div class="row">
 			
@@ -36,13 +36,13 @@
 								<div class="form-group">
 						  	      <label for="first_name">First Name</label>
 						  	      <input type="hidden" name="cart_id_array" class="cart_id_array" value="">
-						  	      <input type="text" class="form-control" id="fname" placeholder="" name="fname" value="{{ $user->fname }}">
+						  	      <input type="text" class="form-control" id="fname" placeholder="" name="fname" value="@if($user){{ $user->fname }}@endif">
 						  	    </div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 						  	      <label for="last_name">Last Name</label>
-						  	      <input type="text" class="form-control" id="lname" placeholder="" name="lname" value="{{ $user->lname }}">
+						  	      <input type="text" class="form-control" id="lname" placeholder="" name="lname" value="@if($user){{ $user->lname }}@endif">
 						  	    </div>
 							</div>
 							
@@ -82,7 +82,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 						  	      <label for="address">Street address </label>
-						  	      <input type="text" class="form-control" id="address" placeholder="" name="address" value="{{ $user->address }}" autocomplete="off">
+						  	      <input type="text" class="form-control" id="address" placeholder="" name="address" value="@if($user){{ $user->address }}@endif" autocomplete="off">
 						  	    </div>
 							</div>
 							
@@ -99,13 +99,13 @@
 							<div class="col-md-12">
 								<div class="form-group">
 						  	      <label for="phone_no">Phone</label>
-						  	      <input type="text" class="form-control" id="phone_no" placeholder="" name="phone_no" value="{{ $user->phone }}">
+						  	      <input type="text" class="form-control" id="phone_no" placeholder="" name="phone_no" value="@if($user){{ $user->phone }}@endif">
 						  	    </div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
 						  	      <label for="email_address">Email Address</label>
-						  	      <input type="text" class="form-control" id="email_address" placeholder="" name="email_address" value="{{ $user->email }}">
+						  	      <input type="text" class="form-control" id="email_address" placeholder="" name="email_address" value="@if($user){{ $user->email }}@endif">
 						  	    </div>
 							</div>
 						</div>
@@ -131,26 +131,7 @@
 							
 							<div class="checkout_items">
 								<table style="width:100%" class="checkout_table_data">
-									<!-- @foreach($cart_data as $c_data)
-									<?php
-										$card_data = DB::table('cards')->where(['id' => $c_data->card_id])->get();
-									?>
-									<tr class="orderlist_tbl">
-										<td class="imgqty_info">
-											<img src="{{ url('public/upload/cards') }}/{{ $card_data[0]->card_image }}" style="width:100px;">
-											<div class="item_qty">{{ $c_data->qty }}</div>
-										</td>
-										<td>
-											<h5>{{ $card_data[0]->card_title }}</h5>
-											<?php
-						                        $price = $c_data->price;  
-						                        echo "$".number_format((float)$price, 2, '.', '');
-						                    ?>
-											
-										</td>
-									</tr>
-								
-									@endforeach -->
+									
 									<tr class="order_amt">
 										<th>Total Cost</th>
 										<td class="total_cost_order">
