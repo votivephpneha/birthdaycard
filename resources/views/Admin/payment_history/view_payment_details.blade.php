@@ -79,7 +79,7 @@
                   <p>{{$paytrandata[0]->fname." ". $paytrandata[0]->lname}}</p>
                   
                   <ul class="list-unstyled Myorderadd">
-                     <li><i class="fa fa-building"></i> Address#: {{$paytrandata[0]->address}},{{$paytrandata[0]->city}},{{$paytrandata[0]->state}} {{$paytrandata[0]->postal_code}} </li>
+                     <li><i class="fa fa-building"></i> Address#: {{$paytrandata[0]->door_number}} {{$paytrandata[0]->address}} {{$paytrandata[0]->state}}, {{$paytrandata[0]->postal_code}} </li>
                      <li><i class="fa fa-phone"></i> Phone #: {{$paytrandata[0]->phone_no}} </li>
                      <li><i class="fa fa-envelope"></i> Email #: {{$paytrandata[0]->email}} </li>
                   </ul>                 

@@ -93,22 +93,43 @@
 @endsection
 
 @section('current_page_js')
-<script>
-function previewFile(input) {
 
-    var file = $("input[type=file]").get(0).files[0];
+<script type="text/javascript">
+$('#order_status').on('change', function() {
 
-    if (file) {
-        var reader = new FileReader();
-        // alert('check');
-        reader.onload = function() {
-            $("#previewImg").attr("src", reader.result);
-        }
+    var val = $('#order_status').val();
 
-        reader.readAsDataURL(file);
+    if (val == 2) {
+        $('#cancel_area').html(
+        '<textarea style="width: 337px;" class="form-control animated"  id="cancel_reason" name="cancel_reason" placeholder="Enter cancel reason..." rows="3"></textarea>'
+        );
+
     }
+
+});
+
+function myFunction(text_id) {
+    //alert(text_id);
+    var predta = text_id.split(',');
+    
+    var predesigned_ids = JSON.stringify(predta);
+    console.log("predesigned_ids",predesigned_ids);
+    //console.log("predta",val);
+    $.ajax({
+        type: 'get',
+        url: "{{ url('admin/getText') }}",
+        data: {text_id:predesigned_ids},
+        
+        success: function(resultData) { 
+            console.log(resultData);
+            $(".order_text_data").html(resultData);
+         }
+    });
+    
+    
 }
 </script>
+
 
 
 @endsection
@@ -119,7 +140,7 @@ function previewFile(input) {
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Order</h3>
+                <h3>Order Details</h3>
             </div>
 
             <div class="title_right">
@@ -309,7 +330,7 @@ function previewFile(input) {
                                         </div>
                                     </td>
                                     <td class="fw-bold text-end">
-                                        {{$orderdetail[0]->address}},{{$orderdetail[0]->city}},{{$orderdetail[0]->state}}
+                                    {{$orderdetail[0]->door_number}} {{$orderdetail[0]->address}},{{$orderdetail[0]->city}}
                                         {{$orderdetail[0]->postal_code}}
                                     </td>
 
@@ -333,7 +354,7 @@ function previewFile(input) {
                                             Name :
                                         </div>
                                     </td>
-                                    <td class="fw-bold text-end">{{$orderdetail[0]->fname}} {{$orderdetail[0]->lname}}
+                                    <td class="fw-bold text-end">{{$orderdetail[0]->receiver_fname}} {{$orderdetail[0]->receiver_lname}}
                                     </td>
                                 </tr>
                                 <tr>
@@ -343,7 +364,7 @@ function previewFile(input) {
                                         </div>
                                     </td>
                                     <td class="fw-bold text-end">
-                                        {{$orderdetail[0]->email}}
+                                        {{$orderdetail[0]->receiver_email}}
                                     </td>
                                 </tr>
                                 <tr>
@@ -352,7 +373,7 @@ function previewFile(input) {
                                             Phone :
                                         </div>
                                     </td>
-                                    <td class="fw-bold text-end">{{$orderdetail[0]->phone_no}}</td>
+                                    <td class="fw-bold text-end">{{$orderdetail[0]->receiver_phone_no}}</td>
                                 </tr>
                                 <tr>
 
@@ -362,8 +383,8 @@ function previewFile(input) {
                                         </div>
                                     </td>
                                     <td class="fw-bold text-end">
-                                        {{$orderdetail[0]->address}},{{$orderdetail[0]->city}},{{$orderdetail[0]->state}}
-                                        {{$orderdetail[0]->postal_code}}
+                                    {{$orderdetail[0]->receiver_door_number}} {{$orderdetail[0]->receiver_address}},{{$orderdetail[0]->receiver_city}}
+                                        {{$orderdetail[0]->receiver_postal_code}}
                                     </td>
 
                                 </tr>
@@ -386,6 +407,7 @@ function previewFile(input) {
             <th class="">Card Type</th>
             <th class="">Unit Price	</th>
             <th class="">Qty</th>
+            <th class="">Qr Link</th>
             <th>Predesign Text detail</th>
             
             <!-- <th class="">Subtotal</th>
@@ -394,8 +416,7 @@ function previewFile(input) {
         </tr>
         @foreach($card_details as $data)
         <tr align="center">
-            <!-- <td>M101</td> -->
-          
+            <!-- <td>M101</td> -->          
             <td>{{$data->card_title}}</td>
             @if(!empty($data->card_size) && !empty($data->card_type) )
             <td>{{$data->card_type}}<br>{{$data->card_size}}</td>
@@ -408,12 +429,17 @@ function previewFile(input) {
             <td>${{number_format($data->card_price, 2)}}</td>
             @endif            
             <td>{{$data->qty}}</td>
-            @if(!empty($data->price))
+            @if($data->qr_image_link)
+            <td>{{$data->qr_image_link}}</td>
+            @else
+            <td>No Link</td>
+            @endif
+            @if(!empty($data->predesigned_text_id))
                                                 <td><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal"  onclick="myFunction('<?php echo $data->predesigned_text_id?>')">
                                                  view
                                                 </button></td>
                                                 @else
-                                                <td></td>
+                                                <td>No Text</td>
                                                 @endif
             <!-- <td>${{number_format($data->card_price, 2)}}</td>
             <td>$0.00</td>
@@ -451,4 +477,59 @@ function previewFile(input) {
     </div>
 </div>
 <!-- /page content -->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Predesign Text</h4>
+        </div>
+        <div class="modal-body" style="padding:40px 50px;">
+        <div class="card_text_dtl">
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Text</th>
+      <th scope="col">Size</th>
+      <th scope="col">Font</th>
+      <th scope="col">Colour</th>
+      <th scope="col">Horizontal Alignment</th>
+      <th scope="col">Vertical Alignment</th>
+    </tr>
+  </thead>
+  <tbody class="order_text_data">
+    <!-- <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr> -->
+  </tbody>
+</table>
+        </div>          
+        </div>
+        <div class="modal-footer">
+          
+        </div>
+      </div>
+      
+    </div>
+  </div> 
 @endsection

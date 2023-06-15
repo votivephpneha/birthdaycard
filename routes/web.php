@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\EditorImagesController;
 use App\Http\Controllers\Front\StaticPageController;
 use App\Http\Controllers\Front\OrdertrackingController;
+use App\Http\Controllers\Front\StripePaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +93,10 @@ Route::get('/blogs/', [HomeController::class, 'blogs'])->name('blogs');
 Route::get('/blog_detail/{blog_id}', [HomeController::class, 'blog_detail'])->name('blog_detail');
 Route::get('/gift_card/', [HomeController::class, 'gift_card'])->name('gift_card');
 Route::post('/submit_gift/', [HomeController::class, 'submit_gift'])->name('submit_gift');
+Route::get('/ex_gift_card/{order_id}', [FrontCardController::class, 'express_gift_card'])->name('ex_gift_card');
+Route::post('/submit_ex_gift_card', [FrontCardController::class, 'submit_ex_gift_card'])->name('submit_ex_gift_card');
+Route::get('payment_transaction/{order_id}', [StripePaymentController::class, 'stripe'])->name('stripe');
+Route::post('stripe', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
 Route::group(['prefix' => 'user', 'middleware' => 'customer_auth:customer'], function () {
 	Route::get('/userProfile', [CustomerController::class, 'userProfile'])->name('userProfile');
 	Route::post('/postuserProfile', [CustomerController::class, 'postuserProfile'])->name('postuserProfile');

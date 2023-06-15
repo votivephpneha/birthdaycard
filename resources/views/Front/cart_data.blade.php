@@ -33,7 +33,7 @@
 		<a href="{{ url('birthday-cards') }}" class="add_card_btn">Add Card</a>	
 		@endif
 	</td>
-	<td class="qty_td-{{ $cart_data[0]->cart_id }} qty-box">
+	<td class="qty_td-{{ $cart_data[0]->cart_id }} qty-box ">
 		@if($cart_data[0]->sizes)
 		<button class="min-{{$cart_data[0]->cart_id }} button min-qty" onclick="qtyInc('minus','{{ $cart_data[0]->cart_id }}','{{ $card_price }}','{{ $size_quantity }}')" @if($cart_data[0]->qty < 2) disabled @endif>
 		-

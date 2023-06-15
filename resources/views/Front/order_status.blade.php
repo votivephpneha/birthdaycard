@@ -41,9 +41,9 @@
 			PAYMENT METHOD: <b>Cash On Delivery</b>
 		</p>
 	</div>
-	<div class="order_table_info">
+	<div class="order_table_info table-responsive">
 	<h2>Order Details</h2>
-	<table class="data_details" style="width:100%;">
+	<table class="data_details table" style="width:100%;">
 		<thead>
 			<tr>
 				<th>#</th>

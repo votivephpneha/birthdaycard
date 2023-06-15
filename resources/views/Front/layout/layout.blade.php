@@ -19,7 +19,7 @@
   <link href="{{ url('public/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ url('public/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
   <link href="{{ url('public/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
-  <!-- <link href="{{ url('public/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet"> -->
+  <link href="{{ url('public/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
   <link href="{{ url('public/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ url('public/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
 
@@ -68,7 +68,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="{{ url('public/assets/vendor/aos/aos.js') }}"></script>
   <script src="{{ url('public/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <!-- <script src="{{ url('public/assets/vendor/glightbox/js/glightbox.min.js') }}"></script> -->
+  <script src="{{ url('public/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
   <script src="{{ url('public/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
   <script src="{{ url('public/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
@@ -280,24 +280,40 @@ $(function() {
       // on the right side
       fname: "required",
       lname: "required",
+      door_no: "required",
       address: "required",
       city: "required",
-      country: "required",
       post_code: "required",
       phone_no: "required",
-      email_address: "required"
+      email_address: "required",
+      fname_rc: "required",
+      lname_rc: "required",
+      door_no_rc: "required",
+      address_rc: "required",
+      city_rc: "required",
+      post_code_rc: "required",
+      phone_no_rc: "required",
+      email_address_rc: "required"
       
     },
     // Specify validation error messages
     messages: {
       fname: "Please provide a first name",
       lname: "Please provide a last name",
+      door_no: "Please provide the Door No",
       address: "Please provide address",
       city: "Please provide city",
-      country: "Please provide country",
       post_code: "Please provide a postal code",
       phone_no: "Please provide a phone no",
-      email_address: "Please provide a email address"
+      email_address: "Please provide a email address",
+      fname_rc: "Please provide a first name",
+      lname_rc: "Please provide a last name",
+      door_no_rc: "Please provide the Door No",
+      address_rc: "Please provide address",
+      city_rc: "Please provide city",
+      post_code_rc: "Please provide a postal code",
+      phone_no_rc: "Please provide a phone no",
+      email_address_rc: "Please provide a email address"
       
       
     },

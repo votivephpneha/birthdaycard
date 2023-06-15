@@ -53,7 +53,7 @@ h6 {
 }
 #fname-error{
     position: relative;
-    top: -15px;
+    top: 4px;
 }
 
 #email-error{
@@ -63,6 +63,11 @@ h6 {
 #phone_no-error{
    position: relative;
     top: -15px;
+}
+
+.bill_details_form #phone_no-error {
+    position: relative;
+    top: 0px;
 }
 #subject-error{
   position: relative;
@@ -1873,9 +1878,94 @@ margin-top: 10px;
 .footer-join{
   text-align: center;
 }
+
+label.radio-card .card-content-wrapper {
+    background: #fff;
+    border-radius: 5px;
+    min-height: 220px !important;
+ 
+    }
+
+.qty-box p{
+  text-align: center;
+}
+.card-sizes label {
+    font-weight: 700;
+    font-size: 13px !important;
+    }
+
+.bill-info {
+    margin-bottom: 1em !important;
+}
+.inner-odr-status{
+    padding: 36px 10px !important;
+}
+
+.order_table_info h2 {
+    font-size: 22px !important;
+    
+}
+.order_invoice p {
+   
+    font-size: 14px !important;
+    margin-right: 9px !important;
+        padding-right: 12px !important;
+    }
+.order_invoice b {
+    font-size: 15px !important;
+    line-height: 15px !important;
+    margin-top: 10px !important;
+}
+
+.order_invoice {
+   margin: 15px 0px !important;
+     padding: 14px !important;
+    width: 100%;
+    overflow: auto;
+}
+.data_details tbody td {
+    padding: 2px 5px !important;
+    font-size: 13px !important;
+    }
+.data_details thead th {
+    padding: 9px 11px !important;
+    font-size: 14px !important;
+}
+.order_status_header {
+    padding: 12px !important;
+    padding-left: 9px !important;
+}
+.order_status_header .check-icn {
+    margin-right: 5px !important;
+}
+.order_status_header .check-icn i.bx {
+  
+    font-size: 31px !important;
+    line-height: 40px !important;
+}
+.order_status_header h2 {
+    font-size: 20px !important;
+  
+}
+.check-info p {
+   
+    font-size: 13px !important;
+    line-height: 16px !important;
+}
+.mobile-set{
+      display: flex;
+    flex-direction: column;
+}
+.min-qty {
+    width: 40px;
+}
+.plus-qty {
+    width: 40px;
+}
+
 .qty-cen {
   
-    width: 29px !important;
+    width: 39px !important;
     height: 35px !important;
     margin-bottom: 0px !important;
     padding: 3px 3px 3px 3px !important;
@@ -3288,10 +3378,14 @@ body.modal-open .modal {
     overflow-y: auto;
 }
 
-.card-sizes label{
+.card-sizes label {
     font-weight: 700;
-    font-size: 16px;
-        margin-top: 10px;
+    font-size: 15px;
+  /*  margin-top: 10px;*/
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
 }
 
 .card-mod-content .card-sizes .card_size_name {
@@ -3931,13 +4025,14 @@ input#replace_video {
 .add_text_div {
     display: flex;
     /*align-items: center;*/
-    min-height: 100vh;
+ /*   min-height: 100vh;*/
     max-width: 1000px;
     margin: 0 auto;
 }
 .predefined_text p {
     margin-bottom: 0px;
 }
+
 .text-change-tools {
         overflow: hidden;
     pointer-events: all;
@@ -3976,7 +4071,7 @@ input#replace_video {
     justify-content: center;
     position: relative;
     /* overflow-x: hidden; */
-    height: 100%;
+       height: 668px;
 }
 .edit-main{
    background: #ffffff;
@@ -4759,6 +4854,7 @@ td.product-title {
     height: 30px;
     vertical-align: middle;
     line-height: 12px;
+    text-align: center;
 }
 td.imgqty_info {
     width: 110px;
@@ -5334,3 +5430,279 @@ background: #FF0091;
     font-size: 14px;
     border: 1px solid #FF0091;
     }
+
+    .f-radio {
+  display: block;
+  position: relative;
+  padding-left: 27px;
+ /* margin-bottom: 12px;*/
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.f-radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 6;
+  left: 0;
+     height: 18px;
+    width: 18px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.f-radio:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.f-radio input:checked ~ .checkmark {
+  background-color: #ff0091;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.f-radio input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.f-radio .checkmark:after {
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+}
+
+
+
+
+.gifr-select {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 36px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.gifr-select input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.gifr-select .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+    height: 25px;
+  background-color: #eee;
+  border-radius: 0px;
+}
+.gift-bar-rad img{
+	width: 100%;
+}
+/* On mouse-over, add a grey background color */
+.gifr-select:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.gifr-select input:checked ~ .checkmark {
+  background-color: #ff0091;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.gift-main .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.gifr-select input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.gifr-select .checkmark:after {
+    top: 5px;
+    left: 4px;
+    width: 100px;
+    height: 15px;
+    /* border-radius: 50%; */
+    background: white;
+}
+.gift_information h4 {
+    font-size: 18px;
+    margin-bottom: 2px;
+}
+
+
+
+
+.top-text-wrapper {
+  margin: 20px 0 30px 0;
+}
+
+.top-text-wrapper h4 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.top-text-wrapper code {
+  font-size: 0.85em;
+  background: linear-gradient(90deg, #fce3ec, #ffe8cc);
+  color: #ff2200;
+  padding: 0.1rem 0.3rem 0.2rem;
+  border-radius: 0.2rem;
+}
+
+.tab-section-wrapper {
+  padding: 30px 0;
+}
+
+.grid-wrapper {
+  display: grid;
+  grid-gap: 30px;
+  place-items: center;
+  place-content: center;
+}
+
+.grid-col-auto {
+  grid-auto-flow: column;
+  grid-template-rows: auto;
+}
+
+/* ******************* Main Styeles : Radio Card */
+label.radio-card {
+  cursor: pointer;
+  margin-bottom: 27px;
+}
+label.radio-card .card-content-wrapper {
+  background: #fff;
+  border-radius: 5px;
+/*  max-width: 280px;*/
+  /*min-height: 330px;*/
+  padding: 15px;
+/*  display: grid;*/
+ /* box-shadow: 0 2px 4px 0 rgba(219, 215, 215, 0.04);*/
+  transition: 200ms linear;
+  border: 2px solid #f4f4f4;
+   
+}
+label.radio-card .check-icon {
+    width: 65px;
+    height: 30px;
+    display: inline-block;
+    border: solid 2px #e3e3e3;
+    /* border-radius: 50%; */
+    transition: 200ms linear;
+    position: relative;
+    font-size: 29px !important;
+    margin: auto !important;
+    right: 3px;
+    left: 77px;
+    top: 7px;
+}
+label.radio-card .check-icon:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='9' viewBox='0 0 12 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.93552 4.58423C0.890286 4.53718 0.854262 4.48209 0.829309 4.42179C0.779553 4.28741 0.779553 4.13965 0.829309 4.00527C0.853759 3.94471 0.889842 3.88952 0.93552 3.84283L1.68941 3.12018C1.73378 3.06821 1.7893 3.02692 1.85185 2.99939C1.91206 2.97215 1.97736 2.95796 2.04345 2.95774C2.11507 2.95635 2.18613 2.97056 2.2517 2.99939C2.31652 3.02822 2.3752 3.06922 2.42456 3.12018L4.69872 5.39851L9.58026 0.516971C9.62828 0.466328 9.68554 0.42533 9.74895 0.396182C9.81468 0.367844 9.88563 0.353653 9.95721 0.354531C10.0244 0.354903 10.0907 0.369582 10.1517 0.397592C10.2128 0.425602 10.2672 0.466298 10.3112 0.516971L11.0651 1.25003C11.1108 1.29672 11.1469 1.35191 11.1713 1.41247C11.2211 1.54686 11.2211 1.69461 11.1713 1.82899C11.1464 1.88929 11.1104 1.94439 11.0651 1.99143L5.06525 7.96007C5.02054 8.0122 4.96514 8.0541 4.90281 8.08294C4.76944 8.13802 4.61967 8.13802 4.4863 8.08294C4.42397 8.0541 4.36857 8.0122 4.32386 7.96007L0.93552 4.58423Z' fill='white'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat;
+  background-size: 12px;
+  background-position: center center;
+  transform: scale(1.6);
+  transition: 200ms linear;
+  opacity: 0;
+}
+label.radio-card input[type=radio] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+label.radio-card input[type=radio]:checked + .card-content-wrapper {
+  box-shadow: 0 2px 4px 0 rgba(219, 215, 215, 0.5), 0 0 0 2px #ff0091;
+}
+label.radio-card input[type=radio]:checked + .card-content-wrapper .check-icon {
+    background: #ff0091;
+    border-color: #ff0091;
+    transform: scale(1.2);
+}
+label.radio-card input[type=radio]:checked + .card-content-wrapper .check-icon:before {
+  transform: scale(1);
+  opacity: 1;
+}
+label.radio-card input[type=radio]:focus + .card-content-wrapper .check-icon {
+  box-shadow: 0 0 0 4px rgba(48, 86, 213, 0.2);
+  border-color: #ff0091;
+}
+label.radio-card .card-content img {
+  margin-bottom: 10px;
+}
+label.radio-card .card-content h4 {
+  font-size: 16px;
+  letter-spacing: -0.24px;
+  text-align: center;
+  color: #1f2949;
+  margin-bottom: 10px;
+   text-align: left;
+}
+label.radio-card .card-content h5 {
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #686d73;
+  text-align: left;
+}
+.grid-col-auto img {
+  max-width: 100%;
+  display: block;
+  vertical-align: middle;
+}
+.order-now {
+    background: #ff0091;
+    border: 1px solid #ff0091;
+    padding: 9px 35px;
+    border-radius: 50px;
+    font-size: 17px;
+    color: #FFF;
+}
+.no-tnx{
+	background: #FFF;
+    border: 1px solid #ff0091;
+    padding: 9px 35px;
+    border-radius: 50px;
+    font-size: 17px;
+    color: #ff0091;
+    margin-right: 29px;
+}

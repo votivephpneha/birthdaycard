@@ -30,7 +30,7 @@
 			
 				<div class="bill_details_form col-md-7">
 					<h3>Billing Details</h3>
-					
+						<h5>Sender Information</h5>
 						<div class="row bill-info">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -45,71 +45,101 @@
 						  	      <input type="text" class="form-control" id="lname" placeholder="" name="lname" value="@if($user){{ $user->lname }}@endif">
 						  	    </div>
 							</div>
-							
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
-						  	      <label for="city">Country / Region</label>
-						  	     <!--  <input type="text" class="form-control" id="country" placeholder="" name="country"> -->
-						  	      <select class="form-control" id="country" placeholder="" name="country" onchange="changeCountry()">
-						  	      	<option value="">Select Countries</option>
-						  	      	@foreach($countries as $country)
-						  	      		<option value="{{ $country->id }}">{{ $country->name }}</option>
-						  	      	@endforeach
-						  	      </select>
+						  	      <label for="door_no">Door No </label>
+						  	      <input type="text" class="form-control" id="door_no" placeholder="" name="door_no" value="" autocomplete="off">
 						  	    </div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
-						  	      <label for="state">State</label>
-						  	      <!-- <input type="text" class="form-control" id="state" placeholder="" name="state"> -->
-						  	      <select class="form-control" id="state" placeholder="" name="state" onchange="changeState()">
-						  	      	<option value="">Select State</option>
-						  	      	
-						  	      </select>
-						  	    </div>
-							</div>
-							<div class="col-md-12">
-								<div class="form-group">
-						  	      <label for="city">Town / City</label>
-						  	      <select class="form-control" id="city" placeholder="" name="city">
-						  	      	<option value="">Select Cities</option>
-						  	      	
-						  	      </select>
-						  	      <!-- <input type="text" class="form-control" id="city" placeholder="" name="city"> -->
-						  	    </div>
-							</div>
-							
-							<div class="col-md-12">
-								<div class="form-group">
-						  	      <label for="address">Street address </label>
+						  	      <label for="address">Street Name </label>
 						  	      <input type="text" class="form-control" id="address" placeholder="" name="address" value="@if($user){{ $user->address }}@endif" autocomplete="off">
 						  	    </div>
 							</div>
 							
+							<div class="col-md-6">
+								<div class="form-group">
+						  	      <label for="city">Town / City</label>
+						  	     
+						  	      <input type="text" class="form-control" id="city" placeholder="" name="city">
+						  	    </div>
+							</div>
 							
-							
-							
-							
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
 						  	      <label for="post_code">Postcode / ZIP</label>
 						  	      <input type="text" class="form-control" id="post_code" placeholder="" name="post_code">
 						  	    </div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
 						  	      <label for="phone_no">Phone</label>
 						  	      <input type="text" class="form-control" id="phone_no" placeholder="" name="phone_no" value="@if($user){{ $user->phone }}@endif">
 						  	    </div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
 						  	      <label for="email_address">Email Address</label>
 						  	      <input type="text" class="form-control" id="email_address" placeholder="" name="email_address" value="@if($user){{ $user->email }}@endif">
 						  	    </div>
 							</div>
 						</div>
+						<h5>Reciver Information</h5>	
+						<div class="row bill-info">
+							<div class="col-md-6">
+								<div class="form-group">
+						  	      <label for="first_name">First Name</label>
+						  	      
+						  	      <input type="text" class="form-control" id="fname_rc" placeholder="" name="fname_rc" value="@if($user){{ $user->fname }}@endif">
+						  	    </div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+						  	      <label for="last_name">Last Name</label>
+						  	      <input type="text" class="form-control" id="lname_rc" placeholder="" name="lname_rc" value="@if($user){{ $user->lname }}@endif">
+						  	    </div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+						  	      <label for="door_no">Door No </label>
+						  	      <input type="text" class="form-control" id="door_no_rc" placeholder="" name="door_no_rc" value="" autocomplete="off">
+						  	    </div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+						  	      <label for="address">Street Name </label>
+						  	      <input type="text" class="form-control" id="address_rc" placeholder="" name="address_rc" value="@if($user){{ $user->address }}@endif" autocomplete="off">
+						  	    </div>
+							</div>
 							
+							<div class="col-md-6">
+								<div class="form-group">
+						  	      <label for="city">Town / City</label>
+						  	     
+						  	      <input type="text" class="form-control" id="city_rc" placeholder="" name="city_rc">
+						  	    </div>
+							</div>
+							
+							<div class="col-md-6">
+								<div class="form-group">
+						  	      <label for="post_code">Postcode / ZIP</label>
+						  	      <input type="text" class="form-control" id="post_code_rc" placeholder="" name="post_code_rc">
+						  	    </div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+						  	      <label for="phone_no">Phone</label>
+						  	      <input type="text" class="form-control" id="phone_no_rc" placeholder="" name="phone_no_rc" value="@if($user){{ $user->phone }}@endif">
+						  	    </div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+						  	      <label for="email_address">Email Address</label>
+						  	      <input type="text" class="form-control" id="email_address_rc" placeholder="" name="email_address_rc" value="@if($user){{ $user->email }}@endif">
+						  	    </div>
+							</div>
+						</div>	
 						<div class="row addi-info">
 							<div class="col-md-12 additional-fields">
 							<div class="additional-title">

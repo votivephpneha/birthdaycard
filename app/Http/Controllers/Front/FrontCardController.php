@@ -382,12 +382,25 @@ class FrontCardController extends Controller{
 		$fname = $request->fname;
 		$lname = $request->lname;
 		$address = $request->address;
+		$door_no = $request->door_no;
 		$country = $request->country;
 		$state = $request->state;
 		$city = $request->city;
 		$post_code = $request->post_code;
 		$phone_no = $request->phone_no;
 		$email_address = $request->email_address;
+
+		$fname_rc = $request->fname_rc;
+		$lname_rc = $request->lname_rc;
+		$address_rc = $request->address_rc;
+		$door_no_rc = $request->door_no_rc;
+		$city_rc = $request->city_rc;
+		$post_code_rc = $request->post_code_rc;
+		$phone_no_rc = $request->phone_no_rc;
+		$email_address_rc = $request->email_address_rc;
+		
+		$order_notes = $request->order_notes;
+		$order_total_price = $request->order_total_price;
 		$order_notes = $request->order_notes;
 		$order_total_price = $request->order_total_price;
 
@@ -403,13 +416,15 @@ class FrontCardController extends Controller{
 			
 		}
 
+		session::put("user_id",$user_id);
+
 		
 		
 		$order_id = "ord-".mt_rand(1000,9999);
 
 		$cart_id_arr = json_decode($cart_id_array);
 		
-		$post_checkout = DB::table('order')->insert(['order_id'=>$order_id,'customer_id'=>$user_id,'fname'=>$fname,'lname'=>$lname, 'phone_no'=>$phone_no, 'email'=>$email_address, 'country'=>$country, 'address'=>$address, 'city'=>$city, 'state'=>$state, 'postal_code'=>$post_code, 'order_notes'=>$order_notes, 'total'=>$order_total_price, 'sub_total'=>$order_total_price, 'order_status'=>'0', 'payment_method'=>'Cash of Delivery', 'pay_status'=>'Pending', 'created_at'=>date('Y-m-d H:i:s')]);
+		$post_checkout = DB::table('order')->insert(['order_id'=>$order_id,'customer_id'=>$user_id,'fname'=>$fname,'lname'=>$lname, 'phone_no'=>$phone_no, 'email'=>$email_address, 'door_number'=>$door_no,'address'=>$address, 'city'=>$city, 'postal_code'=>$post_code,'receiver_fname'=>$fname_rc,'receiver_lname'=>$lname_rc, 'receiver_phone_no'=>$phone_no_rc, 'receiver_email'=>$email_address_rc, 'receiver_door_number'=>$door_no_rc, 'receiver_address'=>$address_rc, 'receiver_city'=>$city_rc, 'receiver_postal_code'=>$post_code_rc, 'order_notes'=>$order_notes, 'total'=>$order_total_price, 'sub_total'=>$order_total_price, 'order_status'=>'0', 'pay_status'=>'Pending','status'=>'0', 'created_at'=>date('Y-m-d H:i:s')]);
         
 
 		if($post_checkout){	
@@ -441,19 +456,15 @@ class FrontCardController extends Controller{
 			}
 			$token = Str::random(64);
 			        
-			Mail::send('Front.order-invoice', ['token' => $token,'email'=>$email_address,'order_id'=>$order_id], function($message) use($request){
-		                $message->to($request->email_address);
-		                $message->from('birthday@birthdaystoreuk.co.uk','BirthdayCards');
-		                $message->subject('Order Invoice');
+			// Mail::send('Front.order-invoice', ['token' => $token,'email'=>$email_address,'order_id'=>$order_id], function($message) use($request){
+		 //                $message->to($request->email_address);
+		 //                $message->from('birthday@birthdaystoreuk.co.uk','BirthdayCards');
+		 //                $message->subject('Order Invoice');
 
-			});
+			// });
 
 			
-			if(Auth::user()){
-				return redirect('order_status/'.$order_id);
-			}else{
-				return redirect('ex_order_status/'.$order_id);
-			}
+			return redirect('ex_gift_card/'.$order_id);
 			
 
 		}	
@@ -517,5 +528,26 @@ class FrontCardController extends Controller{
 	public function about_us(){	 
 		$data['aboutdata'] = DB::table('pages')->where('id',1)->where('page_status',1)->first();
 		return view('Front/about_us')->with($data);	
+	}
+
+	public function express_gift_card(Request $request){
+		$data['gift_card'] = DB::table("cards")->where("gift_card","gift")->where("status","Active")->get();
+		$data['order_id'] = $request->order_id;
+		return view("Front/express_gift_card")->with($data);
+	}
+
+	public function submit_ex_gift_card(Request $request){
+
+		$get_order_data = DB::table('order')->where("order_id",$request->order_id)->get()->first();
+
+		$get_card_price = DB::table('cards')->where("id",$request->gift_id)->get()->first();
+		
+		$order_price = $get_order_data->total;
+		$user_id = session::get("user_id");
+		
+		$insertGift = DB::table('order_details')->insert(['order_id'=>$request->order_id,'user_id'=>$user_id,'card_id'=>$request->gift_id,'qty'=>$request->card_qty,'card_price'=>$get_card_price->price,'created_at'=>date('Y-m-d H:i:s')]);
+
+
+		return redirect('payment_transaction/'.$request->order_id);
 	}
 }

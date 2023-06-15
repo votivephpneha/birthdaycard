@@ -117,12 +117,45 @@
 	          			
       					<div class="form-group">
       						<label for="Sizes">Size</label>
+
+
+
+
+
+
+							<div>
       						@foreach ($card_sizes as $c_size)
-	          				<div class="card_size_name">
+      						<div class="card_size_name">
+							   <label class="f-radio">{{ $c_size->card_type }}
+							  <input type="hidden" name="card_qty" value="{{ $c_size->card_size_qty }}">
+										<input type="radio" name="c_size" value="{{ $c_size->id  }}" required="" onclick="clickSize(this.value,'{{ $c_size->card_price }}')">&nbsp;
+							  <span class="checkmark"></span>
+							<div class="card_grid_info">
+										<div class="card_name_size">{{ $c_size->card_size }}</div>
+									  </div>
+									  <div class="card_price">
+										<div class="card_name_price">
+											<?php
+										$card_price = $c_size->card_price;
+										echo "$".number_format((float)$card_price, 2, '.', '');
+									?>
+										
+									</div>
+										  </div>
+
+										  	<div class="inner_card_icon">  
+											  <span><i class="bx bx-gift"></i></span>
+											</div>
+
+							</label>
+							</div>
+	          				<!-- <div class="card_size_name">
 							  <div class="card_radio">
 										<input type="hidden" name="card_qty" value="{{ $c_size->card_size_qty }}">
 										<input type="radio" name="c_size" value="{{ $c_size->id  }}" required="" onclick="clickSize(this.value,'{{ $c_size->card_price }}')">&nbsp;{{ $c_size->card_type }}
 							  </div>
+
+
 							  <div class="card_grid_info">
 								<div class="card_name_size">{{ $c_size->card_size }}</div>
 							  </div>
@@ -137,9 +170,10 @@
 								<div class="inner_card_icon">  
 								  <span><i class='bx bx-gift'></i></span>
 								</div>
-							</div>
+							</div> -->
 	          				
 	          			@endforeach
+	          		    </div>
       					</div>	
 	          			
 	          			<input class="submit_btn" type="submit" name="btn" value="Select Card">

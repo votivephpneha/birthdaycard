@@ -28,14 +28,28 @@ class CustomerController extends Controller{
         	return redirect()->route('registration');
         }else{
 
-			$users = DB::table('users')->insert(['fname'=>$request->fname,'lname'=>$request->lname,'email'=>$request->email,'password'=>Hash::make($request->password),'role'=>'user','status'=>'Active']);
+			$user_data = array(
+              'email'  => $request->get('email'),
+              'password' => $request->get('password')
+            );
+            $user = User::where('email', '=', $request->email)->first();
 
-			session::flash('success', 'User registered successfully.');
-			return redirect()->route('registration');
+            if(Auth::guard("customer")->attempt($user_data) && $user->status == 'Active')
+            {
+                $get_prev_url = Session::get("previous_url");
+                if($get_prev_url == "cart"){
+                    return redirect()->route('checkout');
+                }else{
+                    return redirect()->route('userProfile');
+                }
+            }
         }
 	}
 
 	public function loginUser(){
+        $previous_url = $_SERVER['HTTP_REFERER'];
+        $new_url = explode("/",$previous_url);
+        Session::put("previous_url", $new_url[3]);
 		return view("Front/login");
 	}
 
@@ -54,7 +68,12 @@ class CustomerController extends Controller{
 				session::flash('error', 'Email or Password is Incorrect.');
 				return redirect()->route('loginUser');
 			}else{
-				return redirect()->route('userProfile');
+				$get_prev_url = Session::get("previous_url");
+                if($get_prev_url == "cart"){
+                    return redirect()->route('checkout');
+                }else{
+                    return redirect()->route('userProfile');
+                }
 			}
 			
 		}

@@ -115,7 +115,7 @@
             <td>
                 <div class="box-text">
                     <p><strong>{{$paymentdata[0]->fname ." ". $paymentdata[0]->lname}}</p>
-                    <p>{{ $paymentdata[0]->address }},{{$paymentdata[0]->city}},{{$paymentdata[0]->state}} {{$paymentdata[0]->postal_code}}</p>
+                    <p>{{ $paymentdata[0]->door_number }} {{ $paymentdata[0]->address }}, {{$paymentdata[0]->postal_code}}</p>
                     <p>Email: {{$paymentdata[0]->email}} </p>                     
                     <p>Contact:{{$paymentdata[0]->phone_no}}</p>
                 </div>
