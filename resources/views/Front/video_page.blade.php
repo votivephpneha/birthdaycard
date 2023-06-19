@@ -148,7 +148,7 @@ progress[value] {
 				</form>
 			</div>
 			<div class="no_thanks_btn">
-				<a href="{{ url('/card_editor') }}/{{ $db_card_data->id }}/{{ $c_size_id }}">No Thanks</a>
+				<a href="{{ url('/show_video_image') }}/{{ $db_card_data->id }}/{{ $c_size_id }}">No Thanks</a>
 			</div>
 		</div>
 			

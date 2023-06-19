@@ -13,6 +13,9 @@
 		margin-top:150px;
 	}
 </style>
+<form method="post" action="{{ url('submit_ex_gift_card') }}">
+    <input type="hidden" name="order_id" value="{{ $order_id }}">
+    @csrf
 <div class="checkout_gift container">
 	<div class="gift_heading">
 		<h2>Select Gift</h2>
@@ -20,119 +23,71 @@
 
    <div class="grid-wrapper grid-col-auto">
    	<div class="row">
-   		<div class="col-md-3 col-6">
-          <label for="radio-card-1" class="radio-card">
-            <input type="radio" name="radio-card" id="radio-card-1" checked />
-            <div class="card-content-wrapper">
-            
-              <div class="card-content">
-                <img
-                  src="https://image.freepik.com/free-vector/group-friends-giving-high-five_23-2148363170.jpg"
-                  alt=""
-                />
-                <h4>Lorem ipsum dolor.</h4>
-                <h5>Lorem ipsum dolor sit amet, consectetur.</h5>
+     
+        @foreach($gift_card as $g_card)
+       <!--    <div class="col-md-3 col-6">
+            <label for="radio-card-1" class="radio-card" onclick="selectGift('{{ $g_card->id }}')">
+              <input type="hidden" name="card_id" class="gift_card_id" value="">
+              <input type="radio" name="gift_id" value="{{ $g_card->id }}" class="gift-radio gift-radio-{{ $g_card->id }}">
+              <div class="card-content-wrapper">
+              
+                <div class="card-content">
+                  <img
+                    src="{{ url('public/upload/cards') }}/{{ $g_card->card_image }}"
+                    alt=""
+                  />
+                
+                </div>
+                 <div class="gidt-sent">  <span class="check-icon">Select Gift</span></div>
               </div>
-                <span class="check-icon"></span>
-            </div>
-          </label>
-      </div>
-      <div class="col-md-3 col-6">
-           <label for="radio-card-2" class="radio-card">
-            <input type="radio" name="radio-card" id="radio-card-2" checked />
-            <div class="card-content-wrapper">
-            
-              <div class="card-content">
-                <img
-                  src="https://image.freepik.com/free-vector/group-friends-giving-high-five_23-2148363170.jpg"
-                  alt=""
-                />
-                <h4>Lorem ipsum dolor.</h4>
-                <h5>Lorem ipsum dolor sit amet, consectetur.</h5>
-              </div>
-
-                <span class="check-icon"></span>
-            </div>
-          </label>
-      </div>
-      <div class="col-md-3 col-6">
-           <label for="radio-card-3" class="radio-card">
-            <input type="radio" name="radio-card" id="radio-card-3" checked />
-            <div class="card-content-wrapper">
-            
-              <div class="card-content">
-                <img
-                  src="https://image.freepik.com/free-vector/group-friends-giving-high-five_23-2148363170.jpg"
-                  alt=""
-                />
-                <h4>Lorem ipsum dolor.</h4>
-                <h5>Lorem ipsum dolor sit amet, consectetur.</h5>
-              </div>
-                <span class="check-icon"></span>
-            </div>
-          </label>
-      </div>
-
-          <!-- /.radio-card -->
-<div class="col-md-3 col-6">
-          <label for="radio-card-4" class="radio-card">
-            <input type="radio" name="radio-card" id="radio-card-4" />
-            <div class="card-content-wrapper">
-           
-              <div class="card-content">
-                <img
-                  src="https://image.freepik.com/free-vector/people-putting-puzzle-pieces-together_52683-28610.jpg"
-                  alt=""
-                />
-                <h4>Lorem ipsum dolor.</h4>
-                <h5>Lorem ipsum dolor sit amet, consectetur.</h5>
-              </div>
-                 <span class="check-icon"></span>
-            </div>
-          </label>
-          <!-- /.radio-card -->
-        </div>
+            </label>
+        </div> -->
+        @endforeach
     </div>
         <!-- /.grid-wrapper -->
+
+<div class="all-selct">
+         <form>
+          <div class="row">
+            @foreach($gift_card as $g_card)
+            <div class="col-md-3 col-6">  
+              <div class="card-content-wrapper"> 
+
+                <div class="card-content">
+                  <img
+                    src="{{ url('public/upload/cards') }}/{{ $g_card->card_image }}"
+                    alt=""
+                  />
+                  <!-- <h4>Lorem ipsum dolor.</h4>
+                  <h5>Lorem ipsum dolor sit amet, consectetur.</h5> -->
+                </div>
+                <div class="d-flex justify-content-center">
+                  <div class="form-group">
+                    <input type="checkbox" name="gift_id[]" id="html-{{ $g_card->id }}" value="{{ $g_card->id }}">
+                    <label for="html-{{ $g_card->id }}"></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            @endforeach
+     
+
+
 </div>
 
-	<form method="post" action="{{ url('submit_ex_gift_card') }}">
-		<input type="hidden" name="order_id" value="{{ $order_id }}">
-		@csrf
+  </form>
+</div>
+</div>
+	
 		<div class="row">
 			
-			<div class="col-md-10">
-				<div class="row">
-					@foreach($gift_card as $g_card)
-					<div class="col-md-4 gift-bar-rad">
-						<img src="{{ url('public/upload/cards') }}/{{ $g_card->card_image }}">
-
-						<div class="buttons">
-							<input type="radio" name="gift_id" value="{{ $g_card->id }}">
-						</div>
-
-						<label class="gifr-select">
-						  <input type="radio" checked="checked" name="radio">
-						  <span class="checkmark"> </span>
-						</label>
-
-
-						<div class="gift_information">
-							<input type="hidden" name="card_qty" value="1">
-							<input type="hidden" name="card_price" value="{{ $g_card->price }}">
-							<h4>{{ $g_card->card_title }}</h4>
-							<div class="card_price">${{ $g_card->price }}</div>
-						</div>
-					</div>
-				@endforeach
-				</div>
-			</div>
 			
 			
-			<div class="col-md-12 mt-5">
+			<div class="col-md-12 mt-1">
 				<div class="d-flex justify-content-center m-auto text-center">
-				<div class="gift_submit_btn">
-					<input type="submit" name="btn" class="no-tnx" value="No Thanks!">
+				<div class="gift_submit_btn" style="margin-top:10px;">
+					<!-- <input type="submit" name="btn" class="no-tnx" value="No Thanks!"> -->
+          <a href="{{ url('/payment_transaction/') }}/{{ $order_id }}" class="no-tnx">No Thanks</a>
 				</div>
 
 				<div class="gift_submit_btn">
@@ -141,7 +96,7 @@
 			</div>
 			</div>
 		</div>
-	</form>
+	
 </div>
-
+</form>
 @endsection

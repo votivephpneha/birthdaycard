@@ -44,6 +44,7 @@ DROP TABLE IF EXISTS `card_editor_images`;
 CREATE TABLE `card_editor_images` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `editor_image` varchar(255) DEFAULT NULL,
+  `file_type` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -107,16 +108,6 @@ CREATE TABLE `cart_table` (
   PRIMARY KEY (`cart_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `cart_table` (`cart_id`, `card_id`, `sizes`, `card_type`, `user_id`, `qty`, `price`, `status`, `video_id`, `predesigned_text_id`, `qr_image_link`, `created_at`, `updated_at`) VALUES
-(108,	2,	2,	NULL,	0,	1,	33.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 08:26:09',	'2023-06-08 08:26:09'),
-(109,	10,	27,	NULL,	0,	1,	4.00,	0,	48,	NULL,	NULL,	'2023-06-08 10:45:01',	'2023-06-08 10:45:01'),
-(110,	2,	1,	NULL,	0,	1,	33.00,	1,	NULL,	'106,107,108',	NULL,	'2023-06-08 12:17:33',	'2023-06-08 12:17:33'),
-(111,	1,	46,	NULL,	0,	1,	5.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 12:07:06',	'2023-06-08 12:07:06'),
-(112,	1,	46,	NULL,	0,	1,	5.00,	1,	NULL,	'103,104,105',	NULL,	'2023-06-08 12:15:48',	'2023-06-08 12:15:48'),
-(117,	10,	27,	NULL,	0,	1,	4.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 12:41:06',	'2023-06-08 12:41:06'),
-(119,	10,	27,	NULL,	0,	1,	0.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 12:47:29',	'2023-06-08 12:47:29'),
-(120,	31,	43,	NULL,	0,	1,	33.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 13:09:37',	'2023-06-08 13:09:37'),
-(121,	1,	47,	NULL,	0,	1,	7.00,	0,	NULL,	NULL,	NULL,	'2023-06-08 13:17:55',	'2023-06-08 13:17:55');
 
 DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
@@ -260,11 +251,10 @@ CREATE TABLE `home_page` (
   `section_2_image_4` varchar(255) DEFAULT NULL,
   `section_3_heading` varchar(255) DEFAULT NULL,
   `section_3_image` varchar(255) DEFAULT NULL,
+  `section_3_video` varchar(255) DEFAULT NULL,
   `section_3_btn_text` varchar(255) DEFAULT NULL,
   `section_3_desc` text DEFAULT NULL,
   `sec_status` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
   `section_4_heading_1` varchar(255) DEFAULT NULL,
   `section_4_desc_1` text DEFAULT NULL,
   `section_4_heading_2` varchar(255) DEFAULT NULL,
@@ -317,6 +307,8 @@ CREATE TABLE `home_page` (
   `section_7_heading` varchar(255) DEFAULT NULL,
   `section_7_desc` varchar(255) DEFAULT NULL,
   `section_7_btntext` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -379,6 +371,17 @@ CREATE TABLE `order` (
   `state` varchar(255) NOT NULL,
   `city` text NOT NULL,
   `postal_code` text NOT NULL,
+  `door_number` varchar(255) DEFAULT NULL,
+  `receiver_fname` varchar(255) NOT NULL,
+  `receiver_lname` varchar(255) NOT NULL,
+  `receiver_email` varchar(255) NOT NULL,
+  `receiver_phone_no` varchar(255) NOT NULL,
+  `receiver_country` varchar(255) NOT NULL,
+  `receiver_address` varchar(255) NOT NULL,
+  `receiver_state` varchar(255) NOT NULL,
+  `receiver_city` varchar(255) NOT NULL,
+  `receiver_postal_code` varchar(255) NOT NULL,
+  `receiver_door_number` varchar(255) DEFAULT NULL,
   `postage_costs` float(20,2) DEFAULT NULL,
   `total` float(20,2) NOT NULL,
   `sub_total` float(20,2) NOT NULL,
@@ -386,8 +389,10 @@ CREATE TABLE `order` (
   `payment_method` longtext NOT NULL,
   `cancel_reason` text DEFAULT NULL,
   `pay_status` varchar(255) NOT NULL,
+  `status` int(11) DEFAULT NULL,
+  `otp` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `card_id` (`card_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
@@ -411,6 +416,28 @@ CREATE TABLE `order_details` (
   CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
+INSERT INTO `order_details` (`id`, `order_id`, `user_id`, `card_id`, `card_size_id`, `video_id`, `predesigned_text_id`, `qty`, `card_price`, `created_at`, `updated_at`) VALUES
+(153, 'ord-9963', 3,  2,  1,  NULL, NULL, 1,  33.00,  '2023-06-19 10:06:26',  '2023-06-19 10:06:26'),
+(157, 'ord-9963', 3,  36, 0,  NULL, NULL, 1,  0.00, '2023-06-19 10:19:41',  '2023-06-19 10:19:41'),
+(158, 'ord-9963', 3,  37, 0,  NULL, NULL, 1,  0.00, '2023-06-19 10:19:41',  '2023-06-19 10:19:41'),
+(159, 'ord-9667', 3,  10, 27, NULL, NULL, 1,  4.00, '2023-06-19 10:26:21',  '2023-06-19 10:26:21'),
+(160, 'ord-9667', 3,  36, 0,  NULL, NULL, 1,  0.00, '2023-06-19 10:26:29',  '2023-06-19 10:26:29'),
+(161, 'ord-9667', 3,  37, 0,  NULL, NULL, 1,  0.00, '2023-06-19 10:26:29',  '2023-06-19 10:26:29'),
+(162, 'ord-1969', 4,  2,  1,  NULL, NULL, 1,  33.00,  '2023-06-19 10:37:25',  '2023-06-19 10:37:25'),
+(163, 'ord-1969', 4,  37, 0,  NULL, NULL, 1,  0.00, '2023-06-19 10:37:29',  '2023-06-19 10:37:29'),
+(164, 'ord-5823', 4,  10, 27, NULL, NULL, 1,  4.00, '2023-06-19 10:40:58',  '2023-06-19 10:40:58'),
+(165, 'ord-5823', 4,  37, 0,  NULL, NULL, 1,  0.00, '2023-06-19 10:41:39',  '2023-06-19 10:41:39'),
+(166, 'ord-8965', 3,  2,  1,  197,  NULL, 1,  33.00,  '2023-06-19 10:49:47',  '2023-06-19 10:49:47'),
+(167, 'ord-8965', 3,  36, 0,  NULL, NULL, 1,  0.00, '2023-06-19 10:49:51',  '2023-06-19 10:49:51'),
+(168, 'ord-8965', 3,  37, 0,  NULL, NULL, 1,  0.00, '2023-06-19 10:49:51',  '2023-06-19 10:49:51'),
+(169, 'ord-2959', 4,  2,  1,  NULL, NULL, 1,  33.00,  '2023-06-19 10:52:40',  '2023-06-19 10:52:40'),
+(170, 'ord-2959', 4,  37, 0,  NULL, NULL, 1,  0.00, '2023-06-19 10:52:43',  '2023-06-19 10:52:43'),
+(171, 'ord-4652', 4,  10, 27, NULL, NULL, 1,  4.00, '2023-06-19 10:54:42',  '2023-06-19 10:54:42'),
+(172, 'ord-4652', 4,  37, 0,  NULL, NULL, 1,  0.00, '2023-06-19 10:54:45',  '2023-06-19 10:54:45'),
+(173, 'ord-3638', 31, 1,  47, 198,  NULL, 1,  7.00, '2023-06-19 11:01:38',  '2023-06-19 11:01:38'),
+(174, 'ord-3638', 31, 37, 0,  NULL, NULL, 1,  0.00, '2023-06-19 11:02:12',  '2023-06-19 11:02:12'),
+(175, 'ord-6010', 31, 12, 32, 200,  NULL, 1,  78.00,  '2023-06-19 11:31:13',  '2023-06-19 11:31:13'),
+(176, 'ord-6010', 31, 37, 0,  NULL, NULL, 1,  0.00, '2023-06-19 11:31:56',  '2023-06-19 11:31:56');
 
 DROP TABLE IF EXISTS `order_old`;
 CREATE TABLE `order_old` (
@@ -460,7 +487,7 @@ CREATE TABLE `payment_transactions` (
   `payment_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_number` int(11) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
+  `order_id` text DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `txn_time` varchar(255) DEFAULT NULL,
   `sub_total` double(20,2) DEFAULT 0.00,
@@ -625,4 +652,4 @@ CREATE TABLE `voucher_codes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 2023-06-08 13:24:14
+-- 2023-06-19 13:20:04

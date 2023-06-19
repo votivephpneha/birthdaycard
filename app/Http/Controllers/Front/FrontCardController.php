@@ -164,6 +164,16 @@ class FrontCardController extends Controller{
 		return view('Front/show_video')->with($data);
 	}
 
+	public function show_video_image(Request $request){
+		$card_id = $request->card_id;
+		$card_size_id = $request->card_size_id;
+		$data['card_id'] = $card_id;
+		$data['card_size_id'] = $card_size_id;
+		$data['cart_id'] = Session::get('cart_id');
+		$data['db_video_page_data'] = DB::table('card_editor_images')->where('file_type','video_image')->get()->first();
+		return view('Front/show_image')->with($data);
+	}
+
 	public function delete_video(Request $request){
 		$card_id = $request->card_id;
 		$card_size_id = $request->card_size_id;
@@ -187,6 +197,7 @@ class FrontCardController extends Controller{
 		$data['fonts'] = DB::table('text_fonts')->get();
 		$data['messages'] = DB::table('messages')->get();
 		$data['editor_image'] = DB::table('card_editor_images')->where('file_type','image')->get()->first();
+		$data['card_type'] = $request->card_type;
 		// $data['db_text_data'] = DB::table('predesigned_text')->where('cart_id',$data['cart_id']->cart_id)->where('txt_id',1)->get()->first();
 		// $data['db_text_data1'] = DB::table('predesigned_text')->where('cart_id',$data['cart_id']->cart_id)->where('txt_id',2)->get()->first();
 		// $data['db_text_data2'] = DB::table('predesigned_text')->where('cart_id',$data['cart_id']->cart_id)->where('txt_id',3)->get()->first();
@@ -544,8 +555,13 @@ class FrontCardController extends Controller{
 		
 		$order_price = $get_order_data->total;
 		$user_id = session::get("user_id");
+
+		$gift_ids = $request->gift_id;
+
+		foreach($gift_ids as $gift_id){
 		
-		$insertGift = DB::table('order_details')->insert(['order_id'=>$request->order_id,'user_id'=>$user_id,'card_id'=>$request->gift_id,'qty'=>$request->card_qty,'card_price'=>$get_card_price->price,'created_at'=>date('Y-m-d H:i:s')]);
+			$insertGift = DB::table('order_details')->insert(['order_id'=>$request->order_id,'user_id'=>$user_id,'card_id'=>$gift_id,'qty'=>'1','card_price'=>'0.00','created_at'=>date('Y-m-d H:i:s')]);
+		}
 
 
 		return redirect('payment_transaction/'.$request->order_id);

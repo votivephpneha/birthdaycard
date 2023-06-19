@@ -63,7 +63,7 @@
     table tr th{
         background: #F4F4F4;
         font-size:15px;
-        
+        color:black;
     }
     table tr td{
         font-size:13px;
@@ -86,6 +86,12 @@
     }
     .float-right{
         float:right;
+    }
+    .brief i{
+        color:black;
+        
+        font : unset;
+        font-weight :bold;
     }
 
 </style>
@@ -196,8 +202,8 @@ function myFunction(text_id) {
         <div class="row">
             <div class="col-md-4 col-xs-12">
                 <div class="x_panel">
-                    <div class="x_content">
-                        <h4 class="brief"><i>Order Details(#{{$orderdetail[0]->order_id}})</i></h4>
+                <h4 class="brief"><i>Order Details(#{{$orderdetail[0]->order_id}})</i></h4>
+                    <div class="x_content">                        
                         <table class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
                             <tbody class="fw-semibold text-gray-600">
                                 <tr>

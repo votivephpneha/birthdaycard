@@ -176,6 +176,7 @@
 			  				</div>
 			  			</div>
 			  			<div class="text-change-tools">
+			  				@if($card_type != 'Handwritten')
 			  				<div class="change-tools size-click">
 			  					<div class="text-number">30</div>
 			  					<div class="text-font">Size</div>
@@ -184,6 +185,7 @@
 			  					<div class="text-number">Aa</div>
 			  					<div class="text-font">Font</div>
 			  				</div>
+			  				@endif
 			  				<div class="change-tools color-click">
 			  					<div class="text-number" style="background-color: black;width: 28px; height: 28px;"></div>
 			  					<div class="text-font">Color</div>
@@ -345,7 +347,9 @@
 			  					
 			  				</div>
 			  			</div>
+			  			
 			  			<div class="text-change-tools">
+			  				@if($card_type != 'Handwritten')
 			  				<div class="change-tools size-click">
 			  					<div class="text-number">30</div>
 			  					<div class="text-font">Size</div>
@@ -354,6 +358,7 @@
 			  					<div class="text-number">Aa</div>
 			  					<div class="text-font">Font</div>
 			  				</div>
+			  				@endif
 			  				<div class="change-tools color-click">
 			  					<div class="text-number" style="background-color: black;width: 28px; height: 28px;"></div>
 			  					<div class="text-font">Color</div>

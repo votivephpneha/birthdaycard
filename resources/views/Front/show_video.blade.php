@@ -69,6 +69,11 @@ progress[value] {
 </style>
 
 <div class="container video_page">
+  <div class="card-header row">
+    <div class="exit_btn col-md-6">
+      <a href="#">Back</a>
+    </div>
+  </div>
   <div class="video_image_content">
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
@@ -93,6 +98,13 @@ progress[value] {
     
     <div class="video_btns video_btns_qr">
       <div class="add_video_btn">
+        <div class="agree_bx">
+          <div class="chk_cond">
+          <input id="checkbox" type="checkbox" />
+          <label for="checkbox"> I agree to these <a href="{{ url('terms-service') }}">Terms and Conditions</a>.</label>
+
+          </div>
+        </div>
         <span class="upload_error"></span>
         <div class="progress" id="progress_bar" style="display:none;height:50px; line-height: 50px;">
 
@@ -108,28 +120,36 @@ progress[value] {
           <input type="file" name="add_video_file" id="replace_video">
           <input type="hidden" name="cart_id" value="{{ $cart_id }}">
           <label class="label-add-video" for="replace_video">Replace Video <i class='bx bx-sync'></i></label>
-          <!-- <input type="submit" name="add_video_btn" value="Replace Video"> -->
+          
         </form>
-        <form class="del_video_btn" method="post" action="{{ url('delete_video') }}">
+        <!-- <form class="del_video_btn" method="post" action="{{ url('delete_video') }}">
           @csrf
           <input type="hidden" name="card_id" value="{{ $card_id }}">
           <input type="hidden" name="card_size_id" value="{{ $card_size_id }}">
           <input type="hidden" name="cart_id" value="{{ $cart_id }}">
           <button type="submit" name="delete_video_btn">Delete Video<i class='bx bx-trash'></i></button>
-          <!-- <input type="submit" name="delete_video_btn" value="Delete Video"> -->
-        </form>
-      </div>  
+          
+        </form> -->
+         <!-- <div class="customer_select_div">
+          <h2>Would you like your card to be handwritten or printed</h2>
+          <div class="content">
+            <h4>Please Select</h4>
+            <div class="btns">
+              <div class="text-center mb-4 pb-2">
+              <a class="hanrigt" href="{{ url('card_editor') }}/{{$card_id}}/{{$card_size_id}}/Handwritten">Handwritten</a>
+            </div>
+             <div class="text-center">
+              <a class="printer" href="{{ url('card_editor') }}/{{$card_id}}/{{$card_size_id}}/Printed">Printed</a>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>   -->
     </div>
-    <div class="agree_bx">
-      <div class="chk_cond">
-      <input id="checkbox" type="checkbox" />
-      <label for="checkbox"> I agree to these <a href="#">Terms and Conditions</a>.</label>
-
-      </div>
-    </div>
+    
     <div class="footer-ctn">
       <div class="countinue_btn">
-        <a href="#">Continue to Card Editor</a>
+        <a href="#">Continue</a>
       </div>
     </div>
   </div>
@@ -207,7 +227,7 @@ progress[value] {
       if($("#checkbox").prop('checked') != true){
         $(".agree_bx .chk_cond").append("<div style='color:red;'>Please check Terms & Conditions checkbox</div>");
     }else{
-      $(".countinue_btn a").attr("href","{{ url('/card_editor') }}/{{ $card_id }}/{{ $card_size_id }}");
+      $(".countinue_btn a").attr("href","{{ url('/show_video_image') }}/{{ $card_id }}/{{ $card_size_id }}");
     }
     });
     
@@ -259,6 +279,19 @@ function playPause() {
 button.addEventListener( "click", playPause );
 video.addEventListener("play", progressLoop);
 
+setInterval(function(){
+ var video_current_time = video.currentTime;
+ var video_total_time = video.duration;    
+ if(video_current_time == video_total_time){
+  button.innerHTML = "►";
+ }
+},500)
 
+$(".exit_btn a").click(function(){
+  
+    window.history.back();
+       
+  
+});
 </script>
 @endsection

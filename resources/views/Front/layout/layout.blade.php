@@ -365,6 +365,66 @@ $(function() {
     }
   });
 });
+$(function() {
+  // Initialize form validation on the registration form.
+  // It has the name attribute "registration"
+  $("form[name='payment_form']").validate({
+    // Specify validation rules
+    rules: {
+      // The key name on the left side is the name attribute
+      // of an input field. Validation rules are defined
+      // on the right side
+      card_name: "required",
+      card_no: "required",
+      cvv: "required",
+      expiration_month: "required",
+      expiration_year: "required",
+      
+    },
+    // Specify validation error messages
+    messages: {
+      card_name: "Please provide the Card Name",
+      card_no: "Please provide the Card Number",
+      cvv: "Please provide the CVV",
+      expiration_month: "Please provide the Expiration Month",
+      expiration_year: "Please provide the Expiration Year",
+      
+      
+    },
+    // Make sure the form is submitted to the destination defined
+    // in the "action" attribute of the form when valid
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+});    
+$(function() {
+  // Initialize form validation on the registration form.
+  // It has the name attribute "registration"
+  $("form[name='otp_verification_form']").validate({
+    // Specify validation rules
+    rules: {
+      // The key name on the left side is the name attribute
+      // of an input field. Validation rules are defined
+      // on the right side
+      otp: "required"
+      
+      
+    },
+    // Specify validation error messages
+    messages: {
+      otp: "OTP is required",
+      
+      
+      
+    },
+    // Make sure the form is submitted to the destination defined
+    // in the "action" attribute of the form when valid
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+});    
 //  $(function() {
 //   // Initialize form validation on the registration form.
 //   // It has the name attribute "registration"
@@ -786,6 +846,12 @@ function myFunction(){
       
       
     };
+
+    function selectGift(card_id){
+      $(".gift-radio").removeAttr("checked");
+      $(".gift-radio-"+card_id).attr("checked","");
+      $(".gift_card_id").val(card_id);
+    }
 </script>
   @yield('current_page_js')
 </body>

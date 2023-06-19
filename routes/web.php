@@ -64,8 +64,9 @@ Route::post('/post_sizes', [FrontCardController::class, 'post_sizes'])->name('po
 Route::get('/video_upload_page/{card_id}/{card_size_id}', [FrontCardController::class, 'video_upload_page'])->name('video_upload_page');
 Route::post('/post_video', [FrontCardController::class, 'post_video'])->name('post_video');
 Route::get('/show_video/{card_id}/{card_size_id}', [FrontCardController::class, 'show_video'])->name('show_video');
+Route::get('/show_video_image/{card_id}/{card_size_id}', [FrontCardController::class, 'show_video_image'])->name('show_video_image');
 Route::post('/delete_video', [FrontCardController::class, 'delete_video'])->name('delete_video');
-Route::get('/card_editor/{card_id}/{card_size_id}', [FrontCardController::class, 'card_editor'])->name('card_editor');
+Route::get('/card_editor/{card_id}/{card_size_id}/{card_type}', [FrontCardController::class, 'card_editor'])->name('card_editor');
 Route::post('/post_card', [FrontCardController::class, 'post_card'])->name('post_card');
 Route::get('/cart_continue', [FrontCardController::class, 'cart_continue'])->name('cart_continue');
 
@@ -97,6 +98,9 @@ Route::get('/ex_gift_card/{order_id}', [FrontCardController::class, 'express_gif
 Route::post('/submit_ex_gift_card', [FrontCardController::class, 'submit_ex_gift_card'])->name('submit_ex_gift_card');
 Route::get('payment_transaction/{order_id}', [StripePaymentController::class, 'stripe'])->name('stripe');
 Route::post('stripe', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
+Route::get('otp_verification/{order_id}', [StripePaymentController::class, 'otp_verification'])->name('otp_verification');
+Route::post('otp_verify', [StripePaymentController::class, 'otp_verify'])->name('otp_verify');
+Route::post('post_otp', [StripePaymentController::class, 'post_otp'])->name('post_otp');
 Route::group(['prefix' => 'user', 'middleware' => 'customer_auth:customer'], function () {
 	Route::get('/userProfile', [CustomerController::class, 'userProfile'])->name('userProfile');
 	Route::post('/postuserProfile', [CustomerController::class, 'postuserProfile'])->name('postuserProfile');
