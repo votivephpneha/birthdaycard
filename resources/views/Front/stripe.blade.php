@@ -19,7 +19,7 @@
     <!-- <h1>Laravel - Stripe Payment Gateway Integration Example <br/> ItSolutionStuff.com</h1> -->
     
     <div class="row">
-        <div class="col-md-6 col-md-offset-3 m-auto">
+        <div class="col-md-7">
             <div class="panel panel-default credit-card-box">
                 <div class="panel-heading display-table" >
                         <h3 class="panel-title" >Card Details</h3>
@@ -42,9 +42,8 @@
     
                         <div class='form-row row'>
                             <div class='col-xs-12 form-group required'>
-                                <input type="hidden" name="order_email" value="{{ $order_data->email }}">
-                                <input
-                                    name="order_id" value="{{ $order_data->order_id }}" size='4' type='hidden'>
+                                <input type="hidden" name="order_email" value="{{ session::get('email') }}">
+                                <input type="hidden" name="cart_id_array" class="cart_id_array" value="">
                                 <label class='control-label'>Name on Card</label> <input
                                     class='form-control' size='4' name="card_name" type='text'>
                             </div>
@@ -85,15 +84,42 @@
     
                         <div class="row">
                             <div class="col-xs-12 mt-3 pay-now-brn">
-                                <input
-                                    name="amount" value="{{ $order_data->order_id }}" size='4' type='hidden'>
-                                <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now (${{ $order_data->total }})</button>
+                               
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now</button>
                             </div>
                         </div>
                             
                     </form>
                 </div>
             </div>        
+        </div>
+        <div class="col-md-5">
+            <div class="order_div">
+                <h3>Ordered Item</h3>
+                <div class="total_cost_div">
+                    
+                    <div class="checkout_items">
+                        <table style="width:100%">
+                            
+                            <tbody class="checkout_table_data"></tbody>
+                            <tfoot>
+                                <tr class="order_amt">
+                                    <th>Total Cost</th>
+                                    <td class="total_cost_order">
+                                        <input type="hidden" name="order_total_price" class="order_total_price" value="">
+                                        <span class="pay_now_price">
+                                            
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        
+                    </div>
+                    
+                    
+                </div>
+            </div>  
         </div>
     </div>
         

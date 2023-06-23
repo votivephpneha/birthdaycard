@@ -105,10 +105,10 @@ progress[value] {
             <h4>Please Select</h4>
             <div class="btns">
               <div class="text-center mb-4 pb-2">
-              <a class="hanrigt" href="{{ url('card_editor') }}/{{$card_id}}/{{$card_size_id}}/Handwritten">Handwritten</a>
+              <a class="hanrigt" href="{{ url('card_editor') }}/{{$cart_id}}/Handwritten">Handwritten</a>
             </div>
              <div class="text-center">
-              <a class="printer" href="{{ url('card_editor') }}/{{$card_id}}/{{$card_size_id}}/Printed">Printed</a>
+              <a class="printer" href="{{ url('card_editor') }}/{{$cart_id}}/Printed">Printed</a>
             </div>
             </div>
           </div>

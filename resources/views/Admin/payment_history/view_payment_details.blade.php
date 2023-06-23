@@ -71,7 +71,7 @@
                <div class="myOrderDtelBox">
                   <div class="myOrderID project_detail">
                   <p class="title">Order ID:</p>
-                  <p>{{$paytrandata[0]->order_id}}</p>
+                  <p>{{$paytrandata[0]->order_ids}}</p>
                   
                   </div>
                   <div class="myOrderDtel project_detail">
@@ -125,7 +125,7 @@
                         <th>Tax(%):</th>
                         <th>Total  Amount</th>
                         <th>Payment Type</th>
-                        <!-- <th>Transaction ID</th> -->
+                        <th>Transaction ID</th>
                         <th>Payment Status</th>
                      </tr>
                      <tr>
@@ -133,9 +133,9 @@
                         <td>$0.00</td>
                         <!-- <td>${{number_format($paytrandata[0]->postage_costs, 2)}}</td> -->
                         <td>$0.00</td>
-                        <td>${{number_format($paytrandata[0]->total, 2)}}</td>
-                        <td>{{$paytrandata[0]->payment_method}}</td>
-                        <!-- <td>{{$paytrandata[0]->transaction_id}}</td> -->
+                        <td>${{number_format($paytrandata[0]->total_amount, 2)}}</td>
+                        <td>{{$paytrandata[0]->payment_type}}</td>
+                        <td>{{$paytrandata[0]->transaction_id}}</td>
                         <td style="color: green;">{{$paytrandata[0]->pay_status}}</td>
                      </tr>
                   </table>

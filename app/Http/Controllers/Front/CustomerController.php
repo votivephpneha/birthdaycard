@@ -47,9 +47,9 @@ class CustomerController extends Controller{
 	}
 
 	public function loginUser(){
-        $previous_url = $_SERVER['HTTP_REFERER'];
-        $new_url = explode("/",$previous_url);
-        Session::put("previous_url", $new_url[3]);
+        //$previous_url = $_SERVER['HTTP_REFERER'];
+        //$new_url = explode("/",$previous_url);
+        //Session::put("previous_url", $new_url[3]);
 		return view("Front/login");
 	}
 

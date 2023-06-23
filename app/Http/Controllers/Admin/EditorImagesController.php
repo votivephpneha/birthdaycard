@@ -322,4 +322,162 @@ class EditorImagesController extends Controller
     }
 
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function VideoImageList()
+    {
+      $data['videoImagelist'] = EditorImages::orderby('id','DESC')->where('file_type','video_image')->get();
+      return  view('Admin.video_image.video_image_list')->with($data);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createVideoImage()
+    {
+     return view('Admin.video_image.create_video_image');
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeVideoImage(Request $request)
+    {
+        $request->validate([       
+            "video_image" => "required",
+            "video_image_status" => "required",            
+        ]);
+
+        if ($request->hasFile("video_image")) {
+            $videoimage = $request->file("video_image");
+            $videoimageName =  Str::random(6) . time() . '.' . $videoimage->getClientOriginalExtension();
+            $videoimage->move(public_path("upload/editorImages"), $videoimageName);
+        }
+
+        $videoimage = new EditorImages();
+        $videoimage->editor_image = $videoimageName;
+        $videoimage->status = $request->videoimageName;   
+        $videoimage->file_type = 'video_image';   
+        $videoImageValue = $videoimage->save();
+ 
+        if($videoImageValue ){
+            return redirect("admin/video-image-list")->with(
+                "success",
+                "Video Image has been added successfully."
+            );
+        }else{
+           return back()->with("failed", "OOPs! Some internal issue occured.");         
+        }
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Card  $card
+     * @return \Illuminate\Http\Response
+     */
+    public function editVideoImage($id)
+    {
+        $videoimagedata =  EditorImages::find($id);        
+        return view('Admin.video_image.edit_video_image',compact('videoimagedata'));
+    }
+
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Card  $card
+     * @return \Illuminate\Http\Response
+     */
+    public function updateVideoImage(Request $request, $id)
+    {
+        $request->validate([
+            "video_image_status" => "required",
+        ]);
+
+        $editvideoimagefind = EditorImages::find($id);
+        if (empty($editimagefind)) {
+            return back()->with("failed", "Data not found");
+        } else {
+            
+            if ($request->hasFile("video_image")) {
+                $editvideoimage = $request->file("video_image");
+                $editvideoimageName =  Str::random(6) .time().'.'.$editvideoimage->getClientOriginalExtension();
+                $editvideoimage->move(public_path("/upload/editorImages"), $editvideoimageName);
+                
+            } else {
+                $editvideoimageName = $editvideoimagefind->editor_image;
+            }
+
+            $editvideoimagefind->editor_image = $editvideoimageName ;
+            $editvideoimagefind->status = $request->video_image_status;
+            $editvideoimagefind->file_type = 'image';
+            $editvideoimagefindvalue = $editvideoimagefind->save();
+            if($editimagefindvalue ){
+                return redirect("admin/video-image-list")->with(
+                    "success",
+                    "video image has been updated successfully."
+                );
+            }else{
+                return back()->with("failed", "OOPs! Some internal issue occured.");  
+            }
+            
+        }
+    }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Message  $message
+     * @return \Illuminate\Http\Response
+     */
+    public function DeleteVideoImage(Request $request)
+    {        
+        $videoimagelist = EditorImages::find($request->id);
+        $deletevideoimage = $videoimagelist->editor_image;
+        $deletevideoimage_path = public_path('upload/editorImages/'.$deletevideoimage);
+      
+        if(File::exists( $deletevideoimage_path) ) {
+            File::delete($deletevideoimage_path );
+        }
+         $result = $videoimagelist->delete();
+         if ($result) {
+            return json_encode(array('status' => 'success','msg' => 'Video Image has been deleted successfully!'));
+         }else {
+            return json_encode(array('status' => 'error','msg' => 'Some internal issue occured.'));
+         }
+    }
+
+
+    // active inactive status change
+    public function video_image_Status_change(Request $request)
+	{
+        $video_image_id = $request->edit_image_id; 
+        $newstatus = $request->status;
+
+        if($newstatus == 'Active'){
+            $newstatus = 1 ;
+        }else{
+            $newstatus = 0 ;
+        }
+        EditorImages::where('id', $video_image_id)
+        ->update(['status' => $newstatus
+                 ]
+                );
+       return response()->json('Video Image status changed successfully.');
+	}
+
+
+
 }

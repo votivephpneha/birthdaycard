@@ -24,6 +24,7 @@
   <link href="{{ url('public/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
 
   <link href="{{ url('public/assets/css/style.css') }}" rel="stylesheet">
+  <!-- <link href="{{ url('public/assets/css/example.css') }}" rel="stylesheet"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
   <style>
@@ -51,7 +52,39 @@
 </head>
 
 <body>
+   <!-- Modal -->
+  <div id="email_popup" class="modal fade" role="dialog" style="opacity: 1;background:transparent;">
+    <div class="modal-dialog">
 
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-8 email_modal_body">
+              <div class="heading">Wait</div>
+              <div class="subheading">Subscribe to our newsletter and receive our free kit</div>
+            </div>
+            <div class="col-md-4 email_popup_image">
+              <img src="https://birthdaystoreuk.co.uk/public/upload/cards/1682676800.jpg" style="width:100%">
+            </div>
+            <div class="newsletter_form">
+              <form method="post" action="{{ url('send_newsletter') }}">
+                @csrf
+                <input type="text" name="email_field" class="email_field" placeholder="Enter your email address">
+                <input type="submit" class="subs-btn" name="email_btn" value="Get Your Free Kit">
+              </form>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+  </div>
   <!-- Navbar Header -->
   @include('Front.layout.header')
 
@@ -76,6 +109,42 @@
   <!-- Template Main JS File -->
   <script src="{{ url('public/assets/js/main.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="{{ url('public/assets/js/jquery.ihavecookies.js') }}"></script>
+
+
+<script type="text/javascript">
+  
+  
+    jQuery(function ($) {
+        // init the state from the input
+        $(".image-checkbox").each(function () {
+            if ($(this).find('input[type="checkbox"]').first().attr("checked")) {
+                $(this).addClass('image-checkbox-checked');
+            }
+            else {
+                $(this).removeClass('image-checkbox-checked');
+            }
+        });
+
+        // sync the state to the input
+        $(".image-checkbox").on("click", function (e) {
+            if ($(this).hasClass('image-checkbox-checked')) {
+                $(this).removeClass('image-checkbox-checked');
+                $(this).find('input[type="checkbox"]').first().removeAttr("checked");
+            }
+            else {
+                $(this).addClass('image-checkbox-checked');
+                $(this).find('input[type="checkbox"]').first().attr("checked", "checked");
+            }
+
+            e.preventDefault();
+        });
+    });
+
+</script>
+
+
+  
 <script>
   $(function() {
   // Initialize form validation on the registration form.
@@ -321,7 +390,7 @@ $(function() {
     // in the "action" attribute of the form when valid
     submitHandler: function(form) {
       form.submit();
-      localStorage.removeItem("cart_id_array");
+      
     }
   });
 });
@@ -570,6 +639,25 @@ var cart_id_array = localStorage.getItem("cart_id_array");
         
       }
     });
+
+    $.ajax({
+      type: "GET",
+      url: "{{ url('get_gift_cart_data') }}",
+      data: {cart_id:val},
+      cache: false,
+      success: function(data){
+        var gift_data = JSON.parse(data);
+        console.log("get_gift_cart_data",gift_data.card_id);
+        $(".express_gift_id").each(function(i,val){
+          var gift_card_id = $(this).val();
+          if(gift_data.card_id == gift_card_id){
+            $("#html-"+gift_card_id).attr("checked","");
+            $(".image-checkbox-"+gift_card_id).addClass("image-checkbox-checked");
+            $(".submit_btn-"+gift_card_id).addClass("active-gift");
+          }
+        });
+      }
+    });
     
   });
 
@@ -604,50 +692,67 @@ var cart_id_array = localStorage.getItem("cart_id_array");
   if(!cart_id_array || arry_json.length<1){
     $(".cart_count").html(0);
   }else{
-    $(".cart_count").html(arry_json.length);
+    
+      $.ajax({
+      type: "GET",
+      url: "{{ url('check_cart_count') }}",
+      data: {cart_ids:cart_id_array},
+      cache: false,
+      success: function(data){
+        console.log("cart_data",data);
+        $(".cart_count").html(data);
+        
+      }
+    });
   }
+  
 
+  
   var sum = 0;
   $.each(arry_json,function(i,val){
       
 
-    $.ajax({
-      type: "GET",
-      url: "{{ url('checkout_data') }}",
-      data: {cart_id:val},
-      cache: false,
-      success: function(data){
-        
-        $(".checkout_table_data").prepend(data);
-        var card_price = $.trim($(".total_card_price-"+val).html()).replace("$","");
-        
-        sum = parseInt(sum) + parseInt(card_price);
+    
+    if(window.location.pathname == "/express_checkout" || window.location.pathname == "/ex_payment_transaction"){
+      $.ajax({
+        type: "GET",
+        url: "{{ url('ex_checkout_data') }}",
+        data: {cart_id:val},
+        cache: false,
+        success: function(data){
+          console.log("cart_data",data);
+          $(".checkout_table_data").prepend(data);
+          var card_price = $.trim($(".total_card_price-"+val).html()).replace("$","");
+          
+          sum = parseInt(sum) + parseInt(card_price);
 
-        console.log("cart_price2",sum);
+          console.log("cart_price2",sum);
 
-        $(".pay_now_price").html("$"+sum.toFixed(2));
-        $(".order_total_price").val(sum.toFixed(2));
-      }
-    });
+          $(".pay_now_price").html("$"+sum.toFixed(2));
+          $(".order_total_price").val(sum.toFixed(2));
+        }
+      });
+    }else{
+      $.ajax({
+        type: "GET",
+        url: "{{ url('checkout_data') }}",
+        data: {cart_id:val},
+        cache: false,
+        success: function(data){
+          
+          $(".checkout_table_data").prepend(data);
+          var card_price = $.trim($(".total_card_price-"+val).html()).replace("$","");
+          
+          sum = parseInt(sum) + parseInt(card_price);
 
-    $.ajax({
-      type: "GET",
-      url: "{{ url('ex_checkout_data') }}",
-      data: {cart_id:val},
-      cache: false,
-      success: function(data){
-        console.log("cart_data",data);
-        $(".checkout_table_data").prepend(data);
-        var card_price = $.trim($(".total_card_price-"+val).html()).replace("$","");
-        
-        sum = parseInt(sum) + parseInt(card_price);
+          console.log("cart_price2",sum);
 
-        console.log("cart_price2",sum);
-
-        $(".pay_now_price").html("$"+sum.toFixed(2));
-        $(".order_total_price").val(sum.toFixed(2));
-      }
-    });
+          $(".pay_now_price").html("$"+sum.toFixed(2));
+          $(".order_total_price").val(sum.toFixed(2));
+        }
+      });
+    }
+    
     
   });
 
@@ -852,6 +957,105 @@ function myFunction(){
       $(".gift-radio-"+card_id).attr("checked","");
       $(".gift_card_id").val(card_id);
     }
+    function selectGiftSingle(gift_id,order_id){
+      $("#html-"+gift_id).attr("checked","");
+      $(".image-checkbox-"+gift_id).addClass("image-checkbox-checked");
+      $("#myModal-"+gift_id).hide();
+      $(".modal-backdrop").hide();
+      $(".submit_btn-"+gift_id).addClass("active-gift");
+      
+    }
+    var options = {
+        title: 'Accept Cookies & Privacy Policy?',
+        message: 'There are no cookies used on this site, but if there were this message could be customised to provide more details. Click the <strong>accept</strong> button below to see the optional callback in action...',
+        delay: 600,
+        expires: 1,
+        link: "{{ url('privacy-policy') }}",
+        onAccept: function(){
+            var myPreferences = $.fn.ihavecookies.cookie();
+            console.log('Yay! The following preferences were saved...');
+            console.log(myPreferences);
+            var mouseX = 0;
+            var mouseY = 0;
+            var popupCounter = 0;
+            document.addEventListener("mousemove", function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            //document.getElementById("coordinates").innerHTML = "<br />X: " + e.clientX + "px<br />Y: " + e.clientY + "px";
+          });
+
+          $(document).mouseleave(function () {
+              if (mouseY < 100) {
+                  if (popupCounter < 1) {
+                      $("#email_popup").show();
+                  }
+                  popupCounter ++;
+              }
+          });
+        },
+        uncheckBoxes: true,
+        acceptBtnLabel: 'Accept Cookies',
+        moreInfoLabel: 'More information',
+        cookieTypesTitle: 'Select which cookies you want to accept',
+        fixedCookieTypeLabel: 'Essential',
+        fixedCookieTypeDesc: 'These are essential for the website to work correctly.'
+    }
+
+    $(document).ready(function() {
+        $('body').ihavecookies(options);
+
+        if ($.fn.ihavecookies.preference('marketing') === true) {
+            console.log('This should run because marketing is accepted.');
+        }
+
+        $('#ihavecookiesBtn').on('click', function(){
+            $('body').ihavecookies(options, 'reinit');
+        });
+    });
+    // window.addEventListener('beforeunload', function (e) { 
+    //     e.preventDefault(); 
+    //     e.returnValue = 'Okay Bye'; 
+    //     $("#email_popup").show();
+    // });
+    $("#email_popup .modal-header .close").click(function(){
+      $("#email_popup").hide();
+    });
+    function addBasket(gift_card_id,price){
+      alert()
+    $.ajax({
+      type: "POST",
+      url: "{{ url('gift_basket') }}",
+      data: {gift_card_id:gift_card_id,price:price,_token:"{{ csrf_token() }}"},
+      cache: false,
+      success: function(data){
+        //console.log("data",data);
+
+        if(data){
+
+          var cart_id_array = localStorage.getItem("cart_id_array");
+          var arry_json = JSON.parse(cart_id_array);
+          
+          arry_json.push(data)
+          
+          var new_array_json = JSON.stringify(arry_json);
+          localStorage.setItem("cart_id_array",new_array_json);
+          $(".add_basket_msg-"+gift_card_id).html("Gift has been added in the basket");
+          var gift_modal = $('#myModal-'+gift_card_id).is(":visible");
+
+        }
+
+      }
+    });
+  }
+  var pathname = window.location.pathname;
+  var new_path = pathname.includes('order_status');
+  if(new_path){
+    localStorage.removeItem("cart_id_array");
+  }
+  $("#dropdownMenuButton1").click(function(){
+    window.location.href = "{{ url('/cart') }}";
+  });
+
 </script>
   @yield('current_page_js')
 </body>

@@ -81,18 +81,13 @@ class StripePaymentController extends Controller
 
     public function otp_verify(Request $request){
         
-        $order_data = DB::table('order')->where("order_id",$request->order_id)->get()->first();
         $order_otp = mt_rand(1000,9999);
         $token = Str::random(64);
-        $email = $order_data->email;
-        Mail::send('Front.order-otp', ['token' => $token,'email'=>$order_data->email,'order_otp'=>$order_otp], function($message) use($request){
-                    $message->to($request->order_email);
-                    $message->from('birthday@birthdaystoreuk.co.uk','BirthdayCards');
-                    $message->subject('Otp For Payment');
+        $user_data = session::get("user_data");
+        $email = $user_data['email_address'];
+        //print_r($user_data);die;
+        
 
-        });
-
-        $otp_update = DB::table('order')->where('order_id',$request->order_id)->update(['otp'=>$order_otp, 'created_at'=>date('Y-m-d H:i:s')]);
 
         Session::put("card_name",$request->card_name);
         Session::put("card_no",$request->card_no);
@@ -101,7 +96,72 @@ class StripePaymentController extends Controller
         Session::put("expiration_year",$request->expiration_year);
         Session::put("email",$email);
         Session::flash('Success', 'OTP is sent on your email');
-        return redirect('otp_verification/'.$request->order_id);
+
+        
+        $order_id = "ord-".mt_rand(1000,9999);
+        $cart_id_array = $request->cart_id_array;
+        $cart_id_arr = json_decode($cart_id_array);
+        //print_r($cart_id_arr);
+        $order_total_price = 0;
+        
+        foreach ($cart_id_arr as $cart_id) {
+            $cart_data = DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->get()->first();
+            //echo $card_price = $cart_data->price;
+            //print_r($cart_data);
+            $order_total_price = $order_total_price + $cart_data->price;
+        }
+        
+        
+        
+        $post_order = DB::table('order')->insert(['order_id'=>$order_id,'customer_id'=>$user_data['user_id'],'fname'=>$user_data['fname'],'lname'=>$user_data['lname'], 'phone_no'=>$user_data['phone_no'], 'email'=>$user_data['email_address'], 'door_number'=>$user_data['door_no'],'address'=>$user_data['address'], 'city'=>$user_data['city'], 'postal_code'=>$user_data['post_code'],'receiver_fname'=>$user_data['fname_rc'],'receiver_lname'=>$user_data['lname_rc'], 'receiver_phone_no'=>$user_data['phone_no_rc'], 'receiver_email'=>$user_data['email_address_rc'], 'receiver_door_number'=>$user_data['door_no_rc'], 'receiver_address'=>$user_data['address_rc'], 'receiver_city'=>$user_data['address_rc'], 'receiver_postal_code'=>$user_data['post_code_rc'], 'order_notes'=>$user_data['order_notes'], 'total'=> $order_total_price, 'sub_total'=> $order_total_price, 'order_status'=>'0', 'pay_status'=>'Pending','status'=>'0','otp'=>$order_otp, 'created_at'=>date('Y-m-d H:i:s')]);
+        
+
+        if($post_order){  
+         
+            
+
+            foreach ($cart_id_arr as $cart_id) {
+             $cart_data = DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->get()->first();
+             if(!empty($cart_data)){
+                 $card_id = $cart_data->card_id;
+                 $card_size_id = $cart_data->sizes;
+                 $qty = $cart_data->qty;
+                 $card_price = $cart_data->price;
+                 $video_id = $cart_data->video_id;
+                 $predesigned_text_id = $cart_data->predesigned_text_id;
+                 $order_details = DB::table('order_details')->insert(['order_id'=>$order_id,'user_id'=>$user_data['user_id'], 'card_id'=>$card_id, 'card_size_id'=>$card_size_id, 'video_id'=>$video_id, 'predesigned_text_id'=>$predesigned_text_id, 'qty'=>$qty, 'card_price'=>$card_price, 'created_at'=>date('Y-m-d H:i:s')]);
+
+                 if($card_size_id != 0){
+                     $card_qty_data = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->get()->first();
+                    
+                     $remaining_qty = $card_qty_data->card_size_qty - $qty;
+
+                     $card_qty_update = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->update(['card_size_qty'=>$remaining_qty,'created_at'=>date('Y-m-d H:i:s')]);
+                 }
+             }
+                
+             DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->delete();
+                
+         }
+         
+         Mail::send('Front.order-otp', ['token' => $token,'email'=> $email,'order_otp'=>$order_otp], function($message) use($request,$email){
+                    $message->to($email);
+                    $message->from('birthday@birthdaystoreuk.co.uk','BirthdayCards');
+                    $message->subject('Otp For Payment');
+
+        });           
+         // Mail::send('Front.order-invoice', ['token' => $token,'email'=>$email_address,'order_id'=>$order_id], function($message) use($request){
+         //                $message->to($request->email_address);
+         //                $message->from('birthday@birthdaystoreuk.co.uk','BirthdayCards');
+         //                $message->subject('Order Invoice');
+
+         // });
+
+            return redirect('otp_verification/'.$order_id);
+        
+            
+
+        }    
     }
 
     public function otp_verification(Request $request){

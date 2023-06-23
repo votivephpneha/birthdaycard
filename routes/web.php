@@ -61,12 +61,12 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/birthday-cards', [FrontCardController::class, 'index'])->name('birthday-cards');
 Route::post('/birthday-favourites', [FrontCardController::class, 'addFavourites'])->name('addFavourites');
 Route::post('/post_sizes', [FrontCardController::class, 'post_sizes'])->name('post_sizes');
-Route::get('/video_upload_page/{card_id}/{card_size_id}', [FrontCardController::class, 'video_upload_page'])->name('video_upload_page');
+Route::get('/video_upload_page/{cart_id}', [FrontCardController::class, 'video_upload_page'])->name('video_upload_page');
 Route::post('/post_video', [FrontCardController::class, 'post_video'])->name('post_video');
-Route::get('/show_video/{card_id}/{card_size_id}', [FrontCardController::class, 'show_video'])->name('show_video');
-Route::get('/show_video_image/{card_id}/{card_size_id}', [FrontCardController::class, 'show_video_image'])->name('show_video_image');
+Route::get('/show_video/{cart_id}', [FrontCardController::class, 'show_video'])->name('show_video');
+Route::get('/show_video_image/{cart_id}', [FrontCardController::class, 'show_video_image'])->name('show_video_image');
 Route::post('/delete_video', [FrontCardController::class, 'delete_video'])->name('delete_video');
-Route::get('/card_editor/{card_id}/{card_size_id}/{card_type}', [FrontCardController::class, 'card_editor'])->name('card_editor');
+Route::get('/card_editor/{cart_id}/{card_type}', [FrontCardController::class, 'card_editor'])->name('card_editor');
 Route::post('/post_card', [FrontCardController::class, 'post_card'])->name('post_card');
 Route::get('/cart_continue', [FrontCardController::class, 'cart_continue'])->name('cart_continue');
 
@@ -94,13 +94,14 @@ Route::get('/blogs/', [HomeController::class, 'blogs'])->name('blogs');
 Route::get('/blog_detail/{blog_id}', [HomeController::class, 'blog_detail'])->name('blog_detail');
 Route::get('/gift_card/', [HomeController::class, 'gift_card'])->name('gift_card');
 Route::post('/submit_gift/', [HomeController::class, 'submit_gift'])->name('submit_gift');
-Route::get('/ex_gift_card/{order_id}', [FrontCardController::class, 'express_gift_card'])->name('ex_gift_card');
+Route::get('/ex_gift_card/', [FrontCardController::class, 'express_gift_card'])->name('ex_gift_card');
 Route::post('/submit_ex_gift_card', [FrontCardController::class, 'submit_ex_gift_card'])->name('submit_ex_gift_card');
-Route::get('payment_transaction/{order_id}', [StripePaymentController::class, 'stripe'])->name('stripe');
+Route::get('ex_payment_transaction/', [StripePaymentController::class, 'stripe'])->name('stripe');
 Route::post('stripe', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
 Route::get('otp_verification/{order_id}', [StripePaymentController::class, 'otp_verification'])->name('otp_verification');
 Route::post('otp_verify', [StripePaymentController::class, 'otp_verify'])->name('otp_verify');
 Route::post('post_otp', [StripePaymentController::class, 'post_otp'])->name('post_otp');
+Route::get('get_gift_cart_data', [FrontCardController::class, 'get_gift_cart_data'])->name('get_gift_cart_data');
 Route::group(['prefix' => 'user', 'middleware' => 'customer_auth:customer'], function () {
 	Route::get('/userProfile', [CustomerController::class, 'userProfile'])->name('userProfile');
 	Route::post('/postuserProfile', [CustomerController::class, 'postuserProfile'])->name('postuserProfile');
@@ -111,6 +112,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'customer_auth:customer'], fun
 	Route::get('/order_detail/{order_id}', [CustomerController::class, 'order_detail'])->name('order_detail');
 	Route::get('/favourites_delete', [CustomerController::class, 'favourites_delete'])->name('favourites_delete');
 	Route::get('/front_logout', [CustomerController::class, 'front_logout'])->name('front_logout');
+	Route::get('payment_transaction/', [StripePaymentController::class, 'stripe'])->name('stripe');
 });
 Route::get('/cart', [FrontCardController::class, 'cart_page'])->name('cart_page');
 Route::get('/cart_data', [FrontCardController::class, 'cart_data'])->name('cart_data');
@@ -124,6 +126,10 @@ Route::get('/get_state/', [FrontCardController::class, 'get_state'])->name('get_
 Route::get('/get_city/', [FrontCardController::class, 'get_city'])->name('get_city');
 Route::post('/ex_post_checkout', [FrontCardController::class, 'post_checkout'])->name('post_checkout');
 Route::get('/ex_order_status/{order_id}', [FrontCardController::class, 'order_status'])->name('order_status');
+Route::post('/insertSingleGift', [FrontCardController::class, 'insertSingleGift'])->name('insertSingleGift');
+Route::post('/send_newsletter', [FrontCardController::class, 'send_newsletter'])->name('send_newsletter');
+Route::get('/check_cart_count', [FrontCardController::class, 'check_cart_count'])->name('check_cart_count');
+Route::post('/gift_basket', [FrontCardController::class, 'gift_basket'])->name('gift_basket');
 Route::group(['prefix' => '', 'middleware' => 'customer_auth:customer'], function (){
 	Route::get('/checkout_data', [FrontCardController::class, 'checkout_data'])->name('checkout_data');
 	Route::get('/checkout/', [FrontCardController::class, 'checkout'])->name('checkout');
@@ -321,6 +327,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:adm'], function () {
 	Route::post('/delete-gift', [GiftController::class, 'destroy'])->name('delete.gift.post');
 	Route::get('/view-gift/{id}', [GiftController::class, 'show'])->name('view.gift');
 	Route::post('/gift-status-change', [GiftController::class, 'Gift_Status_change'])->name('gift.status.change');
+	Route::get('/delete_gift_images/{id}', [GiftController::class, 'gift_gallery_delete'])->name('delete-gift-images');
 
 	//Editor Images routes
 	Route::get('/editor-image-list', [EditorImagesController::class, 'index'])->name('editorimagelist');
@@ -339,5 +346,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:adm'], function () {
 	Route::post('/delete-demo-video', [EditorImagesController::class, 'DeleteVideo'])->name('delete.demo.video.post');
 	Route::get('/edit-demo-video/{id}', [EditorImagesController::class, 'editDemoVideo'])->name('edit.demo.video');
 	Route::post('edit-demo-video/{id}', [EditorImagesController::class, 'updateDemoVideo'])->name('edit.demo.video.post');
+
+	//Video Images routes
+	Route::get('/video-image-list', [EditorImagesController::class, 'VideoImageList'])->name('videoimagelist');
+	Route::get('/create-video-image', [EditorImagesController::class, 'createVideoImage'])->name('create.video.image');
+	Route::post('/create-video-image', [EditorImagesController::class, 'storeVideoImage'])->name('create.video.image.post');
+	Route::get('/edit-video-image/{id}', [EditorImagesController::class, 'editVideoImage'])->name('edit.video.image');
+	Route::post('edit-video-image/{id}', [EditorImagesController::class, 'updateVideoImage'])->name('edit.video.image.post');
+	Route::post('/delete-video-image', [EditorImagesController::class, 'DeleteVideoImage'])->name('delete.video.image.post');
+	Route::post('/video-image-status-change', [EditorImagesController::class, 'video_image_Status_change'])->name('video.image.status.change');
 
 });

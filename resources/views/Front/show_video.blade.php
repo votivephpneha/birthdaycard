@@ -26,8 +26,10 @@ figure {
 }
 
 video {
-  display: block;
-/*  width: 100%;*/
+    display: block;
+    width: 100%;
+    height: 329px;
+    object-fit: cover;
 }
 
 figcaption {
@@ -102,7 +104,7 @@ progress[value] {
           <div class="chk_cond">
           <input id="checkbox" type="checkbox" />
           <label for="checkbox"> I agree to these <a href="{{ url('terms-service') }}">Terms and Conditions</a>.</label>
-
+          <span></span>
           </div>
         </div>
         <span class="upload_error"></span>
@@ -148,17 +150,15 @@ progress[value] {
     </div>
     
     <div class="footer-ctn">
-      <div class="countinue_btn">
-        <a href="#">Continue</a>
+      <div>
+        <a href="#" class="countinue_btn">Continue</a>
       </div>
     </div>
   </div>
 </div>  
 
 
-<script src =  
-    "https://code.jquery.com/jquery-3.5.1.js">  
-</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript">
   document.getElementById("replace_video")
   .onchange = function(event) {
@@ -214,7 +214,7 @@ progress[value] {
         var video_data = ajax_request.send(form_data);
 
         ajax_request.onload = function() {
-          window.location.href = "{{ url('show_video') }}/{{ $card_id }}/{{ $card_size_id }}";
+          window.location.href = "{{ url('show_video') }}/{{ $cart_id }}";
           
         }
   }
@@ -224,10 +224,12 @@ progress[value] {
         .html();  
     }  
     $(".countinue_btn").click(function(){
+
       if($("#checkbox").prop('checked') != true){
-        $(".agree_bx .chk_cond").append("<div style='color:red;'>Please check Terms & Conditions checkbox</div>");
+        $(".agree_bx .chk_cond span").html("<div style='color:red;'>Please check Terms & Conditions checkbox</div>");
     }else{
-      $(".countinue_btn a").attr("href","{{ url('/show_video_image') }}/{{ $card_id }}/{{ $card_size_id }}");
+
+      $(".countinue_btn").attr("href","{{ url('/show_video_image') }}/{{ $cart_id }}");
     }
     });
     

@@ -87,9 +87,10 @@
 </div>
 <div class="add-detail mt-10">
     <div class="w-50 float-left mt-10">
-        <p class="m-0 pt-5 text-bold w-100">Invoice Id - <span class="gray-color">{{$invoicenum }}</span></p>
-        <p class="m-0 pt-5 text-bold w-100">Order Id - <span class="gray-color">{{$paymentdata[0]->order_id }}</span></p>
-        <p class="m-0 pt-5 text-bold w-100">Order Date - <span class="gray-color">{{date('Y-m-d', strtotime($paymentdata[0]->created_at))}}</span></p>
+        <p class="m-0 pt-5 text-bold w-100">Invoice Id-<span class="gray-color">{{$invoicenum }}</span></p>
+        <p class="m-0 pt-5 text-bold w-100">Order Id -<span class="gray-color">{{$paymentdata[0]->order_ids }}</span></p>
+        <p class="m-0 pt-5 text-bold w-100">Order Date -<span class="gray-color">{{date('Y-m-d', strtotime($paymentdata[0]->created_at))}}</span></p>
+        <p class="m-0 pt-5 text-bold w-100">Transaction Id - <span class="gray-color">ch_3NKxELCk9m92wQss03sRIE13</span></p>
     </div>
     <div class="float-right" style="">
             <!-- <h1>Birthday Store!</h1> -->
@@ -130,7 +131,7 @@
             <th class="w-50">Shipping Method</th>
         </tr>
         <tr>
-            <td>{{ $paymentdata[0]->payment_method }}</td>
+            <td>{{ $paymentdata[0]->payment_type }}</td>
             <!-- <td>Free Shipping - Free Shipping</td> -->
             <td></td>
         </tr>
@@ -181,7 +182,7 @@
                     <div class="total-right w-15 float-left text-bold" align="right">
                         <p>${{number_format($paymentdata[0]->sub_total, 2)}}</p>
                         <p>$0.00</p>
-                        <p>${{number_format($paymentdata[0]->total, 2)}}</p>
+                        <p>${{number_format($paymentdata[0]->total_amount, 2)}}</p>
                     </div>
                     <div style="clear: both;"></div>
                 </div> 

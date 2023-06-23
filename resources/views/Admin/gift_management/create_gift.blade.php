@@ -90,7 +90,7 @@ $('#category_id').change(function() {
                 @endif
                 </div>
               </div> -->
-                            <!-- <div class="form-group">
+                            <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Description">Description
                                     <span class="required">*</span>
                                 </label>
@@ -98,10 +98,12 @@ $('#category_id').change(function() {
                                     <textarea id="des" name="description" rows="4" cols="50"
                                         class="form-control col-md-7 col-xs-12">
                                      </textarea>
-                                    <input type="text" id="last-name" name="last_name"  class="form-control col-md-7 col-xs-12"> -->
+                                     @if($errors->has('description'))
+                                    <span class="text-danger">{{ $errors->first('description')}}</span>
+                                    @endif
 
-                            <!-- </div>
-                            </div>  -->
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="qty">Price <span
                                         class="required">*</span>
@@ -130,12 +132,23 @@ $('#category_id').change(function() {
                             </div>
                             <div class="form-group">
                                 <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Gift image
-                                    </label>
+                                </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="gift_image" class="form-control col-md-7 col-xs-12" type="file"
                                         name="gift_image" accept="image/png, image/gif, image/jpeg">
                                     @if($errors->has('gift_image'))
                                     <span class="text-danger">{{ $errors->first('gift_image')}}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Gift gallery images/videos
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="gift_gall_image" class="form-control col-md-7 col-xs-12" type="file"
+                                        name="gift_gall_image[]" accept="image/png, image/gif, image/jpeg,video/mp4" multiple>
+                                    @if($errors->has('gift_gall_image'))
+                                    <span class="text-danger">{{ $errors->first('gift_gall_image')}}</span>
                                     @endif
                                 </div>
                             </div>

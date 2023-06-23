@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Card;
+use App\Models\gift_gallery_image;
 use Illuminate\Http\Request;
 use DB;
 use File;
-
+use Illuminate\Support\Str;
 class GiftController extends Controller
 {
 /**
@@ -39,29 +40,32 @@ public function index()
      */
     public function store(Request $request)
     {
+       
         $request->validate([
             "price" => "required",
             "title" => "required",
             "gift_image" => "required",
-            "gift_status" => "required",            
+            "gift_status" => "required",
+            "description" => 'required', 
+            "gift_gall_image" => 'required',                
         ]);
-
+     
         if ($request->gift_status == 1) {
             $status = "Active";
         } else {
             $status = "Inactive";
         }
-
+     
         if ($request->hasFile("gift_image")) {
             $giftimage = $request->file("gift_image");
             $giftimageName = time() . "." . $giftimage->extension();
             $giftimage->move(public_path("upload/cards"), $giftimageName);
         }
-
+ 
         $gift = new Card();
         $gift->price = $request->price;
         $gift->card_title = $request->title;
-        $gift->description = null;
+        $gift->description = $request->description;
         $gift->status = $status;
         // $card->qty = $request->qty;
         $gift->card_image = $giftimageName;
@@ -72,7 +76,16 @@ public function index()
         // $gift->gift_title =  $request->title;
         // $gift->gift_image =  $giftimageName;        
         $giftValue = $gift->save();
- 
+        $files = $request->file('gift_gall_image');
+        foreach ($files as $file) {
+            $gallimageName = Str::random(6) . time() . '.' . $file->getClientOriginalExtension();                    
+            $image = $file;
+            $image->move(public_path("upload/gift_gall_images"), $gallimageName);
+            $giftgallValue =  DB::table('gift_gallery_images')->insert([
+                'gift_gall_images' =>  $gallimageName,
+                'gift_id' => $gift->id,
+            ]);
+        } 
         if($giftValue ){
             return redirect("admin/giftlist")->with(
                 "success",
@@ -93,7 +106,7 @@ public function index()
      */
     public function show(Card $card,$id)
     {
-        $viewgiftdata =  Card::find($id);       
+        $viewgiftdata =  Card::find($id);     
         return view('Admin.gift_management.view_gift',compact('viewgiftdata'));
     }
 
@@ -121,7 +134,8 @@ public function index()
         $request->validate([
             "price" => "required",           
             "gift_status" => "required",
-            "title" => "required",           
+            "title" => "required",   
+            "description" => 'required',         
         ]);
 
         $giftfind = Card::find($id);
@@ -144,17 +158,36 @@ public function index()
           
             $giftfind->price = $request->price ;
             $giftfind->card_title = $request->title ;
-            $giftfind->description = null;
+            $giftfind->description = $request->description;
             $giftfind->status = $status;
             $giftfind->card_image = $gift_imageName;
             $giftfind->category_id = null;
             $giftfind->sub_category_id = null; 
             $giftfind->card_back_image =  null;
             $giftfind->gift_card =  'gift';
-
-            $giftupdatevalue = $giftfind->save();
-
+            $giftupdatevalue = $giftfind->save(); 
             
+            if ($request->hasFile("gift_gall_image")) {
+
+				$files = $request->file('gift_gall_image');
+
+				foreach ($files as $file) {
+
+					$name = Str::random(6) . time() . '.' . $file->getClientOriginalExtension();
+
+					$image = $file;
+
+                    $image->move(public_path("upload/gift_gall_images"), $name);
+
+					gift_gallery_image::insert([
+
+						'gift_gall_images' => $name,
+
+                        'gift_id' => $giftfind->id,
+
+					]);
+				}
+            }
             
             if($giftupdatevalue ){
                 return redirect("admin/giftlist")->with(
@@ -202,6 +235,20 @@ public function index()
                  ]
                 );
        return response()->json('Gift status changed successfully.');
+	}
+
+    public function gift_gallery_delete($gl_id)
+	{
+        $deleteimage =  gift_gallery_image::where('id', '=', $gl_id)->get(); 
+        // dd($deleteimage); 
+        $delegallimage_name =  $deleteimage[0]->gall_images;
+        $delegallimage_path = public_path('upload/gift_gall_images/'.$delegallimage_name);
+        if(File::exists($delegallimage_path)) {
+            File::delete($delegallimage_path);
+        }
+        gift_gallery_image::where('id', '=', $gl_id)->delete();
+
+        return back()->with("success", "Image has been deleted successfully.");
 	}
 
 

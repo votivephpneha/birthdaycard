@@ -106,11 +106,11 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td><b>Total</b></td>
+				<td><b>Sub Total</b></td>
 				<td>
 					<b>
 					<?php
-						$order_total = $order[0]->total;	
+						$order_total = $order[0]->sub_total;	
 						echo "$".number_format((float)$order_total, 2, '.', '');
 					?>
 					</b>
@@ -121,11 +121,11 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td><b style="color: #ff0091;">Sub Total</b></td>
+				<td><b style="color: #ff0091;">Total</b></td>
 				<td>
 					<b style="color: #ff0091;">
 					<?php
-						$order_sub_total = $order[0]->sub_total;	
+						$order_sub_total = $order[0]->total;	
 						echo "$".number_format((float)$order_sub_total, 2, '.', '');
 					?>
 					</b>

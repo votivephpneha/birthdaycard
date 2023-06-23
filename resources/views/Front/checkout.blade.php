@@ -156,7 +156,7 @@
 				</div>
 				<div class="amt_details_form col-md-5">
 					<div class="order_div">
-						<h3>Your Order</h3>
+						<h3>Ordered Item</h3>
 						<div class="total_cost_div">
 							
 							<div class="checkout_items">
@@ -175,7 +175,7 @@
 							</div>
 							
 							<div class="total-submit">
-							<button type="submit" name="btn" class="place-order-btn">Pay Now</button>
+							<button type="submit" name="btn" class="place-order-btn">Continue</button>
 							</div>
 							
 						</div>

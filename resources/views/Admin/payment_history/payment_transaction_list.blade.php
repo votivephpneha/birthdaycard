@@ -120,7 +120,7 @@
                                             <tr>
                                                 <!-- <th>id#</th> -->
                                                 <th>S.no#</th>
-                                                <!-- <th>Transaction Id</th> -->
+                                                <th>Transaction Id</th>
                                                 <th>Order Id</th>
                                                 <th>Customer</th>
                                                 <th>Amount</th>
@@ -135,14 +135,14 @@
                                         @foreach ($payhisList as $arr)
                                          <tr id="row{{ $arr->id }}">
                                             <td>{{ $i }}</td>
-                                            <!-- <td>{{$arr->transaction_id}}</td> -->
-                                            <td>{{$arr->order_id}}</td>
+                                            <td>{{$arr->transaction_id}}</td>
+                                            <td>{{$arr->order_ids}}</td>
                                             <td>{{$arr->fname ." ". $arr->lname}}</td>
-                                            <td>${{number_format($arr->total, 2)}}</td>
+                                            <td>${{number_format($arr->total_amount, 2)}}</td>
                                             <td>{{$arr->pay_status}}</td>
                                             <td>{{date('Y-m-d', strtotime($arr->created_at))}}</td>
                                             <td><button class="btn btn-dark p-2">
-                                            <a href="{{route('view.payment.detail',[$arr->id])}}" class="text-white" style=" color: #FFFFFF;"><i class="fa fa-eye" ></i>View</button></a></td>
+                                            <a href="{{route('view.payment.detail',[$arr->payment_id])}}" class="text-white" style=" color: #FFFFFF;"><i class="fa fa-eye" ></i>View</button></a></td>
                                          </tr>
                                          <?php $i++; ?>
                                         @endforeach 

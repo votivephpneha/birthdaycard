@@ -59,6 +59,7 @@ class FrontCardController extends Controller{
 	public function post_sizes(Request $request){
 		$card_id = $request->card_id;
 		$c_size = $request->c_size;
+		
 		$description = $request->description;
 		$qty_box = "1";
 		$card_size_price = $request->card_size_price;
@@ -88,8 +89,8 @@ class FrontCardController extends Controller{
             
         	$favourite_cards = DB::table('cart_table')->insertGetId(['card_id'=>$card_id,'sizes'=>$c_size,'user_id'=>$user_id,'qty'=>$qty_box,'price'=>$price_after_qty,'status'=>'0','created_at'=>date('Y-m-d H:i:s')]);
 				//echo $favourite_cards;die;
-				Session::put('cart_id', $favourite_cards);
-				return redirect('video_upload_page/'.$card_id.'/'.$c_size);
+				//Session::put('cart_id', $favourite_cards);
+				return redirect('video_upload_page/'.$favourite_cards);
 			
         }else{
         	
@@ -102,13 +103,14 @@ class FrontCardController extends Controller{
 	}
 
 	public function video_upload_page(Request $request){
-		$card_id = $request->card_id;
+		$cart_data = DB::table('cart_table')->where('cart_id',$request->cart_id)->get()->first();
+		$card_id = $cart_data->card_id;
 		$data['db_card_data'] = DB::table('cards')->where('id',$card_id)->get()->first();
-		$data['c_size_id'] = $request->card_size_id;
-		$data['cart_id'] = Session::get('cart_id');
+		$data['c_size_id'] = $cart_data->sizes;
+		$data['cart_id'] = $request->cart_id;
 
 		$data['db_video_page_data'] = DB::table('card_editor_images')->where('file_type','video')->get()->first();
-		$data['db_video_data'] = DB::table('videos')->where('cart_id',$data['cart_id'])->get()->first();
+		$data['db_video_data'] = DB::table('videos')->where('cart_id',$request->cart_id)->get()->first();
         
 		return view('Front/video_page')->with($data);
 	}
@@ -124,7 +126,7 @@ class FrontCardController extends Controller{
 		$movieFileType=$file->getClientOriginalName();
 		$file_type = explode(".",$movieFileType);
         $file_type1 = end($file_type);
-		if($file && $file_type1 == "mp4"){
+		if($file){
 	        $destinationPath = base_path() .'/public/upload/videos';
 	        $file_name = $file_time.".".$file_type1;
 	        $file->move($destinationPath,$file_name);
@@ -149,27 +151,29 @@ class FrontCardController extends Controller{
 	        
     	}else{
     		session::flash('error', 'Please upload the video');
-    		return redirect('video_upload_page/'.$card_id.'/'.$card_size_id);
+    		return redirect('video_upload_page/'.$cart_id);
     	}
 	}
 
 	public function show_video(Request $request){
-		$card_id = $request->card_id;
-		$card_size_id = $request->card_size_id;
+		$cart_data = DB::table('cart_table')->where('cart_id',$request->cart_id)->get()->first();
+		$card_id = $cart_data->card_id;
+		$card_size_id = $cart_data->sizes;
 		$data['card_id'] = $card_id;
 		$data['card_size_id'] = $card_size_id;
-		$data['cart_id'] = Session::get('cart_id');
+		$data['cart_id'] = $request->cart_id;
 		$data['db_card_data'] = DB::table('videos')->where('cart_id',$data['cart_id'])->get()->first();
 		//print_r($data['db_card_data']);die;
 		return view('Front/show_video')->with($data);
 	}
 
 	public function show_video_image(Request $request){
-		$card_id = $request->card_id;
-		$card_size_id = $request->card_size_id;
+		$cart_data = DB::table('cart_table')->where('cart_id',$request->cart_id)->get()->first();
+		$card_id = $cart_data->card_id;
+		$card_size_id = $cart_data->sizes;
 		$data['card_id'] = $card_id;
 		$data['card_size_id'] = $card_size_id;
-		$data['cart_id'] = Session::get('cart_id');
+		$data['cart_id'] = $request->cart_id;
 		$data['db_video_page_data'] = DB::table('card_editor_images')->where('file_type','video_image')->get()->first();
 		return view('Front/show_image')->with($data);
 	}
@@ -185,14 +189,15 @@ class FrontCardController extends Controller{
 	}
 
 	public function card_editor(Request $request){
-		$card_id = $request->card_id;
-		$card_size_id = $request->card_size_id;
+		$cart_data = DB::table('cart_table')->where('cart_id',$request->cart_id)->get()->first();
+		$card_id = $cart_data->card_id;
+		$card_size_id = $cart_data->sizes;
 		$data['card_id'] = $card_id;
 		$data['card_size_id'] = $card_size_id;
         
-		$data['cart_id'] = Session::get('cart_id');
+		$data['cart_id'] = $request->cart_id;
 		//print_r($data['cart_id']->status);die;
-		$data['db_card_data'] = DB::table('cards')->where('id',$request->card_id)->get()->first();
+		$data['db_card_data'] = DB::table('cards')->where('id',$card_id)->get()->first();
 		$data['colors'] = DB::table('text_colors')->get();
 		$data['fonts'] = DB::table('text_fonts')->get();
 		$data['messages'] = DB::table('messages')->get();
@@ -427,58 +432,10 @@ class FrontCardController extends Controller{
 			
 		}
 
-		session::put("user_id",$user_id);
+		$user_data = array('user_id'=>$user_id,'fname' =>$fname,'lname' =>$lname,'address' =>$address,'door_no' =>$door_no,'country' =>$country,'state' =>$state,'city' =>$city,'post_code' =>$post_code,'phone_no' =>$phone_no,'email_address' =>$email_address,'fname_rc' =>$fname_rc,'lname_rc' =>$lname_rc,'address_rc' =>$address_rc,'door_no_rc' =>$door_no_rc,'city_rc' =>$city_rc,'post_code_rc' =>$post_code_rc,'phone_no_rc' =>$phone_no_rc,'email_address_rc' =>$email_address_rc,'order_notes' =>$order_notes,'order_total_price' =>$order_total_price );
+		session::put("user_data",$user_data);
+		return redirect('ex_gift_card/');
 
-		
-		
-		$order_id = "ord-".mt_rand(1000,9999);
-
-		$cart_id_arr = json_decode($cart_id_array);
-		
-		$post_checkout = DB::table('order')->insert(['order_id'=>$order_id,'customer_id'=>$user_id,'fname'=>$fname,'lname'=>$lname, 'phone_no'=>$phone_no, 'email'=>$email_address, 'door_number'=>$door_no,'address'=>$address, 'city'=>$city, 'postal_code'=>$post_code,'receiver_fname'=>$fname_rc,'receiver_lname'=>$lname_rc, 'receiver_phone_no'=>$phone_no_rc, 'receiver_email'=>$email_address_rc, 'receiver_door_number'=>$door_no_rc, 'receiver_address'=>$address_rc, 'receiver_city'=>$city_rc, 'receiver_postal_code'=>$post_code_rc, 'order_notes'=>$order_notes, 'total'=>$order_total_price, 'sub_total'=>$order_total_price, 'order_status'=>'0', 'pay_status'=>'Pending','status'=>'0', 'created_at'=>date('Y-m-d H:i:s')]);
-        
-
-		if($post_checkout){	
-			$cart_data = DB::table('cart_table')->where('user_id',$user_id)->where('status',1)->get();
-			
-
-            foreach ($cart_id_arr as $cart_id) {
-				$cart_data = DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->get()->first();
-				if(!empty($cart_data)){
-					$card_id = $cart_data->card_id;
-					$card_size_id = $cart_data->sizes;
-					$qty = $cart_data->qty;
-					$card_price = $cart_data->price;
-					$video_id = $cart_data->video_id;
-					$predesigned_text_id = $cart_data->predesigned_text_id;
-					$order_details = DB::table('order_details')->insert(['order_id'=>$order_id,'user_id'=>$user_id, 'card_id'=>$card_id, 'card_size_id'=>$card_size_id, 'video_id'=>$video_id, 'predesigned_text_id'=>$predesigned_text_id, 'qty'=>$qty, 'card_price'=>$card_price, 'created_at'=>date('Y-m-d H:i:s')]);
-
-					if($card_size_id != 0){
-						$card_qty_data = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->get()->first();
-					
-						$remaining_qty = $card_qty_data->card_size_qty - $qty;
-
-						$card_qty_update = DB::table('card_sizes')->where('id',$card_size_id)->where('card_id',$card_id)->update(['card_size_qty'=>$remaining_qty,'created_at'=>date('Y-m-d H:i:s')]);
-					}
-				}
-				
-				DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->delete();
-				
-			}
-			$token = Str::random(64);
-			        
-			// Mail::send('Front.order-invoice', ['token' => $token,'email'=>$email_address,'order_id'=>$order_id], function($message) use($request){
-		 //                $message->to($request->email_address);
-		 //                $message->from('birthday@birthdaystoreuk.co.uk','BirthdayCards');
-		 //                $message->subject('Order Invoice');
-
-			// });
-
-			
-			return redirect('ex_gift_card/'.$order_id);
-			
-
-		}	
 	}
 
 	public function order_status(Request $request){
@@ -494,6 +451,20 @@ class FrontCardController extends Controller{
 
 		
 		return view('Front/checkout_data')->with($data);
+	}
+
+	public function check_cart_count(Request $request){
+		$cart_id = $request->cart_ids;
+		
+		$cart_id_array = json_decode($cart_id);
+		
+		$sum = 0;
+		foreach($cart_id_array as $cart_id) {
+			$cart_data = DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->get()->first();
+			$sum = $sum + $cart_data->qty;
+		}
+		return $sum; 
+		
 	}
 
 	public function search_submit(Request $request){
@@ -553,17 +524,52 @@ class FrontCardController extends Controller{
 
 		$get_card_price = DB::table('cards')->where("id",$request->gift_id)->get()->first();
 		
-		$order_price = $get_order_data->total;
-		$user_id = session::get("user_id");
+		
 
 		$gift_ids = $request->gift_id;
-
-		foreach($gift_ids as $gift_id){
-		
-			$insertGift = DB::table('order_details')->insert(['order_id'=>$request->order_id,'user_id'=>$user_id,'card_id'=>$gift_id,'qty'=>'1','card_price'=>'0.00','created_at'=>date('Y-m-d H:i:s')]);
+		if(!empty($gift_ids)){
+			if(Auth::user()){
+             return redirect('payment_transaction/');
+            }else{
+             return redirect('ex_payment_transaction/');
+            }
+			
+		}else{
+			session::flash('error', 'Please select the gift');
+			return redirect('ex_gift_card/');
 		}
 
 
-		return redirect('payment_transaction/'.$request->order_id);
+		
+	}
+
+	public function insertSingleGift(Request $request){
+		$user_id = session::get("user_id");
+		$insertGift = DB::table('order_details')->insert(['order_id'=>$request->order_id,'user_id'=>$user_id,'card_id'=>$request->gift_id,'qty'=>'1','card_price'=>'0.00','created_at'=>date('Y-m-d H:i:s')]);
+		return $insertGift;
+	}
+
+	public function send_newsletter(Request $request){
+		$token = Str::random(64);
+		Mail::send('Front.newsletter_email', ['token' => $token,'email'=>$request->email_field], function($message) use($request){
+                    $message->to($request->email_field);
+                    $message->from('birthday@birthdaystoreuk.co.uk','BirthdayCards');
+                    $message->subject('Newsletter Email');
+
+        });
+		session::flash('success', 'Thanks for subscribe us.');
+		return redirect('/');
+	}
+
+	public function gift_basket(Request $request){
+		
+		$insertGift = DB::table('cart_table')->insertGetId(['card_id'=>$request->gift_card_id,'qty'=>'1','price'=>$request->price,'status'=>'1','created_at'=>date('Y-m-d H:i:s')]);
+		return $insertGift;
+	}
+
+	public function get_gift_cart_data(Request $request){
+		$get_cart_data = DB::table('cart_table')->where("cart_id",$request->cart_id)->get()->first();
+		//print_r($get_cart_data);die;
+		return json_encode($get_cart_data);die;
 	}
 }

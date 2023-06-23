@@ -21,4 +21,8 @@ class Card extends Model
         return $this->belongsTo(Sub_category::class,'sub_category_id');
     }
 
+    public function gift_gell(){
+        return $this->hasMany(gift_gallery_image::class,'gift_id');
+    }
+
 }

@@ -36,6 +36,12 @@
                             </li>
                           </ul>
                         </li>
+                        <li><a><i class="fa fa-video-camera"></i>Video Image<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                          <li><a href="{{route('videoimagelist')}}">List</a></li>
+                            </li>
+                          </ul>
+                        </li>
                         <li><a><i class="fa fa-video-camera"></i>Demo Video<span class="fa fa-chevron-down"></span></a>
                           <ul class="nav child_menu">
                           <li><a href="{{route('demovideolist')}}">List</a></li>
@@ -71,11 +77,11 @@
                             <li><a href="{{route('userlist')}}">List</a></li>
                         </ul>
                     </li>
-                    <li><a><i class="fa fa-edit"></i>Card Category<span class="fa fa-chevron-down"></span></a>
+                    <!-- <li><a><i class="fa fa-edit"></i>Card Category<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{route('categorylist')}}">List</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li><a><i class="fa fa-edit"></i>Card Sizes<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{route('cardsizelist')}}">List</a></li>

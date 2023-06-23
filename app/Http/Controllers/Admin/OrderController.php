@@ -22,6 +22,7 @@ class OrderController extends Controller
     $data['orderList']  = DB::table("order")
                         ->select("order.*")
                         ->leftJoin("order_details","order_details.order_id","=","order.order_id")
+                        ->where('order.status',1)
                         ->orderby('order.id','DESC')
                         ->groupBy('order.id')->get(); 
      return view("Admin.order_management.order_list")->with($data);

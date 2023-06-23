@@ -66,7 +66,7 @@ progress[value] {
 		<div class="video_qr_image">
 			<div class="video_qr video-controls hidden" id="video-controls">
 				<figure>
-					<video width="100%" height="auto" class="video" id="video" preload="metadata" controls>
+					<video width="100%" height="auto" class="video" id="video" preload="metadata" controls muted playsinline>
 						<source src="{{ url('public/upload/editorImages') }}/{{ $db_video_page_data->editor_image }}" type="video/mp4">
 						Your browser does not support the video tag.
 					</video>
@@ -148,7 +148,7 @@ progress[value] {
 				</form>
 			</div>
 			<div class="no_thanks_btn">
-				<a href="{{ url('/show_video_image') }}/{{ $db_card_data->id }}/{{ $c_size_id }}">No Thanks</a>
+				<a href="{{ url('/show_video_image') }}/{{ $cart_id }}">No Thanks</a>
 			</div>
 		</div>
 			
@@ -228,7 +228,7 @@ progress[value] {
         
 
         ajax_request.onload = function() {
-          window.location.href = "{{ url('show_video') }}/{{ $db_card_data->id }}/{{ $c_size_id }}";
+          window.location.href = "{{ url('show_video') }}/{{ $cart_id }}";
           
         }
        
