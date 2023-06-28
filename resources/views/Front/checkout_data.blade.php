@@ -17,4 +17,9 @@
 		</span>
 		
 	</td>
+	<td>
+		<span class="delete_icon" onclick="deleteCartItem('{{ $cart_data[0]->cart_id }}')">
+			<i class="fa fa-trash"></i>
+		</span>
+	</td>
 </tr>

@@ -25,6 +25,12 @@
 		<span class="delete_icon" onclick="deleteCartItem('{{ $cart_data[0]->cart_id }}')">
 			<i class="fa fa-trash"></i>
 		</span></td>
+		<td>
+
+		
+		<a href="{{ url('delivery_address') }}/{{ $cart_data[0]->cart_id }}">Add Address</a>
+		
+	</td>
 		<td class="product-thumbnail"><img src="{{ url('public/upload/cards') }}/{{ $card_data[0]->card_image }}" style="width:100px;"></td>
 	<td class="product-title">
 

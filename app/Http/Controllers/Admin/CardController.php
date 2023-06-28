@@ -53,8 +53,8 @@ class CardController extends Controller
             "card_status" => "required",
             "gall_image" =>"required",
             // "qty" => "required",
-            "category_id" => "required",
-            "subcategory_id" => "required",
+            // "category_id" => "required",
+            // "subcategory_id" => "required",
             "card_back_image" => "required"
         ],
         [
@@ -87,8 +87,8 @@ class CardController extends Controller
         $card->status = $status;
         // $card->qty = $request->qty;
         $card->card_image = $imageName;
-        $card->category_id = $request->category_id;
-        $card->sub_category_id = $request->subcategory_id;
+        // $card->category_id = $request->category_id;
+        // $card->sub_category_id = $request->subcategory_id;
         $card->card_back_image =  $backimageName;
         $card->gift_card =  null;
         $cardValue = $card->save();
@@ -162,7 +162,7 @@ class CardController extends Controller
             "card_status" => "required",
             "title" => "required",
             // "qty" => "required",
-            "category_id" => "required",
+            // "category_id" => "required",
             // "subcategory_id" => "required"
             // "card_back_image" => "required"
         ]);
@@ -200,8 +200,8 @@ class CardController extends Controller
             $cardfind->status = $status;
             $cardfind->card_image = $imageName;
             // $cardfind->qty = $request->qty;
-            $cardfind->category_id = $request->category_id;
-            $cardfind->sub_category_id = $request->subcategory_id; 
+            // $cardfind->category_id = $request->category_id;
+            // $cardfind->sub_category_id = $request->subcategory_id; 
             $cardfind->card_back_image =  $backimageName;
             $cardfind->gift_card =  null;
 

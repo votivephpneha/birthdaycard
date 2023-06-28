@@ -25,6 +25,7 @@
                         <h3 class="panel-title">OTP Verification</h3>
                 </div>
                 <div class="panel-body">
+                    <div class="payment-error"></div>
                     @if ($message = Session::get('error'))
                         <div class="alert alert-danger text-center">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
@@ -52,7 +53,10 @@
                             <input type='hidden' name="expiration_year" class="form-control card-expiry-year" value="{{ $expiration_year }}">
                             <input type='hidden' name="email" class="form-control email" value="{{ $email }}">
     					</div>
-    				<center>	<input type="submit" name="otp_btn" class="btn btn-primary otp-btn" value="Submit"></center>
+    				<center class="otp_btns">	
+                        <a href="#" onclick="resendOTP('{{ $order_id }}','{{ $email }}')">Resend OTP</a>
+                        <input type="submit" name="otp_btn" class="btn btn-primary otp-btn" value="Submit">
+                    </center>
     				</form>
                 </div>
             </div>        
@@ -116,11 +120,9 @@ $(function() {
     --------------------------------------------
     --------------------------------------------*/
     function stripeResponseHandler(status, response) {
+        console.log("response",response);
         if (response.error) {
-            $('.error')
-                .removeClass('hide')
-                .find('.alert')
-                .text(response.error.message);
+            $(".payment-error").html('<div class="alert alert-danger text-center"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a><p>'+response.error.message+'</p></div>');
         } else {
             /* token contains id, last4, and card type */
             var token = response['id'];

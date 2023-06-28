@@ -12,6 +12,10 @@
     .payment_page{
         margin-top:150px;
     }
+    .alert-danger {
+    display: flex;
+    font-size: 18px;
+}
 </style>    
 <section class="payment-page">   
 <div class="container payment_page">
@@ -30,6 +34,13 @@
                         <div class="alert alert-success text-center">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
                             <p>{{ Session::get('success') }}</p>
+                        </div>
+                    @endif
+
+                    @if (Session::has('error'))
+                        <div class="alert alert-danger text-center">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                            <p>{{ Session::get('error') }}</p>
                         </div>
                     @endif
     
@@ -53,7 +64,7 @@
                             <div class='col-xs-12 form-group required'>
                                 <label class='control-label'>Card Number</label> <input
                                     autocomplete='off' class='form-control card-number' size='20'
-                                    type='text' name="card_no">
+                                    type='text' name="card_no" minlength="16">
                             </div>
                         </div>
     
@@ -101,7 +112,7 @@
                     <div class="checkout_items">
                         <table style="width:100%">
                             
-                            <tbody class="checkout_table_data"></tbody>
+                            <tbody class="checkout_table_data" id="tableId"></tbody>
                             <tfoot>
                                 <tr class="order_amt">
                                     <th>Total Cost</th>
@@ -126,5 +137,58 @@
 </div>
     
 </section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+  function deleteCartItem(cart_id){
+    
+    $.ajax({
+      type: "GET",
+      url: "{{ url('delete_cart_item') }}",
+      data: {cart_id:cart_id},
+      cache: false,
+      success: function(data){
+        //alert(window.location.path);
+        var table = document.getElementById("tableId");
+        
+        if(table.rows.length <= 1){
+          window.location.href = "{{ url('cart') }}"; 
+        }else{
+          
+          if(window.location.pathname == "/checkout"){
+            window.location.href = "{{ url('checkout') }}"; 
+          }else{
+            if(window.location.pathname == "/express_checkout"){
+              window.location.href = "{{ url('express_checkout') }}";
+            }else{
+                
+              if(window.location.pathname == "/ex_payment_transaction"){
+                
+                window.location.href = "{{ url('ex_payment_transaction') }}";
+              }
+            }
+            
+          }
 
+          
+        }
+        
+      }
+    });
+
+    var cart_id_array = localStorage.getItem("cart_id_array");
+      var arry_json = JSON.parse(cart_id_array);
+      const arry_json1 = arry_json.filter(function (letter) {
+        return letter !== cart_id;
+    });
+      //arry_json.pop(cart_id);
+      console.log("arry_json",arry_json1);
+
+      var new_json = JSON.stringify(arry_json1);
+      localStorage.setItem("cart_id_array",new_json);
+  }
+  if(window.location.pathname == "/ex_payment_transaction"){
+    $(".alert-success").hide();
+    
+  }
+</script>
 @endsection

@@ -49,34 +49,6 @@
                                             readonly>
                                     </div>
                                 </div>
-                                <?php if(isset($viewdata->category) AND !empty($viewdata->category) ){?>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Category :</label>
-                                        <input type="text" id="qty" name="qty" class="form-control col-md-7 col-xs-12"
-                                            value="{{$viewdata->category->name}}" readonly>
-                                    </div>
-                                </div>
-                                <?php } ?>
-                                <?php if(isset($viewdata->subcategory) AND !empty($viewdata->subcategory) ){?>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Sub Category :</label>
-                                        <input type="text" id="qty" name="qty" class="form-control col-md-7 col-xs-12"
-                                            value="{{$viewdata->subcategory->name}}" readonly>
-                                    </div>
-                                </div>
-                                <?php } ?>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Description :</label>
-                                        <textarea id="des" name="description" rows="10" cols="50"
-                                         style="  resize: none;" class="form-control col-md-7 col-xs-12" readonly>{{$viewdata->description}}
-                                        </textarea>
-                                    </div>
-                                </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Card Status :</label><br>
@@ -99,8 +71,31 @@
                                        
                                     </div>
                                 </div>
+                              
+                                <!-- <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Category :</label>
+                                        <input type="text" id="qty" name="qty" class="form-control col-md-7 col-xs-12"
+                                            value="" readonly>
+                                    </div>
+                                </div> -->   
+                                <!-- <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Sub Category :</label>
+                                        <input type="text" id="qty" name="qty" class="form-control col-md-7 col-xs-12"
+                                            value="" readonly>
+                                    </div>
+                                </div> -->                                
                             </div>
-                            <div class="row">    
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Description :</label>
+                                        <textarea id="des" name="description" rows="10" cols="50"
+                                         style="  resize: none;" class="form-control col-md-7 col-xs-12" readonly>{{$viewdata->description}}
+                                        </textarea>
+                                    </div>
+                                </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Card Back Image :</label><br>
@@ -112,7 +107,7 @@
                                         @endif
                                         
                                     </div>
-                                </div>
+                                </div> 
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Card Gallery Image :</label><br>
@@ -124,6 +119,11 @@
                                         @endif
                                     </div>
                                 </div>
+                                
+                            </div>
+                            <div class="row">    
+                                
+                                
                            </div>
                       </div>
                     </form>

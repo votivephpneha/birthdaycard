@@ -116,7 +116,7 @@
                 @endif
                 </div>
               </div> -->
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="middle-name"
                                     class="control-label col-md-3 col-sm-3 col-xs-12">Category</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -130,19 +130,19 @@
                                     <span class="text-danger">{{ $errors->first('category_id')}}</span>
                                     @endif
                                 </div>
-                            </div>
-                            <div class="form-group">
+                            </div> -->
+                            <!-- <div class="form-group">
                                 <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Sub
                                     Category</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <select name="subcategory_id" id="subcategory_id" class="form-control">
                                         <option value="">No sub category</option>
                                     </select>
-                                    @if($errors->has('subcategory_id'))
+                                //if($errors->has('subcategory_id'))
                                     <span class="text-danger">{{ $errors->first('subcategory_id')}}</span>
-                                    @endif
+                                //endif
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Card
                                     Status</label>

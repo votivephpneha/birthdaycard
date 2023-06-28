@@ -27,18 +27,19 @@ class CustomerController extends Controller{
         	session::flash('email_error', 'Email already exist.');
         	return redirect()->route('registration');
         }else{
-
+            session::flash('email_error', 'Email already exist.');
+            return redirect()->route('registration');
 			$user_data = array(
               'email'  => $request->get('email'),
               'password' => $request->get('password')
             );
             $user = User::where('email', '=', $request->email)->first();
-
+            
             if(Auth::guard("customer")->attempt($user_data) && $user->status == 'Active')
             {
                 $get_prev_url = Session::get("previous_url");
                 if($get_prev_url == "cart"){
-                    return redirect()->route('checkout');
+                    return redirect()->route('express_checkout');
                 }else{
                     return redirect()->route('userProfile');
                 }
@@ -47,9 +48,9 @@ class CustomerController extends Controller{
 	}
 
 	public function loginUser(){
-        //$previous_url = $_SERVER['HTTP_REFERER'];
-        //$new_url = explode("/",$previous_url);
-        //Session::put("previous_url", $new_url[3]);
+        $previous_url = $_SERVER['HTTP_REFERER'];
+        $new_url = explode("/",$previous_url);
+        Session::put("previous_url", $new_url[3]);
 		return view("Front/login");
 	}
 
@@ -212,7 +213,7 @@ class CustomerController extends Controller{
             
              Mail::send('Front.forget-password-email', ['token' => $token,'email'=>$request->email], function($message) use($request){
                 $message->to($request->email);
-                $message->from('birthday@birthdaystoreuk.co.uk','BirthdayCards');
+                $message->from('birthstore@birthdaystoreuk.co.uk','BirthdayCards');
                 $message->subject('Reset Password');
             });
 

@@ -139,7 +139,7 @@
                                             <td>{{$arr->order_ids}}</td>
                                             <td>{{$arr->fname ." ". $arr->lname}}</td>
                                             <td>${{number_format($arr->total_amount, 2)}}</td>
-                                            <td>{{$arr->pay_status}}</td>
+                                            <td>{{$arr->payment_status}}</td>
                                             <td>{{date('Y-m-d', strtotime($arr->created_at))}}</td>
                                             <td><button class="btn btn-dark p-2">
                                             <a href="{{route('view.payment.detail',[$arr->payment_id])}}" class="text-white" style=" color: #FFFFFF;"><i class="fa fa-eye" ></i>View</button></a></td>

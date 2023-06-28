@@ -278,7 +278,7 @@ function myFunction(text_id) {
                                             Payment Method:
                                         </div>
                                     </td>
-                                    <td class="fw-bold text-end">{{$orderdetail[0]->payment_method}}</td>
+                                    <td class="fw-bold text-end">{{$orderdetail[0]->paymethod}}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-muted">
@@ -286,7 +286,7 @@ function myFunction(text_id) {
                                             Payment Status:
                                         </div>
                                     </td>
-                                    <td class="fw-bold text-end">{{$orderdetail[0]->pay_status}}</td>
+                                    <td class="fw-bold text-end">{{$orderdetail[0]->payment_status}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -502,8 +502,8 @@ function myFunction(text_id) {
       <th scope="col">#</th>
       <th scope="col">Text</th>
       <th scope="col">Size</th>
-      <th scope="col">Font</th>
       <th scope="col">Colour</th>
+      <th scope="col">Font</th>
       <th scope="col">Horizontal Alignment</th>
       <th scope="col">Vertical Alignment</th>
     </tr>

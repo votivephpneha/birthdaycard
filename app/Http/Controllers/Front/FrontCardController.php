@@ -356,6 +356,7 @@ class FrontCardController extends Controller{
 	}
 
 	public function delete_cart_item(Request $request){
+
 		$cart_id = $request->cart_id;
 
 		$delete_cart_item = DB::table('cart_table')->where('cart_id',$cart_id)->delete();
@@ -368,7 +369,8 @@ class FrontCardController extends Controller{
 	public function checkout(Request $request){
 		
 		$data['countries'] = DB::table('countries')->get();
-		
+		$data['user_data'] = session::get("user_data");
+		//print_r($data['user_data']);die;
 		return view("Front/checkout")->with($data);
 	}
 
@@ -434,7 +436,7 @@ class FrontCardController extends Controller{
 
 		$user_data = array('user_id'=>$user_id,'fname' =>$fname,'lname' =>$lname,'address' =>$address,'door_no' =>$door_no,'country' =>$country,'state' =>$state,'city' =>$city,'post_code' =>$post_code,'phone_no' =>$phone_no,'email_address' =>$email_address,'fname_rc' =>$fname_rc,'lname_rc' =>$lname_rc,'address_rc' =>$address_rc,'door_no_rc' =>$door_no_rc,'city_rc' =>$city_rc,'post_code_rc' =>$post_code_rc,'phone_no_rc' =>$phone_no_rc,'email_address_rc' =>$email_address_rc,'order_notes' =>$order_notes,'order_total_price' =>$order_total_price );
 		session::put("user_data",$user_data);
-		return redirect('ex_gift_card/');
+		return redirect('ex_payment_transaction/');
 
 	}
 
@@ -457,10 +459,11 @@ class FrontCardController extends Controller{
 		$cart_id = $request->cart_ids;
 		
 		$cart_id_array = json_decode($cart_id);
-		
+		//print_r($cart_id_array);die;
 		$sum = 0;
 		foreach($cart_id_array as $cart_id) {
 			$cart_data = DB::table('cart_table')->where('cart_id',$cart_id)->where('status',1)->get()->first();
+			
 			$sum = $sum + $cart_data->qty;
 		}
 		return $sum; 
@@ -497,7 +500,7 @@ class FrontCardController extends Controller{
 		
 		Mail::send('Front.contact-us-email', ['token' => $token,'email'=>$request->email,'fname'=>$request->fname,'phone_no'=>$request->phone_no,'msg'=>$request->message], function($message) use($request){
             $message->to("turabi.ltd@gmail.com");
-            $message->from($request->email,'BirthdayCards');
+            $message->from("birthstore@birthdaystoreuk.co.uk",'BirthdayCards');
             $message->subject($request->subject);
         });
 
@@ -528,11 +531,7 @@ class FrontCardController extends Controller{
 
 		$gift_ids = $request->gift_id;
 		if(!empty($gift_ids)){
-			if(Auth::user()){
-             return redirect('payment_transaction/');
-            }else{
-             return redirect('ex_payment_transaction/');
-            }
+			return redirect('cart');
 			
 		}else{
 			session::flash('error', 'Please select the gift');
@@ -563,8 +562,19 @@ class FrontCardController extends Controller{
 
 	public function gift_basket(Request $request){
 		
-		$insertGift = DB::table('cart_table')->insertGetId(['card_id'=>$request->gift_card_id,'qty'=>'1','price'=>$request->price,'status'=>'1','created_at'=>date('Y-m-d H:i:s')]);
-		return $insertGift;
+		if($request->status == "1"){
+			$insertGift = DB::table('cart_table')->insertGetId(['card_id'=>$request->gift_card_id,'card_type'=>'gift','qty'=>'1','price'=>$request->price,'status'=>'1','created_at'=>date('Y-m-d H:i:s')]);
+			return $insertGift;
+		}else{
+
+			$getGift = DB::table('cart_table')->where("cart_id",$request->cart_ids)->get()->first();
+			//print_r($getGift);die;
+			if($getGift->card_id == $request->gift_card_id){
+				
+				$deleteGift = DB::table('cart_table')->where("cart_id",$getGift->cart_id)->delete();
+				return $deleteGift;
+			}
+		}
 	}
 
 	public function get_gift_cart_data(Request $request){

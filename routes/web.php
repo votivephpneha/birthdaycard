@@ -101,6 +101,7 @@ Route::post('stripe', [StripePaymentController::class, 'stripePost'])->name('str
 Route::get('otp_verification/{order_id}', [StripePaymentController::class, 'otp_verification'])->name('otp_verification');
 Route::post('otp_verify', [StripePaymentController::class, 'otp_verify'])->name('otp_verify');
 Route::post('post_otp', [StripePaymentController::class, 'post_otp'])->name('post_otp');
+Route::post('resend_otp', [StripePaymentController::class, 'resend_otp'])->name('resend_otp');
 Route::get('get_gift_cart_data', [FrontCardController::class, 'get_gift_cart_data'])->name('get_gift_cart_data');
 Route::group(['prefix' => 'user', 'middleware' => 'customer_auth:customer'], function () {
 	Route::get('/userProfile', [CustomerController::class, 'userProfile'])->name('userProfile');
@@ -130,6 +131,8 @@ Route::post('/insertSingleGift', [FrontCardController::class, 'insertSingleGift'
 Route::post('/send_newsletter', [FrontCardController::class, 'send_newsletter'])->name('send_newsletter');
 Route::get('/check_cart_count', [FrontCardController::class, 'check_cart_count'])->name('check_cart_count');
 Route::post('/gift_basket', [FrontCardController::class, 'gift_basket'])->name('gift_basket');
+Route::get('/delivery_address/{cart_id}', [HomeController::class, 'delivery_address'])->name('delivery_address');
+Route::post('saveAddress', [HomeController::class, 'saveAddress'])->name('saveAddress');
 Route::group(['prefix' => '', 'middleware' => 'customer_auth:customer'], function (){
 	Route::get('/checkout_data', [FrontCardController::class, 'checkout_data'])->name('checkout_data');
 	Route::get('/checkout/', [FrontCardController::class, 'checkout'])->name('checkout');

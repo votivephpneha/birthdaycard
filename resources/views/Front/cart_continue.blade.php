@@ -22,7 +22,7 @@
 		<p>Do you want to design another card?</p>
 		<div class="abtns_y_n">
 		<a href="{{ url('birthday-cards') }}" class="cont-yes btn btn-success">Yes</a><br>
-		<a href="{{ url('cart') }}" class="cont-no btn btn-danger">No</a>
+		<a href="{{ url('ex_gift_card') }}" class="cont-no btn btn-danger">No</a>
 		</div>
 	</div>
 	</div>

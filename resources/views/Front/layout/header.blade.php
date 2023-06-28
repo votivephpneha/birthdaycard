@@ -25,8 +25,9 @@
                </center>
                
                 <div class="search-inline">
-                    <form>
-                        <input type="text" class="form-control" placeholder="Searching...">
+                    <form method="post" action="{{ url('search_submit') }}">
+                        @csrf
+                        <input type="text" name="search_words" class="form-control" placeholder="search for product...">
                        <div class="srch-cust">
                         <button type="submit">
                             <i class="fa fa-search"></i>

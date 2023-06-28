@@ -131,7 +131,7 @@
             <th class="w-50">Shipping Method</th>
         </tr>
         <tr>
-            <td>{{ $paymentdata[0]->payment_type }}</td>
+            <td>{{ $paymentdata[0]->paymethod}}</td>
             <!-- <td>Free Shipping - Free Shipping</td> -->
             <td></td>
         </tr>

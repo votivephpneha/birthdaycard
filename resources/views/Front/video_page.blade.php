@@ -86,6 +86,7 @@ progress[value] {
 	    </div>
 
 			</div> -->
+      
 		<div class="video_content">
 			<h1>Surprise Them With a Free Video Message!</h1>
 
@@ -292,6 +293,14 @@ setInterval(function(){
   button.innerHTML = "►";
  }
 },500)
-
+//here you can set anytime you want
+// video.currentTime = 5;
+// var canvas = document.createElement("canvas");
+// canvas.width = 350;
+// canvas.height = 200;
+// canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+// var video_thumb_image = canvas.toDataURL("image/jpeg/png");
+// $("#video").attr("poster",video_thumb_image);
+// $(".video_image").attr("src",video_thumb_image);
 </script>
 @endsection

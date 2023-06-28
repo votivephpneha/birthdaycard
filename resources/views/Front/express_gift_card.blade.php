@@ -166,13 +166,13 @@
 			
 			<div class="col-md-12 mt-1">
 				<div class="d-flex justify-content-center align-items-center m-auto text-center">
-				<div class="gift_submit_btn">
-					<!-- <input type="submit" name="btn" class="no-tnx" value="No Thanks!"> -->
+				<!-- <div class="gift_submit_btn">
+					
           <a href="{{ url('/payment_transaction/') }}/{{ $order_id }}" class="no-tnx">No Thanks</a>
-				</div>
+				</div> -->
 
 				<div class="gift_submit_btn">
-					<input type="submit" name="btn" class="order-now" value="Order Now">
+					<input type="submit" name="btn" class="order-now" value="Continue">
 				</div>
 			</div>
 			</div>

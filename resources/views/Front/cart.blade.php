@@ -33,6 +33,7 @@
 					<thead>
 						<tr>
 							<th></th>
+							<th>Add Address</th>
 							<th>Image</th>
 							<th>Title</th>
 							<th>Quantity</th>
@@ -44,7 +45,7 @@
 					<tbody class="cart_data">
 						
 						<tr>
-							<td colspan="5">Total</td>
+							<td colspan="6">Total</td>
 							<td class="total_price">
 								
 							</td>

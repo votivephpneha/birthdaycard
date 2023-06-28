@@ -59,8 +59,9 @@ class OrderController extends Controller
     {
 
         $orderdetail = DB::table("order")
-                      ->select("order.*")
+                      ->select("order.*","payment_transactions.payment_method as paymethod","payment_transactions.payment_status")
                       ->leftJoin("order_details","order_details.order_id","=","order.order_id")
+                      ->leftJoin("payment_transactions","payment_transactions.order_id","=","order.order_id")
                       ->where('order.id',$id)
                       ->groupBy('order.id')
                       ->get();
@@ -142,6 +143,7 @@ class OrderController extends Controller
     {
         // dd( $request->get('status_id'));
         $totalFilteredRecord = $totalDataRecord = $draw_val = "";
+        
         $columns_list = array(
         0 =>'id',
         1 =>'srno',
@@ -308,7 +310,12 @@ class OrderController extends Controller
         $cancel_reason = $request->cancel_reason;
      }
 
-     $getvalue = DB::table('order')->where('order_id',$order_id)->orderby('id',"DESC")->get();
+     $getvalue = DB::table('order')
+                ->select("order.*","payment_transactions.payment_method as paymethod","payment_transactions.payment_status")
+                ->leftJoin("payment_transactions","payment_transactions.order_id","=","order.order_id")
+                ->where('order.order_id',$order_id)
+                ->orderby('order.id',"DESC")
+                ->get();
 
      $card_data = DB::table("order_details")
                         ->select("order_details.*","cards.card_title","card_sizes.card_price As price","card_sizes.card_type","card_sizes.card_size")
@@ -421,7 +428,7 @@ class OrderController extends Controller
         {
              Mail::send('Admin.email_template.orderstatus_newemail', $data, function ($message) use ($data) {
 
-                $message->from('birthday@birthdaystoreuk.co.uk','birthdaystore');
+                $message->from('birthstore@birthdaystoreuk.co.uk','birthdaystore');
 
                 $message->to($data['user_email']);
 

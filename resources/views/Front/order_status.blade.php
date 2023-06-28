@@ -28,6 +28,7 @@
 	<div class="order_invoice">
 		<?php
 			$order = DB::table('order')->where('order_id',$order_id)->get();
+			$payment_method = DB::table('payment_transactions')->where('order_id',$order_id)->get()->first();
 		?>
 		<p>Order ID: <b>{{ $order[0]->order_id }}</b></p>
 		<p>To: <b>{{ $order[0]->fname }} {{ $order[0]->lname }}</b></p>
@@ -38,7 +39,7 @@
 			Phone No:<b> {{ $order[0]->phone_no }}</b>
 		</p>
 		<p>
-			PAYMENT METHOD: <b>Cash On Delivery</b>
+			PAYMENT METHOD: <b>{{ $payment_method->payment_method }}</b>
 		</p>
 	</div>
 	<div class="order_table_info table-responsive">

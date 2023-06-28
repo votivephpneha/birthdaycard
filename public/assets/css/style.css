@@ -143,6 +143,7 @@ font-size: 35px;
         border-radius: 7px;
             margin-right: 18px;
             width: 100%;
+			 margin-left: 18px;
     }
 #custom-search-input input {
     border: none;
@@ -1504,6 +1505,7 @@ display: flex;
     display: flex;
     justify-content: end;
     align-items: center;
+    width: 100%;
 }
 .search-open{
    
@@ -1519,7 +1521,7 @@ display: none;
 }
 
 .cart-mobile button{
-    color: #E91E63;
+    color: #e70072;
         font-size: 20px;
 }
 
@@ -1878,8 +1880,8 @@ text-align: center !important;
     font-size: 29px;
     padding: 7px 10px;
     line-height: 23px;
-    left: calc(74% - 81px) !important;
-    top: calc(59% - 45px) !important;
+    left: calc(69% - 80px) !important;
+    top: calc(57% - 51px) !important;
     border-radius: 5px;
 }
 
@@ -2208,6 +2210,7 @@ border: 1px solid #e91e63;
 }
 }
 
+
 @media only screen and (min-width: 320px) and (max-width: 768px) {
 
 .cart-mobile{
@@ -2215,11 +2218,11 @@ display: block;
 }
 
 #custom-search-input{
-display: none;
+display: none !important;
 }
 .srch-cust {
     position: relative;
-    right: 25px;
+    right: 35px;
 }
 
 .searching{
@@ -2362,7 +2365,7 @@ label.radio-card .card-content-wrapper {
    
     font-size: 14px !important;
     margin-right: 9px !important;
-        padding-right: 12px !important;
+    padding-right: 12px !important;
     }
 .order_invoice b {
     font-size: 15px !important;
@@ -4004,6 +4007,9 @@ background: #FFF;
 
 
 @media screen and (max-width: 767px) {
+  .otp_btns a {
+    padding: 9px 30px !important;
+}
 	#header {
     padding: 20px 8px;
 }
@@ -5810,7 +5816,7 @@ span.search-img-small {
     border-radius: 7px;
 }*/
 .empty--search .container.card_page {
-    margin-top: 85px !important;
+    margin-top: 115px !important;
     margin-bottom: 0px;
 }
 .contact_det_info p {
@@ -6439,4 +6445,34 @@ color: #ff0091;
 }
 .sele-descri{
   text-align: center;
+}
+
+/*26-june*/
+
+.search-visible input.form-control {
+    border: 2px solid #ff0091 !important;
+    border-radius: 7px;
+    background: #ffffff;
+	margin: 0px 17px;
+    width: 90%;
+}
+
+center.otp_btns {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 25px;
+}
+.otp_btns a {
+    background: #000000;
+    color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 50px;
+    padding: 9px 42px;
+    transition: 0.5s;
+    margin-top: 30px;
+}
+.otp_btns a:hover {
+    background: #ff0091;
+    border: 1px solid #ff0091;
 }

@@ -59,7 +59,7 @@ class PaymentController extends Controller
     public function show($id)
     {
      $paytrandata = PaymentTransaction::join('order', 'order.order_id', '=', 'payment_transactions.order_id')
-     ->select("payment_transactions.*","order.*","order.order_id as order_ids","payment_transactions.id as payment_id")       
+     ->select("payment_transactions.*","order.*","order.order_id as order_ids","payment_transactions.id as payment_id","payment_transactions.payment_method as paymethod")       
      ->where('payment_transactions.id',$id)
      ->get();
     //  $paytrandata = Order::where('id',$id)->get();  
@@ -201,7 +201,7 @@ class PaymentController extends Controller
     public function Payment_Invoice($id)
     {
         $paymentdata = PaymentTransaction::join('order', 'order.order_id', '=', 'payment_transactions.order_id')
-        ->select("payment_transactions.*","order.*","order.order_id as order_ids")       
+        ->select("payment_transactions.*","order.*","order.order_id as order_ids","payment_transactions.payment_method as paymethod")       
         ->where('payment_transactions.id',$id)
         ->get();
 

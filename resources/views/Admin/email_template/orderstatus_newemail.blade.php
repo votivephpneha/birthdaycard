@@ -136,7 +136,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 55%; font-size: 14px; line-height: 18px; color: #666666; padding-bottom: 10px;">
-                                                    {{$order_dtl[0]->payment_method}}
+                                                    {{$order_dtl[0]->paymethod}}
                                                     </td>
                                                    
                                                 </tr>

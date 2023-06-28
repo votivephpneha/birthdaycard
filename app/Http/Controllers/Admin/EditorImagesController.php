@@ -365,7 +365,7 @@ class EditorImagesController extends Controller
 
         $videoimage = new EditorImages();
         $videoimage->editor_image = $videoimageName;
-        $videoimage->status = $request->videoimageName;   
+        $videoimage->status = $request->video_image_status;   
         $videoimage->file_type = 'video_image';   
         $videoImageValue = $videoimage->save();
  
@@ -407,7 +407,7 @@ class EditorImagesController extends Controller
         ]);
 
         $editvideoimagefind = EditorImages::find($id);
-        if (empty($editimagefind)) {
+        if (empty($editvideoimagefind)) {
             return back()->with("failed", "Data not found");
         } else {
             
@@ -422,9 +422,9 @@ class EditorImagesController extends Controller
 
             $editvideoimagefind->editor_image = $editvideoimageName ;
             $editvideoimagefind->status = $request->video_image_status;
-            $editvideoimagefind->file_type = 'image';
+            $editvideoimagefind->file_type = 'video_image';
             $editvideoimagefindvalue = $editvideoimagefind->save();
-            if($editimagefindvalue ){
+            if($editvideoimagefindvalue ){
                 return redirect("admin/video-image-list")->with(
                     "success",
                     "video image has been updated successfully."

@@ -464,8 +464,10 @@ $(function() {
     // in the "action" attribute of the form when valid
     submitHandler: function(form) {
       form.submit();
+      localStorage.removeItem("cart_id_array");
+      
     }
-  });
+    });
 });    
 $(function() {
   // Initialize form validation on the registration form.
@@ -651,9 +653,10 @@ var cart_id_array = localStorage.getItem("cart_id_array");
         $(".express_gift_id").each(function(i,val){
           var gift_card_id = $(this).val();
           if(gift_data.card_id == gift_card_id){
-            $("#html-"+gift_card_id).attr("checked","");
-            $(".image-checkbox-"+gift_card_id).addClass("image-checkbox-checked");
-            $(".submit_btn-"+gift_card_id).addClass("active-gift");
+            //$("#html-"+gift_card_id).attr("checked","");
+            //$(".image-checkbox-"+gift_card_id).addClass("image-checkbox-checked");
+            //$(".submit_btn-"+gift_card_id).addClass("active-gift");
+            //$(".submit_btn-"+gift_card_id).attr("disabled","");
           }
         });
       }
@@ -691,6 +694,9 @@ var cart_id_array = localStorage.getItem("cart_id_array");
   
   if(!cart_id_array || arry_json.length<1){
     $(".cart_count").html(0);
+    $(".pay-now-brn").click(function(){
+      $(".payment-error").html('<div class="alert alert-danger text-center"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a><p>Please add the item in the cart</p></div>');
+    });
   }else{
     
       $.ajax({
@@ -1021,41 +1027,65 @@ function myFunction(){
       $("#email_popup").hide();
     });
     function addBasket(gift_card_id,price){
-      alert()
+      
+        $.ajax({
+          type: "POST",
+          url: "{{ url('gift_basket') }}",
+          data: {gift_card_id:gift_card_id,price:price,status:1,_token:"{{ csrf_token() }}"},
+          cache: false,
+          success: function(data){
+            //console.log("data",data);
+
+            if(data){
+
+              var cart_id_array = localStorage.getItem("cart_id_array");
+              var arry_json = JSON.parse(cart_id_array);
+              
+              arry_json.push(data)
+              
+              var new_array_json = JSON.stringify(arry_json);
+              localStorage.setItem("cart_id_array",new_array_json);
+              $(".add_basket_msg-"+gift_card_id).html("Gift has been added in the basket");
+              $(".submit_btn-"+gift_card_id).addClass("active-gift");
+              $(".submit_btn-"+gift_card_id).attr("disabled",true);
+              var gift_modal = $('#myModal-'+gift_card_id).is(":visible");
+              var cart_count = $(".cart_count").html();
+              var cart_new_count = parseInt(cart_count)+1;
+              $(".cart_count").html(cart_new_count);
+
+             
+
+            }
+
+          }
+        });
+      
+    
+  }
+  
+  $("#dropdownMenuButton1").click(function(){
+    window.location.href = "{{ url('/cart') }}";
+  });
+   function resendOTP(order_id,email){
+    
     $.ajax({
       type: "POST",
-      url: "{{ url('gift_basket') }}",
-      data: {gift_card_id:gift_card_id,price:price,_token:"{{ csrf_token() }}"},
+      url: "{{ url('resend_otp') }}",
+      data: {order_id:order_id,email:email,_token:"{{ csrf_token() }}"},
       cache: false,
       success: function(data){
         //console.log("data",data);
 
-        if(data){
-
-          var cart_id_array = localStorage.getItem("cart_id_array");
-          var arry_json = JSON.parse(cart_id_array);
-          
-          arry_json.push(data)
-          
-          var new_array_json = JSON.stringify(arry_json);
-          localStorage.setItem("cart_id_array",new_array_json);
-          $(".add_basket_msg-"+gift_card_id).html("Gift has been added in the basket");
-          var gift_modal = $('#myModal-'+gift_card_id).is(":visible");
-
+        if(data == 1){
+          window.location.href = "{{ url('otp_verification') }}/"+order_id;
         }
-
+        
+        
+        
+        
       }
     });
   }
-  var pathname = window.location.pathname;
-  var new_path = pathname.includes('order_status');
-  if(new_path){
-    localStorage.removeItem("cart_id_array");
-  }
-  $("#dropdownMenuButton1").click(function(){
-    window.location.href = "{{ url('/cart') }}";
-  });
-
 </script>
   @yield('current_page_js')
 </body>

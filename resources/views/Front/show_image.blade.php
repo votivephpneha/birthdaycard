@@ -91,7 +91,7 @@ progress[value] {
         </div>
          @endif
 		<div class="video_qr video-controls hidden" id="video-controls" controls>
-      <img src="{{ url('public/upload/home_images') }}/{{ $db_video_page_data->editor_image }}">
+      <img src="{{ url('public/upload/editorImages') }}/{{ $db_video_page_data->editor_image }}">
 			
 		</div>
 		
