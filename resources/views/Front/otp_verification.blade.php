@@ -12,6 +12,16 @@
     .payment_otp_page{
         margin-top:150px;
     }
+    .success-msg{
+        background: #4caf50 !important;
+        color: #313131 !important;
+        border: 2px solid rgb(46, 105, 31) !important;
+        background-color: rgb(230, 241, 233) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-direction: row-reverse !important;
+    }
 </style> 
 <section class="registration-page payment_otp_page">   
 <div class="container payment_verfication_page">
@@ -26,6 +36,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="payment-error"></div>
+                    <div class="otp_success"></div>
                     @if ($message = Session::get('error'))
                         <div class="alert alert-danger text-center">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>

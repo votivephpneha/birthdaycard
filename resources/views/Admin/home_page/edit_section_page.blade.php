@@ -1065,7 +1065,7 @@ CKEDITOR.replace('sec_5_con_2', {
 
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 demo">
+                                                <!-- <div class="col-md-4 demo">
                                                     <div class="form-group">
                                                         <label>Fourth Section Video :</label>
                                                         <input type="file" id="sec_3_video" name="sec_3_video"
@@ -1084,7 +1084,7 @@ CKEDITOR.replace('sec_5_con_2', {
                                                           
                                                             
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                             <div>
                                                 <div class="form-group">

@@ -107,6 +107,12 @@ class OrderController extends Controller
         
     }
 
+    public function getAddress(Request $request){
+        $add_id =  $request->add_id;
+        $address = DB::table("order_details")->where('id',$add_id)->first();
+       return view("Admin/order_management/get_add_data",compact('address'));
+    }
+
     /**
      * Update the specified resource in storage.
      *

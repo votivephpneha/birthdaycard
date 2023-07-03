@@ -289,6 +289,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:adm'], function () {
 	Route::get('/order-details/{id}', [OrderController::class, 'show'])->name('order-detail');
 	Route::post('/orderstatuschange',[OrderController::class,'OrderstatusChange'])->name('order.status.change');
     Route::get('/getText', [OrderController::class, 'getText'])->name('getText');
+	Route::get('/getAddress', [OrderController::class, 'getAddress'])->name('getAddress');
 
 	//Voucher Code routes
 	Route::get('/voucher-code-list', [VoucherCodeController::class, 'index'])->name('vouchercodelist');

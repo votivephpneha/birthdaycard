@@ -202,8 +202,10 @@ class AuthController extends Controller
   
     //show chage profile page
     public function ChangeProfileStore(Request $request){
+      $authid = Auth::guard("adm")->user();
       $this->validate($request, [
         'name' => 'required',  
+        "email" => "required|email|unique:users,email,".$authid->id,
         ]);
   
       if($request->hasFile("profile")) {
@@ -216,7 +218,8 @@ class AuthController extends Controller
   
       $admindata = User::where('role','admin')->update([
         "fname" => $request->name,
-        "image" => $imageName
+        "image" => $imageName,
+        "email" => $request->email
       ]);
       $authid = Auth::user();
       session()->forget(['name', $authid->name]); //remove session [1,2,3] and store the new one

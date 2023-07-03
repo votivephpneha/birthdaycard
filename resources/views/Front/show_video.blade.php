@@ -86,7 +86,7 @@ progress[value] {
     <div class="video_qr video-controls hidden" id="video-controls">
 <figure>
        <video width="100%" height="auto" class="video" id="video" preload="metadata" controls>
-        <source src="{{ url('public/upload/videos') }}/{{ $db_card_data->video_name }}" type="video/mp4">
+        <source src="{{ url('public/upload/videos') }}/{{ $db_card_data->video_name }}#t=0.1" type="video/mp4">
         Your browser does not support the video tag.
       </video>
       <figcaption>
@@ -295,13 +295,6 @@ $(".exit_btn a").click(function(){
        
   
 });
-//here you can set anytime you want
-video.currentTime = 0.1;
-var canvas = document.createElement("canvas");
-canvas.width = 350;
-canvas.height = 200;
-canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
-var video_thumb_image = canvas.toDataURL();
-$("#video").attr("poster",video_thumb_image);
+
 </script>
 @endsection

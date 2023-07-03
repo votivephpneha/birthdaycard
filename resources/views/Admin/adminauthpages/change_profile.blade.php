@@ -107,7 +107,11 @@ function previewFile(input){
                       @endif
 
                       <label for="email">Email * :</label>
-                      <input type="email" id="email" class="form-control" name="email" data-parsley-trigger="change" readonly value="{{$getdata[0]->email}}"/>
+                      <input type="email" id="email" class="form-control" name="email" data-parsley-trigger="change"  value="{{$getdata[0]->email}}"/>
+                      @if($errors->has('email'))
+                      <span class="text-danger">{{ $errors->first('email')}}</span> <br>   
+                      @endif
+
 
                       <label for="email">Profile Image (Optional) * :</label>
                       <input type="file" id="file" class="" name="profile" data-parsley-trigger="change"  onchange="previewFile(this);"/>

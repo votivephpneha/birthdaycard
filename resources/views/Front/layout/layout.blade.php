@@ -46,6 +46,12 @@
     .card_image img{
       width:100%;
     }
+    .alert.alert-danger{
+      flex-direction: row-reverse;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   </style>
   @yield('current_page_css')
   
@@ -74,7 +80,7 @@
             <div class="newsletter_form">
               <form method="post" action="{{ url('send_newsletter') }}">
                 @csrf
-                <input type="text" name="email_field" class="email_field" placeholder="Enter your email address">
+                <input type="text" name="email_field" class="email_field" placeholder="Enter your email address" required>
                 <input type="submit" class="subs-btn" name="email_btn" value="Get Your Free Kit">
               </form>
             </div>
@@ -579,6 +585,9 @@ function qtyInc(event,cart_id,cart_price,size_qty){
     });
     console.log("price",price_sum);
     $(".total_price").html("$"+price_sum.toFixed(2));
+    var cart_count = $(".cart_count").html();
+    var cart_new_count = parseInt(cart_count)+1;
+    $(".cart_count").html(cart_new_count);
   }
 
   if(event == 'minus'){
@@ -621,6 +630,10 @@ function qtyInc(event,cart_id,cart_price,size_qty){
     });
     console.log("price",price_sum);
     $(".total_price").html("$"+price_sum.toFixed(2));
+
+    var cart_count = $(".cart_count").html();
+    var cart_new_count = parseInt(cart_count)-1;
+    $(".cart_count").html(cart_new_count);
   }
 }
 
@@ -1077,7 +1090,8 @@ function myFunction(){
         //console.log("data",data);
 
         if(data == 1){
-          window.location.href = "{{ url('otp_verification') }}/"+order_id;
+          $(".otp_success").html('<div class="alert alert-success success-msg text-center"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a><p>OTP is sent on your email</p></div>');
+          //window.location.href = "{{ url('otp_verification') }}/"+order_id;
         }
         
         
@@ -1086,6 +1100,9 @@ function myFunction(){
       }
     });
   }
+  setTimeout(function() {
+    $('.alert').fadeOut('slow');
+  }, 5000);
 </script>
   @yield('current_page_js')
 </body>

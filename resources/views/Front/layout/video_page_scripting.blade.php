@@ -302,7 +302,9 @@ $(".close").click(function(){
       dots:true
     });
   }); 
-
+  setTimeout(function() {
+    $('.alert').fadeOut('slow');
+}, 5000);
 </script>
   @yield('current_page_js')
 </body>

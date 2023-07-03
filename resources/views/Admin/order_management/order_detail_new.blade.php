@@ -134,24 +134,6 @@ function myFunction(text_id) {
     
     
 }
-
-
-function Getaddress(add_id) {
-
-    //console.log("predta",val);
-    $.ajax({
-        type: 'get',
-        url: "{{ url('admin/getAddress') }}",
-        data: {add_id:add_id},
-        
-        success: function(resultData) { 
-            console.log(resultData);
-            $(".modal-body").html(resultData);
-         }
-    });
-    
-    
-}
 </script>
 
 
@@ -466,13 +448,14 @@ function Getaddress(add_id) {
             @else
             <td>No Address</td>
             @endif
+            
             @if(!empty($data->predesigned_text_id))
-            <td><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal"  onclick="myFunction('<?php echo $data->predesigned_text_id?>')">
-                view
-            </button></td>
-            @else
-            <td>No Text</td>
-            @endif
+                                                <td><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal"  onclick="myFunction('<?php echo $data->predesigned_text_id?>')">
+                                                 view
+                                                </button></td>
+                                                @else
+                                                <td>No Text</td>
+                                                @endif
             <!-- <td>${{number_format($data->card_price, 2)}}</td>
             <td>$0.00</td>
             <td>${{number_format($data->card_price, 2)}}</td> -->
@@ -576,10 +559,12 @@ function Getaddress(add_id) {
         <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Address</h4>
         </div>
-        <div class="modal-body " style="padding:10px 10px;">
-                  
+        <div class="modal-body" style="padding:40px 50px;">
+        <div class="card_text_dtl">
+        
+        </div>          
         </div>
-        <div class="modal-footer" style="border-top:none;">
+        <div class="modal-footer">
           
         </div>
       </div>

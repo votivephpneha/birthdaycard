@@ -90,9 +90,11 @@
                   <label for="Sizes">Select Size</label>
                   @foreach ($card_sizes as $c_size)
                   <div class="card_size_name">
+                    <label class="f-radio">
                 <div class="card_radio">
                     <input type="hidden" name="card_qty" value="{{ $c_size->card_size_qty }}">
                     <input type="radio" name="c_size" value="{{ $c_size->id  }}" required="" onclick="clickSize(this.value,'{{ $c_size->card_price }}')">&nbsp;{{ $c_size->card_type }}
+                    <span class="checkmark"></span>
                 </div>
                 <div class="card_grid_info">
                 <div class="card_name_size">{{ $c_size->card_size }}</div>
@@ -108,6 +110,7 @@
                 <div class="inner_card_icon">  
                   <span><i class='bx bx-gift'></i></span>
                 </div>
+              </label>
               </div>
               @endforeach
                 </div>

@@ -7,7 +7,7 @@
 			<h4>{{ $search_data->card_title }}</h4>
 		</div>
 		<div class="search-prd-price">
-			<span>{{ $search_data->price }}</span>
+			<span>${{ $search_data->price }}</span>
 		</div>
 	</div>
 </a>

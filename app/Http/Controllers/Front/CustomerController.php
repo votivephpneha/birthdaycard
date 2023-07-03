@@ -27,8 +27,8 @@ class CustomerController extends Controller{
         	session::flash('email_error', 'Email already exist.');
         	return redirect()->route('registration');
         }else{
-            session::flash('email_error', 'Email already exist.');
-            return redirect()->route('registration');
+            $users = DB::table('users')->insert(['fname'=>$request->fname,'lname'=>$request->lname,'email'=>$request->email,'password'=>Hash::make($request->password),'role'=>'user','status'=>'Active']);
+            
 			$user_data = array(
               'email'  => $request->get('email'),
               'password' => $request->get('password')
@@ -39,7 +39,7 @@ class CustomerController extends Controller{
             {
                 $get_prev_url = Session::get("previous_url");
                 if($get_prev_url == "cart"){
-                    return redirect()->route('express_checkout');
+                    return redirect()->route('checkout');
                 }else{
                     return redirect()->route('userProfile');
                 }
@@ -217,8 +217,9 @@ class CustomerController extends Controller{
                 $message->subject('Reset Password');
             });
 
-             session::flash('password_success', 'We have sent the link on email for reset password');
-             return redirect()->route('forget_password');
+
+            session::flash('password_success', 'We have sent the link on email for reset password');
+            return redirect()->route('forget_password');
          }else{
             session::flash('error', 'Email not found');
             return redirect()->route('forget_password');

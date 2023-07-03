@@ -67,7 +67,7 @@ progress[value] {
 			<div class="video_qr video-controls hidden" id="video-controls">
 				<figure>
 					<video width="100%" height="auto" class="video" id="video" preload="metadata" controls muted playsinline>
-						<source src="{{ url('public/upload/editorImages') }}/{{ $db_video_page_data->editor_image }}" type="video/mp4">
+						<source src="{{ url('public/upload/editorImages') }}/{{ $db_video_page_data->editor_image }}#t=0.1" type="video/mp4">
 						Your browser does not support the video tag.
 					</video>
 					<figcaption>

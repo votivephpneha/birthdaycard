@@ -32,7 +32,7 @@ class FrontCardController extends Controller{
 				session::flash('error', 'Gift has been removed in the favourites');
 				return redirect()->route('gift_card');
 			}else{
-				session::flash('success', 'Card has been removed in the favourites');
+				session::flash('error', 'Card has been removed in the favourites');
 				return redirect()->route('birthday-cards');
 			}
 			
@@ -552,7 +552,7 @@ class FrontCardController extends Controller{
 		$token = Str::random(64);
 		Mail::send('Front.newsletter_email', ['token' => $token,'email'=>$request->email_field], function($message) use($request){
                     $message->to($request->email_field);
-                    $message->from('birthday@birthdaystoreuk.co.uk','BirthdayCards');
+                    $message->from('birthstore@birthdaystoreuk.co.uk','BirthdayCards');
                     $message->subject('Newsletter Email');
 
         });

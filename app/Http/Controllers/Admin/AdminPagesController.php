@@ -388,14 +388,14 @@ class AdminPagesController extends Controller
             $sec3imageName =  $secfind->section_3_image;
         }
 
-        if ($request->hasFile("sec_3_video")) {
-            $sec3video = $request->file("sec_3_video");
-            // $sec3imageName = time() . "." . $sec3image->extension();
-            $sec3videoName = Str::random(6) . time() . '.' .$sec3video->getClientOriginalExtension();
-            $sec3video->move(public_path("/upload/home_video"), $sec3videoName);
-        }else{
-            $sec3videoName =  $secfind->section_3_video;
-        }
+        // if ($request->hasFile("sec_3_video")) {
+        //     $sec3video = $request->file("sec_3_video");
+        //     // $sec3imageName = time() . "." . $sec3image->extension();
+        //     $sec3videoName = Str::random(6) . time() . '.' .$sec3video->getClientOriginalExtension();
+        //     $sec3video->move(public_path("/upload/home_video"), $sec3videoName);
+        // }else{
+        //     $sec3videoName =  $secfind->section_3_video;
+        // }
 
 
         // for fourth section
@@ -655,7 +655,7 @@ class AdminPagesController extends Controller
         $secfind->section_2_image_4 = $sec2imageName4;
 
         $secfind->section_3_image   = $sec3imageName;
-        $secfind->section_3_video   = $sec3videoName;
+        // $secfind->section_3_video   = $sec3videoName;
         $secfind->section_3_heading = $request->sec_3_heading;
         $secfind->section_3_btn_text =$request->sec_3_btntext;
         $secfind->section_3_desc = $request->sec_3_content;
